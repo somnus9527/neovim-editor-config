@@ -10,11 +10,11 @@ if g.neovide then
   g.neovide_padding_bottom = 0
   -- 设置背景透明度 start
   local alpha = function()
-    return string.format("%x", math.floor(255 * vim.g.transparency or 0.8))
+    return string.format('%x', math.floor(255 * vim.g.transparency or 0.8))
   end
   g.neovide_transparency = 0.95
   g.transparency = 0.95
-  g.neovide_background_color = "#0f1012" .. alpha()
+  g.neovide_background_color = '#0f1012' .. alpha()
   -- 设置背景透明度 end
   -- 浮动窗口设置 start 除了第一个开启/关闭控制，其余都是设置阴影效果的，官方解释看不懂
   g.neovide_floating_shadow = true
@@ -40,7 +40,7 @@ if g.neovide then
   -- 设置光标动画尾巴长度
   g.neovide_cursor_trail_size = 0.8
   -- 设置光标粒子效果
-  g.neovide_cursor_vfx_mode = "sonicboom"
+  g.neovide_cursor_vfx_mode = 'sonicboom'
 end
 
 -- 显示相对行号
@@ -48,7 +48,7 @@ o.relativenumber = true
 -- 开启终端使用GUI颜色
 o.termguicolors = true
 -- gui 模式下使用的字体
-o.guifont = "SpaceMono Nerd Font Mono:h12"
+o.guifont = 'JetBrainsMono Nerd Font Mono:h12'
 -- 设置行间距
 o.linespace = 0
 -- 高亮当前列
@@ -63,13 +63,14 @@ o.numberwidth = 4
 o.swapfile = false
 -- tab转空格配置 start
 -- 设置文件里Tab代表的空格数
-o.tabstop = 4
+o.tabstop = 2
 -- (自动) 缩进每一步使用的空白数目
-o.shiftwidth = 4
+o.shiftwidth = 2
 -- 编辑时tab代表的空格数
-o.softtabstop = 4
+o.softtabstop = 2
 -- 插入模式里: 插入 <Tab> 时使用合适数量的空格
-o.expandtab = 4
+o.expandtab = 2
 -- 自动缩进
 o.autoindent = true
+o.smartindent = true
 -- tab转空格配置 end
