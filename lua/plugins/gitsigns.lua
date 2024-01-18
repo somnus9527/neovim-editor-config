@@ -29,4 +29,9 @@ return {
       end,
     }
   end,
+  cond = function()
+    if vim.api.nvim_command_output '!git rev-parse --is-inside-work-tree' == true then
+      return true
+    end
+  end,
 }

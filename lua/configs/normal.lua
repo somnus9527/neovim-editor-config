@@ -1,5 +1,6 @@
 local o = vim.o
 local g = vim.g
+local opt = vim.opt
 
 -- 判断是否在neovide中
 if g.neovide then
@@ -74,3 +75,4 @@ o.expandtab = 2
 o.autoindent = true
 o.smartindent = true
 -- tab转空格配置 end
+opt.lazyredraw = true
