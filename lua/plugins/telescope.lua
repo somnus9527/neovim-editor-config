@@ -67,10 +67,15 @@ return {
       builtin.current_buffer_fuzzy_find()
     end, {desc = '字符搜索（当前文件）'})
     -- git 相关
-    km.set('n', '<leader>gc', '<cmd>Telescope git_commits<CR>', {desc = 'git commit历史'})
+    km.set('n', '<leader>gcc', '<cmd>Telescope git_bcommits<CR>', {desc = 'git commit历史, 当前buffer'})
+    km.set('v', '<leader>gcv', '<cmd>Telescope git_bcommits_range<CR>', {desc = 'git commit历史, 当前选中的内容'})
+    km.set('n', '<leader>gca', '<cmd>Telescope git_commits<CR>', {desc = 'git commit历史'})
     km.set('n', '<leader>gs', '<cmd>Telescope git_status<CR>', {desc = 'git status'})
+    km.set('n', '<leader>gb', '<cmd>Telescope git_branches<CR>', {desc = 'git branches'})
     -- 重新打开telescope，保留上次的搜索状态
     km.set('n', '<leader><leader>r', '<cmd>Telescope resume<CR>', {desc = '重打开Telescope'})
+    km.set('n', '<leader>lr', '<cmd>Telescope lsp_references<CR>', {desc = 'lsp references'})
+    km.set('n', '<leader>li', '<cmd>Telescope lsp_implementations<CR>', {desc = 'lsp implementations'})
     -- marks 使用marks插件管理
     -- km.set('n', '<leader>m', '<cmd>Telescope marks<CR>', {desc = 'marks'})
   end,

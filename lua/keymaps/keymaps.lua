@@ -32,7 +32,7 @@ local keymaps = {
   { { 'v', 'o', 'n' }, 'H', '^', keymap_opt },
   { { 'v', 'o', 'n' }, 'L', '$', keymap_opt },
   { 'n', '<M-v>', '<C-v>', keymap_opt },
-  { 'n', 'gb', '<C-o>', keymap_opt },
+  { 'n', '<M-b>', '<C-o>', keymap_opt },
   { 'n', '<M-\\>', '<cmd>split<cr>', keymap_opt },
   { 'n', '\\', '<cmd>vsplit<cr>', keymap_opt },
   -- { "n", "<M-]>", "<C-f>", keymap_opt },
