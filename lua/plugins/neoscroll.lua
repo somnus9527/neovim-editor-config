@@ -15,8 +15,8 @@ return {
     t["zt"] = { "zt", { "250" } }
     t["zz"] = { "zz", { "250" } }
     t["zb"] = { "zb", { "250" } }
-    t["<M-]>"] = { "scroll", { "0.50", "true", "100", [['circular']] } }
-    t["<M-[>"] = { "scroll", { "-0.50", "true", "100", [['circular']] } }
+    t["<M-1>"] = { "scroll", { "0.50", "true", "100", [['circular']] } }
+    t["<M-2>"] = { "scroll", { "-0.50", "true", "100", [['circular']] } }
     require('neoscroll.config').set_mappings(t)
   end
 }

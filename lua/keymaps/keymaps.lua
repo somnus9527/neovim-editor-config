@@ -25,8 +25,10 @@ local keymaps = {
   { 'i', '<M-l>', '<Right>', keymap_opt },
   { 'n', '<M-d>', 'yyp', keymap_opt },
   { 'n', '<M-o>', 'o<Esc>', keymap_opt },
-  { { 'n', 'i' }, '<M-p>', '<C-r>+', keymap_opt },
-  { { 'n', 'i' }, '<M-0>', '<C-r>"', keymap_opt },
+  { 'i', '<M-p>', '<C-r>+', keymap_opt },
+  { 'i', '<M-0>', '<c-r>"', keymap_opt },
+  { 'n', '<M-p>', '"+p', keymap_opt },
+  { 'n', '<M-0>', '""p', keymap_opt },
   { { 'v', 'o', 'n' }, 'H', '^', keymap_opt },
   { { 'v', 'o', 'n' }, 'L', '$', keymap_opt },
   { 'n', '<M-v>', '<C-v>', keymap_opt },
@@ -57,15 +59,28 @@ local keymaps = {
     '<cmd>lua require("spectre").open_visual({select_word=true})<CR>',
     extend { desc = '搜索当前单词(spectre)' },
   },
-  { 'n', '<leader>wS', '<cmd>lua require("spectre").open_visual()<CR>', extend { desc = '搜索当前单词(spectre)' } },
+  {
+    'n',
+    '<leader>wS',
+    '<cmd>lua require("spectre").open_visual()<CR>',
+    extend { desc = '搜索当前单词(spectre)' },
+  },
   {
     'n',
     '<leader>wb',
     '<cmd>lua require("spectre").open_file_search({select_word=true})<CR>',
     extend { desc = '只在当前Buffer搜索' },
   },
+  { 'n', '<leader>mm', '<Plug>(Marks-toggle)', { noremap = false, desc = '添加/删除标签' } },
+  { 'n', '<leader>ma', '<Plug>(Marks-set)', { noremap = false, desc = '设置标签，需指定标签名' } },
+  { 'n', '<leader>mp', '<Plug>(Marks-preview)', { noremap = false, desc = '预览标签位置文本' } },
+  { 'n', '<leader>mx', '<Plug>(Marks-deleteline)', { noremap = false, desc = '删除本行标签'} },
+  { 'n', '<leader>md', '<Plug>(Marks-deletebuf)', { noremap = false, desc = '删除文件标签' } },
+  { 'n', '<leader>mb', '<cmd>MarksListBuf<CR>', extend { desc = '列出当前文件所有标签' } },
+  { 'n', '<leader>ml', '<cmd>MarksListAll<CR>', extend { desc = '列出所有文件所有标签' } },
 }
 
 for _, value in pairs(keymaps) do
   keymap.set(value[1], value[2], value[3], value[4])
 end
+

@@ -58,12 +58,20 @@ return {
 
     telescope.load_extension 'fzf'
     local builtin = require 'telescope.builtin'
-    vim.keymap.set('n', '<leader>.', '<cmd>Telescope find_files shorten_path=true<CR>', {desc = '文件搜索'})
-    vim.keymap.set('n', '<leader>/', '<cmd>Telescope live_grep<CR>', {desc = '字符搜索'})
-    vim.keymap.set('n', '<leader>b', builtin.buffers, {desc = 'Buffer搜索'})
-    vim.keymap.set('n', '<leader>`', builtin.colorscheme, {desc = '切换主题'})
-    vim.keymap.set('n', '<leader><leader>/', function()
+    local km = vim.keymap
+    km.set('n', '<leader>.', '<cmd>Telescope find_files shorten_path=true<CR>', {desc = '文件搜索'})
+    km.set('n', '<leader>/', '<cmd>Telescope live_grep<CR>', {desc = '字符搜索'})
+    km.set('n', '<leader>b', builtin.buffers, {desc = 'Buffer搜索'})
+    km.set('n', '<leader>`', builtin.colorscheme, {desc = '切换主题'})
+    km.set('n', '<leader><leader>/', function()
       builtin.current_buffer_fuzzy_find()
     end, {desc = '字符搜索（当前文件）'})
+    -- git 相关
+    km.set('n', '<leader>gc', '<cmd>Telescope git_commits<CR>', {desc = 'git commit历史'})
+    km.set('n', '<leader>gs', '<cmd>Telescope git_status<CR>', {desc = 'git status'})
+    -- 重新打开telescope，保留上次的搜索状态
+    km.set('n', '<leader><leader>r', '<cmd>Telescope resume<CR>', {desc = '重打开Telescope'})
+    -- marks 使用marks插件管理
+    -- km.set('n', '<leader>m', '<cmd>Telescope marks<CR>', {desc = 'marks'})
   end,
 }

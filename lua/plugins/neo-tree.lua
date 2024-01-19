@@ -17,6 +17,10 @@ return {
         },
       },
       filesystem = {
+        bind_to_cwd = false,
+        follow_current_file = {
+          enable = true
+        },
         filtered_items = {
           visible = true,
         },
