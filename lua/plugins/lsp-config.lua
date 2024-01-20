@@ -49,8 +49,8 @@ return {
     end
     -- local util = lsp.util
     -- local capabilities = vim.lsp.protocol.make_client_capabilities()
-    -- capabilities.textDocument.completion.completionItem.snippetSupport = true
     local capabilities = require('cmp_nvim_lsp').default_capabilities()
+    capabilities.textDocument.completion.completionItem.snippetSupport = true
     lsp.lua_ls.setup {
       capabilities = capabilities,
       settings = {
@@ -67,11 +67,11 @@ return {
       capabilities = capabilities,
     }
     -- 前置安装 npm i -g vscode-langservers-extracted
-    require('lspconfig').cssls.setup {
+    lsp.cssls.setup {
       capabilities = capabilities,
     }
     -- 前置安装 npm install -g cssmodules-language-server
-    require('lspconfig').cssmodules_ls.setup {
+    lsp.cssmodules_ls.setup {
       capabilities = capabilities,
     }
     -- 前置安装 npm i -g vscode-langservers-extracted
@@ -83,17 +83,69 @@ return {
     --   }
     -- }
     -- 前置安装 npm i -g vscode-langservers-extracted
-    require('lspconfig').html.setup {
+    lsp.html.setup {
       capabilities = capabilities,
     }
     -- 前置安装 npm i -g vscode-langservers-extracted
-    require('lspconfig').jsonls.setup {
+    lsp.jsonls.setup {
       capabilities = capabilities,
     }
     -- 前置安装 npm install -g @vue/language-server
-    require('lspconfig').volar.setup {
+    local util = require 'lspconfig.util'
+    local function get_typescript_server_path(root_dir)
+      local global_ts = 'C:\\Users\\Administrator\\AppData\\Roaming\\npm\\node_modules\\typescript\\lib'
+      -- 需要自己配置本地global的typescript地址
+      local found_ts = ''
+      local function check_dir(path)
+        found_ts = util.path.join(path, 'node_modules', 'typescript', 'lib')
+        if util.path.exists(found_ts) then
+          return path
+        end
+      end
+      if util.search_ancestors(root_dir, check_dir) then
+        return found_ts
+      else
+        return global_ts
+      end
+    end
+    lsp.volar.setup {
       filetypes = { 'vue' },
       capabilities = capabilities,
+      on_new_config = function(new_config, new_root_dir)
+        new_config.init_options.typescript.tsdk = get_typescript_server_path(new_root_dir)
+      end,
+    }
+    -- 前置安装 npm install yaml-language-server -g
+    lsp.yamlls.setup {
+      capabilities = capabilities,
+    }
+    -- 前置安装下载地址：https://github.com/artempyanykh/marksman/releases；并添加到全局path
+    lsp.marksman.setup {
+      capabilities = capabilities,
+    }
+    -- 前置安装 npm install emmet-ls -g
+    lsp.emmet_ls.setup {
+      capabilities = capabilities,
+      filetypes = {
+        'css',
+        'html',
+        'javascript',
+        'javascriptreact',
+        'less',
+        'sass',
+        'scss',
+        'svelte',
+        'pub',
+        'typescriptreact',
+        'vue',
+      },
+      init_options = {
+        html = {
+          options = {
+            ['bem.enabled'] = true,
+          },
+        },
+      },
     }
     -- 取消lsp的diagnostics，使用null-ls的服务
     vim.lsp.handlers['textDocument/publishDiagnostics'] = function() end
@@ -113,14 +165,14 @@ return {
 
         local map = vim.keymap
         map.set('n', 'gd', vim.lsp.buf.definition, extend { desc = '跳转Definition' })
-        map.set('n', 'gD', vim.lsp.buf.declaration, extend {desc = '跳转Declaration'})
-        map.set('n', 'gr', vim.lsp.buf.references, extend {desc = '显示References'})
-        map.set('n', 'gi', vim.lsp.buf.implementation, extend {desc = '显示Implementation'})
-        map.set('n', '<leader>r', vim.lsp.buf.rename, extend {desc = '重命名'})
-        map.set({ 'n', 'v' }, '<leader>a', vim.lsp.buf.code_action, {desc = 'Code Action'})
-        map.set('n', '<leader><space>', lsp_formatting, {desc = 'Format'})
-        map.set('n', 'K', vim.lsp.buf.hover, extend {desc = 'Hover展示代码说明'})
-        map.set('n', 'ge', '<cmd>lua vim.diagnostic.open_float()<CR>', extend {desc = '展示报错详情'})
+        map.set('n', 'gD', vim.lsp.buf.declaration, extend { desc = '跳转Declaration' })
+        map.set('n', 'gr', vim.lsp.buf.references, extend { desc = '显示References' })
+        map.set('n', 'gi', vim.lsp.buf.implementation, extend { desc = '显示Implementation' })
+        map.set('n', '<leader>r', vim.lsp.buf.rename, extend { desc = '重命名' })
+        map.set({ 'n', 'v' }, '<leader>a', vim.lsp.buf.code_action, { desc = 'Code Action' })
+        map.set('n', '<leader><space>', lsp_formatting, { desc = 'Format' })
+        map.set('n', 'K', vim.lsp.buf.hover, extend { desc = 'Hover展示代码说明' })
+        map.set('n', 'ge', '<cmd>lua vim.diagnostic.open_float()<CR>', extend { desc = '展示报错详情' })
       end,
     })
   end,

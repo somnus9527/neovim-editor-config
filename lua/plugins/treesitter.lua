@@ -1,5 +1,8 @@
 return {
   'nvim-treesitter/nvim-treesitter',
+  dependencies = {
+    'windwp/nvim-ts-autotag',
+  },
   config = function()
     require('nvim-treesitter.install').compilers = { 'clang' }
     local install = {
@@ -18,6 +21,13 @@ return {
       'markdown_inline',
     }
     require('nvim-treesitter.configs').setup {
+      autotag = {
+        enable = true,
+        enable_rename = true,
+        enable_close = true,
+        enable_close_on_slash = true,
+        -- filetypes = { 'html', 'xml' },
+      },
       ensure_installed = install,
       highlight = {
         enable = true,

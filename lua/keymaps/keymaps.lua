@@ -78,6 +78,7 @@ local keymaps = {
   { 'n', '<leader>md', '<Plug>(Marks-deletebuf)', { noremap = false, desc = '删除文件标签' } },
   { 'n', '<leader>mb', '<cmd>MarksListBuf<CR>', extend { desc = '列出当前文件所有标签' } },
   { 'n', '<leader>ml', '<cmd>MarksListAll<CR>', extend { desc = '列出所有文件所有标签' } },
+  { 'v', '<C-r>', '"hy:%s/<C-r>h//gc<left><left><left>', extend { desc = '替换当前选择的文本(逐个确认)' } }
 }
 
 for _, value in pairs(keymaps) do

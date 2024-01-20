@@ -36,12 +36,30 @@ if g.neovide then
   g.neovide_unlink_border_highlights = false
   -- 设置启动全屏
   -- g.neovide_fullscreen = true
+  -- 记住上一次窗口的size
+  g.neovide_remember_window_size = true
+  -- 打开profiler=true
+  g.neovide_profiler = false
   -- 设置光标动画
   g.neovide_cursor_animation_length = 0.03
   -- 设置光标动画尾巴长度
   g.neovide_cursor_trail_size = 0.8
   -- 设置光标粒子效果
-  g.neovide_cursor_vfx_mode = 'sonicboom'
+  g.neovide_cursor_vfx_mode = 'ripple'
+  -- 设置刷新率
+  g.neovide_refresh_rate = 60
+  g.neovide_refresh_rate_idle = 20
+  -- 设置neovide缩放
+  vim.g.neovide_scale_factor = 1.0
+  local change_scale_factor = function(delta)
+    vim.g.neovide_scale_factor = vim.g.neovide_scale_factor * delta
+  end
+  vim.keymap.set('n', '<C-=>', function()
+    change_scale_factor(1.25)
+  end)
+  vim.keymap.set('n', '<C-->', function()
+    change_scale_factor(1 / 1.25)
+  end)
 end
 
 -- 显示相对行号

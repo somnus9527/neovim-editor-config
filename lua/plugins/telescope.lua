@@ -13,6 +13,8 @@ return {
         preview = {
           treesitter = false,
         },
+        -- 设置透明度的，效果不好
+        -- winblend = 90,
         -- path_display = {
         --   'shorten',
         -- },
