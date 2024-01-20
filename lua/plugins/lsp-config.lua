@@ -14,9 +14,7 @@ return {
     end
     local config = {
       virtual_text = false, -- disable virtual text
-      signs = {
-        active = signs, -- show signs
-      },
+      signs = true,
       update_in_insert = true,
       underline = true,
       severity_sort = true,

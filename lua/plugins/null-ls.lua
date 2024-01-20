@@ -21,6 +21,18 @@ return {
         nls.builtins.formatting.eslint_d,
         nls.builtins.diagnostics.eslint_d,
         require("typescript.extensions.null-ls.code-actions"),
+        -- format json & markdown
+        nls.builtins.formatting.deno_fmt.with({
+          filetypes = { 'json', 'markdown' }
+        }),
+        -- json diagnostics
+        nls.builtins.diagnostics.jsonlint,
+        -- markdown diagnostics
+        -- nls.builtins.diagnostics.markdownlint,
+        -- format yaml
+        nls.builtins.formatting.yamlfix,
+        -- yaml diagnostics
+        nls.builtins.diagnostics.yamllint,
       },
     }
   end,
