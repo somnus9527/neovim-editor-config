@@ -20,7 +20,7 @@
 - sad && 安装命令: ```scoop install sad```
 
 #### 下载配置
-[配置地址](git@github.com:somnus9527/neovim-editor-config.git)
+[配置地址](https://github.com/somnus9527/neovim-editor-config.git)
 
 #### npm安装(全局)
 - eslint_d
