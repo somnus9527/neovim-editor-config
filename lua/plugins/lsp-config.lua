@@ -123,6 +123,25 @@ return {
     lsp.marksman.setup {
       capabilities = capabilities,
     }
+    -- 前置安装 npm install @tailwindcss/language-server -g
+    lsp.tailwindcss.setup {
+      capabilities = capabilities,
+      settings = {
+        tailwindCSS = {
+          classAttributes = { 'class', 'className', 'class:list', 'classList', 'ngClass' },
+          lint = {
+            cssConflict = 'warning',
+            invalidApply = 'error',
+            invalidConfigPath = 'error',
+            invalidScreen = 'error',
+            invalidTailwindDirective = 'error',
+            invalidVariant = 'error',
+            recommendedVariantOrder = 'warning',
+          },
+          validate = true,
+        },
+      },
+    }
     -- 前置安装 npm install emmet-ls -g
     lsp.emmet_ls.setup {
       capabilities = capabilities,

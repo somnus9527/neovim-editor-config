@@ -31,6 +31,7 @@
 - @vue/language-server
 - yaml-language-server
 - emmet-ls 
+- @tailwindcss/language-server
 
 #### 一切就绪可以打开配置目录，进行Lazy安装
 
