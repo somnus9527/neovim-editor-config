@@ -27,7 +27,7 @@ if g.neovide then
   g.neovide_light_radius = 5
   -- 浮动窗口设置 end
   -- 设置滚动动画时常
-  g.neovide_scroll_animation_length = 0.3
+  g.neovide_scroll_animation_length = 0
   -- 设置一次滚动超过一屏，最后多少行开始执行滚动动画
   g.neovide_scroll_animation_far_lines = 30
   -- 设置输入时隐藏光标
