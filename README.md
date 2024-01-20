@@ -38,3 +38,14 @@
 
 #### 问题记录
 1. treesitter在windows上需要使用clang作为编译器,否则会报错
+2. 如果你的项目中使用了**styled-components**，这种情况需要针对项目做处理
+    > 1. 项目的dev-dependencies需要安装`@styled/typescript-styled-plugin`和`typescript`包，如果有可以忽略
+    > 2. 项目的jsconfig.json或者tsconfig.json中需要增加配置, 这样styled-components就可以有提示了，不需要改neovim配置, 配置如下 ：
+    > { "compilerOptions": {
+    >    "plugins": [
+    >        {
+    >            "name": "@styled/typescript-styled-plugin"
+    >        }
+    >    ]
+    > } }
+3. 待新增
