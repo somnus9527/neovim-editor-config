@@ -93,4 +93,4 @@ o.expandtab = 2
 o.autoindent = true
 o.smartindent = true
 -- tab转空格配置 end
-opt.lazyredraw = true
+-- opt.lazyredraw = true

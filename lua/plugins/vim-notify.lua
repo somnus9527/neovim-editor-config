@@ -1,4 +1,4 @@
 return {
-  'MunifTanjim/nui.nvim',
+  'rcarriga/nvim-notify',
   event = 'VeryLazy',
 }

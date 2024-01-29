@@ -164,6 +164,17 @@ return {
         },
       },
     }
+
+    -- c/c++ server，前置安装clang,地址：https://clangd.llvm.org/installation.html
+    lsp.clangd.setup {
+      capabilities = capabilities,
+    }
+
+    -- cmake server, 前置安装: pip install cmake-language-server
+    lsp.cmake.setup {
+      capabilities = capabilities,
+    }
+
     -- 取消lsp的diagnostics，使用null-ls的服务
     vim.lsp.handlers['textDocument/publishDiagnostics'] = function() end
 
