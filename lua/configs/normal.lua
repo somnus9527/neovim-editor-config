@@ -11,7 +11,7 @@ if g.neovide then
   g.neovide_padding_bottom = 0
   -- 设置背景透明度 start
   local alpha = function()
-    return string.format('%x', math.floor(255 * vim.g.transparency or 0.8))
+    return string.format('%x', math.floor((255 * vim.g.transparency) or 0.8))
   end
   g.neovide_transparency = 0.95
   g.transparency = 0.95

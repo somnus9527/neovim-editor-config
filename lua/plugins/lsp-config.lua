@@ -16,7 +16,7 @@ return {
     local config = {
       virtual_text = false, -- disable virtual text
       signs = true,
-      update_in_insert = true,
+      update_in_insert = false,
       underline = true,
       severity_sort = true,
       float = {
@@ -184,14 +184,21 @@ return {
       -- },
     }
 
+    -- toml
+    lsp.taplo.setup {
+      capabilities = capabilities,
+    }
+
     -- 取消lsp的diagnostics，使用null-ls的服务
     -- 特殊处理：
     -- 1. 对于前端项目，diagnostics 的优先级是 null-ls -> eslint_d > null-ls -> prettierd > lsp -> tsserver
     -- 2. rust项目，null-ls 没有合适的diagnostics服务，所以使用lsp的rust-analyzer
     local push_diagnostics = vim.lsp.handlers['textDocument/publishDiagnostics']
     vim.lsp.handlers['textDocument/publishDiagnostics'] = function(...)
-      if not tools.is_eslint_project() and not tools.is_prettier_project() then
-        push_diagnostics(...)
+      if tools.is_web_project() then
+        if not tools.is_eslint_project() and not tools.is_prettier_project() then
+          push_diagnostics(...)
+        end
       elseif tools.is_rust_project() then
         push_diagnostics(...)
       end

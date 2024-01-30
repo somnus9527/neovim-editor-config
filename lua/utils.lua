@@ -61,4 +61,11 @@ M.is_rust_project = function()
   }
 end
 
+M.is_web_project = function()
+  -- 这里简单认为有package.json就是前端项目
+  return M.root_has_file {
+    'package.json'
+  }
+end
+
 return M

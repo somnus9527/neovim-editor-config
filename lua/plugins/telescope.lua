@@ -8,8 +8,19 @@ return {
   config = function()
     local telescope = require 'telescope'
     local icons = require 'configs.icons'
+    -- local telescopeConfig = require("telescope.config")
+    --
+    -- -- Clone the default Telescope configuration
+    -- local vimgrep_arguments = { unpack(telescopeConfig.values.vimgrep_arguments) }
+    --
+    -- -- I want to search in hidden/dot files.
+    -- table.insert(vimgrep_arguments, "--hidden")
+    -- -- I don't want to search in the `.git` directory.
+    -- table.insert(vimgrep_arguments, "--glob")
+    -- table.insert(vimgrep_arguments, "!**/.git/*")
     telescope.setup {
       defaults = {
+        -- vimgrep_arguments = vimgrep_arguments,
         preview = {
           treesitter = false,
         },
@@ -48,6 +59,11 @@ return {
           },
         },
       },
+      pickers = {
+        find_files = {
+          hidden = true,
+        },
+      },
       extensions = {
         fzf = {
           fuzzy = true,
@@ -61,23 +77,28 @@ return {
     telescope.load_extension 'fzf'
     local builtin = require 'telescope.builtin'
     local km = vim.keymap
-    km.set('n', '<leader>.', '<cmd>Telescope find_files shorten_path=true<CR>', {desc = '文件搜索'})
-    km.set('n', '<leader>/', '<cmd>Telescope live_grep<CR>', {desc = '字符搜索'})
-    km.set('n', '<leader>b', builtin.buffers, {desc = 'Buffer搜索'})
-    km.set('n', '<leader>`', builtin.colorscheme, {desc = '切换主题'})
+    km.set('n', '<leader>.', '<cmd>Telescope find_files shorten_path=true<CR>', { desc = '文件搜索' })
+    km.set('n', '<leader>/', '<cmd>Telescope live_grep<CR>', { desc = '字符搜索' })
+    km.set('n', '<leader>b', builtin.buffers, { desc = 'Buffer搜索' })
+    km.set('n', '<leader>`', builtin.colorscheme, { desc = '切换主题' })
     km.set('n', '<leader><leader>/', function()
       builtin.current_buffer_fuzzy_find()
-    end, {desc = '字符搜索（当前文件）'})
+    end, { desc = '字符搜索（当前文件）' })
     -- git 相关
-    km.set('n', '<leader>gcc', '<cmd>Telescope git_bcommits<CR>', {desc = 'git commit历史, 当前buffer'})
-    km.set('v', '<leader>gcv', '<cmd>Telescope git_bcommits_range<CR>', {desc = 'git commit历史, 当前选中的内容'})
-    km.set('n', '<leader>gca', '<cmd>Telescope git_commits<CR>', {desc = 'git commit历史'})
-    km.set('n', '<leader>gs', '<cmd>Telescope git_status<CR>', {desc = 'git status'})
-    km.set('n', '<leader>gb', '<cmd>Telescope git_branches<CR>', {desc = 'git branches'})
+    km.set('n', '<leader>gcc', '<cmd>Telescope git_bcommits<CR>', { desc = 'git commit历史, 当前buffer' })
+    km.set(
+      'v',
+      '<leader>gcv',
+      '<cmd>Telescope git_bcommits_range<CR>',
+      { desc = 'git commit历史, 当前选中的内容' }
+    )
+    km.set('n', '<leader>gca', '<cmd>Telescope git_commits<CR>', { desc = 'git commit历史' })
+    km.set('n', '<leader>gs', '<cmd>Telescope git_status<CR>', { desc = 'git status' })
+    km.set('n', '<leader>gb', '<cmd>Telescope git_branches<CR>', { desc = 'git branches' })
     -- 重新打开telescope，保留上次的搜索状态
-    km.set('n', '<leader><leader>r', '<cmd>Telescope resume<CR>', {desc = '重打开Telescope'})
-    km.set('n', '<leader>lr', '<cmd>Telescope lsp_references<CR>', {desc = 'lsp references'})
-    km.set('n', '<leader>li', '<cmd>Telescope lsp_implementations<CR>', {desc = 'lsp implementations'})
+    km.set('n', '<leader><leader>r', '<cmd>Telescope resume<CR>', { desc = '重打开Telescope' })
+    km.set('n', '<leader>lr', '<cmd>Telescope lsp_references<CR>', { desc = 'lsp references' })
+    km.set('n', '<leader>li', '<cmd>Telescope lsp_implementations<CR>', { desc = 'lsp implementations' })
     -- marks 使用marks插件管理
     -- km.set('n', '<leader>m', '<cmd>Telescope marks<CR>', {desc = 'marks'})
   end,
