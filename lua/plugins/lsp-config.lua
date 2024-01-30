@@ -5,6 +5,7 @@ return {
   },
   config = function()
     local lsp = require 'lspconfig'
+    local tools = require 'utils'
     local M = require 'configs.icons'
     -- 配置diagnostics
 
@@ -175,8 +176,26 @@ return {
       capabilities = capabilities,
     }
 
+    -- rust
+    lsp.rust_analyzer.setup {
+      capabilities = capabilities,
+      -- settings = {
+      --   ['rust_analyzer'] = {},
+      -- },
+    }
+
     -- 取消lsp的diagnostics，使用null-ls的服务
-    vim.lsp.handlers['textDocument/publishDiagnostics'] = function() end
+    -- 特殊处理：
+    -- 1. 对于前端项目，diagnostics 的优先级是 null-ls -> eslint_d > null-ls -> prettierd > lsp -> tsserver
+    -- 2. rust项目，null-ls 没有合适的diagnostics服务，所以使用lsp的rust-analyzer
+    local push_diagnostics = vim.lsp.handlers['textDocument/publishDiagnostics']
+    vim.lsp.handlers['textDocument/publishDiagnostics'] = function(...)
+      if not tools.is_eslint_project() and not tools.is_prettier_project() then
+        push_diagnostics(...)
+      elseif tools.is_rust_project() then
+        push_diagnostics(...)
+      end
+    end
 
     -- 快捷键配置
     vim.api.nvim_create_autocmd('LspAttach', {

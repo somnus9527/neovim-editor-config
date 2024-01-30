@@ -4,6 +4,7 @@ return {
     'windwp/nvim-ts-autotag',
   },
   config = function()
+    require('nvim-treesitter.install').prefer_git = true
     require('nvim-treesitter.install').compilers = { 'clang' }
     local install = {
       'lua',
@@ -19,6 +20,17 @@ return {
       'json',
       'jsonc',
       'markdown_inline',
+      'c',
+      'cpp',
+      'c_sharp',
+      'cmake',
+      'rust',
+      'tsx',
+      'toml',
+      'svelte',
+      'styled',
+      'gitignore',
+      'dockerfile',
     }
     require('nvim-treesitter.configs').setup {
       autotag = {
