@@ -24,6 +24,12 @@ return {
         preview = {
           treesitter = false,
         },
+        file_ignore_patterns = {
+          "node_modules",
+          "build",
+          "dist",
+          ".git"
+        },
         -- 设置透明度的，效果不好
         -- winblend = 90,
         -- path_display = {
