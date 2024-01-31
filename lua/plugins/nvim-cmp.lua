@@ -100,13 +100,24 @@ return {
         --   },
         -- },
         -- 排序
-        fields = { 'kind', 'abbr', 'menu' },
+        fields = { 'menu', 'abbr', 'kind' },
+        -- format = lspkind.cmp_format {
+        --   mode = 'text_symbol',
+        --   preset = 'codicons',
+        --   -- maxwidth = 80,
+        --   ellipsis_char = '...',
+        --   -- show_labelDetails = true,
+        --   before = function(entry, vim_item)
+        --     -- 暂时没有修改，有修改可以放在这, 参考下面的注释
+        --     return vim_item
+        --   end,
+        -- },
         format = function(entry, vim_item)
-          local kind = require('lspkind').cmp_format { mode = 'symbol_text', maxwidth = 50 }(entry, vim_item)
+          local kind = lspkind.cmp_format { mode = 'symbol_text', maxwidth = 50 }(entry, vim_item)
           local strings = vim.split(kind.kind, '%s', { trimempty = true })
-          kind.kind = ' ' .. (strings[1] or '') .. ' '
-          kind.menu = '    (' .. (strings[2] or '') .. ')'
-
+          local icon = icons.Menu[entry.source.name]
+          kind.kind = ' ' .. (strings[1] or '') .. ' ' .. '(' .. (strings[2] or '') .. ')'
+          kind.menu = '[' .. icon .. ']'
           return kind
           -- local lspkind_ok, lspkind = pcall(require, 'lspkind')
           -- if not lspkind_ok then

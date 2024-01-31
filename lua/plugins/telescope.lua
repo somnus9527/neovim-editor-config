@@ -25,10 +25,10 @@ return {
           treesitter = false,
         },
         file_ignore_patterns = {
-          "node_modules",
-          "build",
-          "dist",
-          ".git"
+          'node_modules',
+          'build',
+          'dist',
+          '.git',
         },
         -- 设置透明度的，效果不好
         -- winblend = 90,
@@ -39,10 +39,10 @@ return {
         selection_caret = icons.Other.Arrow .. ' ',
         mappings = {
           i = {
-            ['<C-f>'] = function(...)
+            ['<C-n>'] = function(...)
               return require('telescope.actions').preview_scrolling_down(...)
             end,
-            ['<C-b>'] = function(...)
+            ['<C-m>'] = function(...)
               return require('telescope.actions').preview_scrolling_up(...)
             end,
             ['<a-n>'] = function(...)
@@ -83,11 +83,14 @@ return {
     telescope.load_extension 'fzf'
     local builtin = require 'telescope.builtin'
     local km = vim.keymap
-    km.set('n', '<leader>.', '<cmd>Telescope find_files shorten_path=true<CR>', { desc = '文件搜索' })
-    km.set('n', '<leader>/', '<cmd>Telescope live_grep<CR>', { desc = '字符搜索' })
+    km.set('n', '<leader>,', '<cmd>Telescope find_files shorten_path=true<CR>', { desc = '文件搜索' })
+    km.set('n', '<leader>.', '<cmd>Telescope live_grep<CR>', { desc = '字符搜索' })
+    km.set('n', '<leader>\'', '<cmd>Telescope registers<CR>', { desc = '当前registers' })
+    km.set('n', '<leader>o', '<cmd>Telescope oldfiles<CR>', { desc = '搜索之前打开的文件' })
+    -- km.set('n', '<leader>t', '<cmd>Telescope treesitter<CR>', { desc = 'telescope treesitter' })
     km.set('n', '<leader>b', builtin.buffers, { desc = 'Buffer搜索' })
     km.set('n', '<leader>`', builtin.colorscheme, { desc = '切换主题' })
-    km.set('n', '<leader><leader>/', function()
+    km.set('n', '<leader>/', function()
       builtin.current_buffer_fuzzy_find()
     end, { desc = '字符搜索（当前文件）' })
     -- git 相关
@@ -105,6 +108,10 @@ return {
     km.set('n', '<leader><leader>r', '<cmd>Telescope resume<CR>', { desc = '重打开Telescope' })
     km.set('n', '<leader>lr', '<cmd>Telescope lsp_references<CR>', { desc = 'lsp references' })
     km.set('n', '<leader>li', '<cmd>Telescope lsp_implementations<CR>', { desc = 'lsp implementations' })
+    km.set('n', '<leader>ls', '<cmd>Telescope lsp_document_symbols<CR>', { desc = 'lsp document symbols' })
+    km.set('n', '<leader>ld', function()
+      builtin.diagnostics({ bufnr = 0 })
+    end, { desc = 'lsp diagnostics' })
     -- marks 使用marks插件管理
     -- km.set('n', '<leader>m', '<cmd>Telescope marks<CR>', {desc = 'marks'})
   end,

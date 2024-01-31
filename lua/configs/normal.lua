@@ -94,3 +94,4 @@ o.autoindent = true
 o.smartindent = true
 -- tab转空格配置 end
 -- opt.lazyredraw = true
+vim.g.rust_recommended_style = 0

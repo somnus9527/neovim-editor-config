@@ -69,7 +69,14 @@ local M = {
     Module = '󰕳',
     Gear = '',
     Arrow = '󰣉',
-    Workspace = ''
+    Workspace = '',
+  },
+  Menu = {
+    buffer = '󰬉',
+    nvim_lsp = '',
+    path = '󰬗',
+    nvim_lua = '󰢱',
+    cmdline = '󰬊',
   },
 }
 
