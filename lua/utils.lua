@@ -89,4 +89,12 @@ M.set_keymap = function(keymaps)
   end
 end
 
+M.set_buf_keymap = function(keymaps)
+  local api = vim.api
+
+  for _, value in pairs(keymaps) do
+    api.nvim_buf_set_keymap(0, value[1], value[2], value[3], M.extend_opt(value[4] or {}))
+  end
+end
+
 return M

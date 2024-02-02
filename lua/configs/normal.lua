@@ -108,7 +108,8 @@ o.autoindent = true
 o.smartindent = true
 -- tab转空格配置 end
 -- opt.lazyredraw = true
-vim.g.rust_recommended_style = 0
+g.rust_recommended_style = 0
 -- 不可见字符设置为可见
 -- o.list = true
 -- o.listchars = { tab = '>>', trail = '-', nbsp = '+' }
+g.git_messenger_no_default_mappings = true
