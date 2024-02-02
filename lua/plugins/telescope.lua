@@ -32,7 +32,7 @@ return {
           'node_modules',
           'build',
           'dist',
-          '.git',
+          '.git/.*',
         },
         -- 设置透明度的，效果不好
         -- winblend = 90,
@@ -73,8 +73,8 @@ return {
       },
       pickers = {
         find_files = {
-          -- hidden = true,
-          find_command = { 'rg', '--files', '--hidden', '-g', '!.git'},
+          hidden = true,
+          -- find_command = { 'rg', '--files', '--hidden', '-g', '!.git'},
         },
       },
       extensions = {
