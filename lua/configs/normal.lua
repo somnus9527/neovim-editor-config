@@ -1,3 +1,4 @@
+local utils = require 'utils'
 local o = vim.o
 local g = vim.g
 local opt = vim.opt
@@ -54,12 +55,25 @@ if g.neovide then
   local change_scale_factor = function(delta)
     vim.g.neovide_scale_factor = vim.g.neovide_scale_factor * delta
   end
-  vim.keymap.set('n', '<C-=>', function()
-    change_scale_factor(1.25)
-  end)
-  vim.keymap.set('n', '<C-->', function()
-    change_scale_factor(1 / 1.25)
-  end)
+  local keymaps = {
+    {
+      'n',
+      '<C-=>',
+      function()
+        change_scale_factor(1.25)
+      end,
+      { desc = '放大窗口' },
+    },
+    {
+      'n',
+      '<C-->',
+      function()
+        change_scale_factor(1 / 1.25)
+      end,
+      { desc = '缩小窗口' },
+    },
+  }
+  utils.set_keymap(keymaps)
 end
 
 -- 显示相对行号
@@ -95,3 +109,6 @@ o.smartindent = true
 -- tab转空格配置 end
 -- opt.lazyredraw = true
 vim.g.rust_recommended_style = 0
+-- 不可见字符设置为可见
+-- o.list = true
+-- o.listchars = { tab = '>>', trail = '-', nbsp = '+' }

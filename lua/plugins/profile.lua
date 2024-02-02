@@ -1,6 +1,7 @@
 return {
   'stevearc/profile.nvim',
   config = function()
+    local utils = require 'utils'
     local should_profile = os.getenv 'NVIM_PROFILE'
     if should_profile then
       require('profile').instrument_autocmds()
@@ -25,7 +26,10 @@ return {
         prof.start '*'
       end
     end
-    vim.keymap.set('', '<f1>', toggle_profile)
+    local keymaps = {
+      { 'n', '<f1>', toggle_profile, { desc = '开始/结束profile' } }
+    }
+    utils.set_keymap(keymaps)
   end,
   cond = function()
     local should_profile = os.getenv 'NVIM_PROFILE'

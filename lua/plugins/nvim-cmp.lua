@@ -64,6 +64,12 @@ return {
       return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match '%s' == nil
     end
     local opt = {
+      -- enabled = function()
+      --   if vim.api.nvim_buf_get_option(0, 'buftype') == 'TelescopePrompt' then
+      --     return false
+      --   end
+      --   return false
+      -- end,
       completion = {
         completeopt = 'menu,menuone,noinsert',
       },
@@ -151,6 +157,17 @@ return {
         ['<M-e>'] = cmp.mapping.abort(),
         ['<CR>'] = cmp.mapping(cmp.mapping.confirm { select = true }, { 'i' }),
         ['`'] = cmp.mapping(cmp.mapping.confirm { select = true }, { 'c' }),
+        -- ['<CR>'] = cmp.mapping {
+        --   i = function(fallback)
+        --     if cmp.visible() and cmp.get_active_entry() then
+        --       cmp.confirm { behavior = cmp.ConfirmBehavior.Replace, select = false }
+        --     else
+        --       fallback()
+        --     end
+        --   end,
+        --   s = cmp.mapping.confirm { select = true },
+        --   c = cmp.mapping.confirm { behavior = cmp.ConfirmBehavior.Replace, select = true },
+        -- },
         ['<S-CR>'] = cmp.mapping.confirm {
           behavior = cmp.ConfirmBehavior.Replace,
           select = true,

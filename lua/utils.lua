@@ -57,15 +57,36 @@ end
 
 M.is_rust_project = function()
   return M.root_has_file {
-    'Cargo.toml'
+    'Cargo.toml',
   }
 end
 
 M.is_web_project = function()
   -- 这里简单认为有package.json就是前端项目
   return M.root_has_file {
-    'package.json'
+    'package.json',
   }
+end
+
+M.default_keymap_opt = {
+  silent = true,
+  noremap = true,
+}
+
+M.extend_opt = function(opts)
+  local re_opt = {}
+  if opts then
+    re_opt = vim.tbl_deep_extend('force', M.default_keymap_opt, opts)
+  end
+  return re_opt
+end
+
+M.set_keymap = function(keymaps)
+  local keymap = vim.keymap
+
+  for _, value in pairs(keymaps) do
+    keymap.set(value[1], value[2], value[3], M.extend_opt(value[4] or {}))
+  end
 end
 
 return M

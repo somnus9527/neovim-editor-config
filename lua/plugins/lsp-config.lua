@@ -5,7 +5,6 @@ return {
   },
   config = function()
     local lsp = require 'lspconfig'
-    local tools = require 'utils'
     local M = require 'configs.icons'
     -- 配置diagnostics
 
@@ -15,8 +14,10 @@ return {
     end
     local config = {
       virtual_text = false, -- disable virtual text
-      signs = true,
-      update_in_insert = false,
+      signs = {
+        active = signs, -- show signs
+      },
+      update_in_insert = true,
       underline = true,
       severity_sort = true,
       float = {
@@ -122,25 +123,6 @@ return {
     lsp.marksman.setup {
       capabilities = capabilities,
     }
-    -- 前置安装 npm install @tailwindcss/language-server -g
-    lsp.tailwindcss.setup {
-      capabilities = capabilities,
-      settings = {
-        tailwindCSS = {
-          classAttributes = { 'class', 'className', 'class:list', 'classList', 'ngClass' },
-          lint = {
-            cssConflict = 'warning',
-            invalidApply = 'error',
-            invalidConfigPath = 'error',
-            invalidScreen = 'error',
-            invalidTailwindDirective = 'error',
-            invalidVariant = 'error',
-            recommendedVariantOrder = 'warning',
-          },
-          validate = true,
-        },
-      },
-    }
     -- 前置安装 npm install emmet-ls -g
     lsp.emmet_ls.setup {
       capabilities = capabilities,
@@ -165,44 +147,8 @@ return {
         },
       },
     }
-
-    -- c/c++ server，前置安装clang,地址：https://clangd.llvm.org/installation.html
-    lsp.clangd.setup {
-      capabilities = capabilities,
-    }
-
-    -- cmake server, 前置安装: pip install cmake-language-server
-    lsp.cmake.setup {
-      capabilities = capabilities,
-    }
-
-    -- rust
-    lsp.rust_analyzer.setup {
-      capabilities = capabilities,
-      -- settings = {
-      --   ['rust_analyzer'] = {},
-      -- },
-    }
-
-    -- toml
-    lsp.taplo.setup {
-      capabilities = capabilities,
-    }
-
     -- 取消lsp的diagnostics，使用null-ls的服务
-    -- 特殊处理：
-    -- 1. 对于前端项目，diagnostics 的优先级是 null-ls -> eslint_d > null-ls -> prettierd > lsp -> tsserver
-    -- 2. rust项目，null-ls 没有合适的diagnostics服务，所以使用lsp的rust-analyzer
-    local push_diagnostics = vim.lsp.handlers['textDocument/publishDiagnostics']
-    vim.lsp.handlers['textDocument/publishDiagnostics'] = function(...)
-      if tools.is_web_project() then
-        if not tools.is_eslint_project() and not tools.is_prettier_project() then
-          push_diagnostics(...)
-        end
-      elseif tools.is_rust_project() then
-        push_diagnostics(...)
-      end
-    end
+    vim.lsp.handlers['textDocument/publishDiagnostics'] = function() end
 
     -- 快捷键配置
     vim.api.nvim_create_autocmd('LspAttach', {
@@ -224,7 +170,7 @@ return {
         map.set('n', 'gi', vim.lsp.buf.implementation, extend { desc = '显示Implementation' })
         map.set('n', '<leader>r', vim.lsp.buf.rename, extend { desc = '重命名' })
         map.set({ 'n', 'v' }, '<leader>a', vim.lsp.buf.code_action, { desc = 'Code Action' })
-        map.set('n', '<leader><space>', lsp_formatting, { desc = 'Format' })
+        map.set('n', '<leader>f', lsp_formatting, { desc = 'Format' })
         map.set('n', 'K', vim.lsp.buf.hover, extend { desc = 'Hover展示代码说明' })
         map.set('n', 'ge', '<cmd>lua vim.diagnostic.open_float()<CR>', extend { desc = '展示报错详情' })
       end,
