@@ -90,7 +90,16 @@ return {
     neogit.setup(opts)
     local keymaps = {
       { 'n', '<leader>gg', '<cmd>Neogit cwd=%:p:h<CR>', { desc = '打开Neogit' } },
+      {
+        'n',
+        '<leader>gq',
+        function()
+          neogit.close()
+        end,
+        { desc = '关闭Neogit' },
+      },
     }
     utils.set_keymap(keymaps)
+    require 'autocmds.neogit'
   end,
 }
