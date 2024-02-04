@@ -4,6 +4,6 @@ vim.api.nvim_create_autocmd('User', {
   group = group,
   -- callback = require('neogit').close,
   callback = function()
-      vim.cmd('bdelete')
+      vim.cmd('q')
   end
 })
