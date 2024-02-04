@@ -3,6 +3,9 @@ local is_windows = vim.loop.os_uname().version:match 'Windows'
 local path_separator = is_windows and '\\' or '/'
 
 M.path = {
+  conf_root = function()
+    return is_windows and vim.fn.expand '~\\AppData\\Local\\nvim' or vim.fn.expand '~/.config/nvim'
+  end,
   root = function()
     return vim.loop.cwd()
   end,
@@ -95,6 +98,39 @@ M.set_buf_keymap = function(keymaps)
   for _, value in pairs(keymaps) do
     api.nvim_buf_set_keymap(0, value[1], value[2], value[3], M.extend_opt(value[4] or {}))
   end
+end
+
+M.read_file = function(file_path)
+  local fd = io.open(file_path, 'r')
+  if not fd then
+    error(('Could not open file %s for reading'):format(file_path))
+  end
+  local data = fd:read '*a'
+  fd:close()
+  return data
+end
+
+M.write_file = function(file_path, data)
+  local fd = io.open(file_path, 'w+')
+  if not fd then
+    error(('Could not open file %s for writing'):format(file_path))
+  end
+  fd:write(data)
+  fd:close()
+end
+
+M.load_conf = function()
+  local ini = require 'ini'
+  local conf_path = M.path.join(M.path.conf_root(), 'conf.ini')
+  local opts = ini.load(conf_path)
+  -- print(opts.default.indent)
+  return opts
+end
+
+M.save_conf = function(data)
+  local ini = require 'ini'
+  local conf_path = M.path.join(M.path.conf_root(), 'conf.ini')
+  ini.save(conf_path, data)
 end
 
 return M

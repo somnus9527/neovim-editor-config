@@ -1,4 +1,5 @@
 local utils = require 'utils'
+local config_opts = utils.load_conf()
 local o = vim.o
 local g = vim.g
 local opt = vim.opt
@@ -81,7 +82,7 @@ o.relativenumber = true
 -- 开启终端使用GUI颜色
 o.termguicolors = true
 -- gui 模式下使用的字体
-o.guifont = 'JetBrainsMono Nerd Font Mono:h12'
+o.guifont = 'ComicShannsMono Nerd Font Mono:h13'
 -- 设置行间距
 o.linespace = 0
 -- 高亮当前列
@@ -96,13 +97,13 @@ o.numberwidth = 4
 o.swapfile = false
 -- tab转空格配置 start
 -- 设置文件里Tab代表的空格数
-o.tabstop = 2
+o.tabstop = config_opts.default.indent
 -- (自动) 缩进每一步使用的空白数目
-o.shiftwidth = 2
+o.shiftwidth = config_opts.default.indent
 -- 编辑时tab代表的空格数
-o.softtabstop = 2
+o.softtabstop = config_opts.default.indent
 -- 插入模式里: 插入 <Tab> 时使用合适数量的空格
-o.expandtab = 2
+o.expandtab = true
 -- 自动缩进
 o.autoindent = true
 o.smartindent = true

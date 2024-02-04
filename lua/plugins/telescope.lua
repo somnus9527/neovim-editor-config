@@ -118,6 +118,7 @@ return {
       { 'n', '<leader>o', '<cmd>Telescope oldfiles<CR>', { desc = '搜索之前打开过的文件' } },
       { 'n', '<leader>b', builtin.buffers, { desc = 'Buffer搜索' } },
       { 'n', '<leader>`', builtin.colorscheme, { desc = '主题切换' } },
+      { 'n', '<leader><TAB>', '<CMD>Telescope switch_indent<CR>', { desc = 'Indent切换' } },
       {
         'n',
         '<leader>/',
