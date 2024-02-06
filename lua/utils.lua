@@ -119,6 +119,16 @@ M.write_file = function(file_path, data)
   fd:close()
 end
 
+M.exist_file = function(path)
+  local fd = io.open(path, 'r')
+  if fd ~= nil then
+    io.close(fd)
+    return true
+  else
+    return false
+  end
+end
+
 M.load_conf = function()
   local ini = require 'ini'
   local conf_path = M.path.join(M.path.conf_root(), 'conf.ini')
@@ -131,6 +141,38 @@ M.save_conf = function(data)
   local ini = require 'ini'
   local conf_path = M.path.join(M.path.conf_root(), 'conf.ini')
   ini.save(conf_path, data)
+end
+
+M.make_timestamp = function(str)
+  local inYear, inMonth, inDay, inHour, inMinute, inSecond, inZone =
+    string.match(str, '^(%d%d%d%d)-(%d%d)-(%d%d)T(%d%d):(%d%d):(%d%d)(.-)$')
+
+  local zHours, zMinutes = string.match(inZone, '^(.-):(%d%d)$')
+
+  local returnTime = os.time {
+    year = inYear,
+    month = inMonth,
+    day = inDay,
+    hour = inHour,
+    min = inMinute,
+    sec = inSecond,
+    isdst = false,
+  }
+  if zHours then
+    returnTime = returnTime - ((tonumber(zHours) * 3600) + (tonumber(zMinutes) * 60))
+  end
+
+  return returnTime
+end
+
+M.session_base_path = vim.fn.stdpath 'data' .. '/sessions/'
+
+M.get_session_path = function(workspace_name)
+  local file_name = '.session'
+  if workspace_name then
+    file_name = '.' .. workspace_name .. '_session'
+  end
+  return M.session_base_path .. file_name
 end
 
 return M

@@ -7,7 +7,7 @@ return {
     'hrsh7th/cmp-buffer',
     'hrsh7th/cmp-path',
     'hrsh7th/cmp-cmdline',
-    -- 'David-Kunz/cmp-npm',
+    'David-Kunz/cmp-npm',
     'hrsh7th/cmp-nvim-lua',
     'onsails/lspkind.nvim',
   },
@@ -214,6 +214,13 @@ return {
       }, {
         { name = 'nvim_lua' },
         { name = 'buffer' },
+        { name = 'path' },
+      }),
+    })
+    cmp.setup.filetype('json', {
+      sources = cmp.config.sources({
+        { name = 'npm' },
+      }, {
         { name = 'path' },
       }),
     })

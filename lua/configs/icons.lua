@@ -70,6 +70,9 @@ local M = {
     Gear = '',
     Arrow = '󰣉',
     Workspace = '',
+    Session = '',
+    Group = '󰾂',
+    FullArrow = '',
   },
   Menu = {
     buffer = '󰬉',
@@ -77,6 +80,13 @@ local M = {
     path = '󰬗',
     nvim_lua = '󰢱',
     cmdline = '󰬊',
+  },
+  dap = {
+    Stopped = { '󰁕 ', 'DiagnosticWarn', 'DapStoppedLine' },
+    Breakpoint = ' ',
+    BreakpointCondition = ' ',
+    BreakpointRejected = { ' ', 'DiagnosticError' },
+    LogPoint = '.>',
   },
 }
 

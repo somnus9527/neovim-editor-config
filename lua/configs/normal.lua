@@ -77,6 +77,10 @@ if g.neovide then
   utils.set_keymap(keymaps)
 end
 
+-- 显示行号
+o.number = true
+-- 相对行号原点显示原行号
+o.signcolumn = 'number'
 -- 显示相对行号
 o.relativenumber = true
 -- 开启终端使用GUI颜色

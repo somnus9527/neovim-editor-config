@@ -6,6 +6,7 @@ return {
     'nvim-telescope/telescope-fzf-native.nvim',
     'nvim-tree/nvim-web-devicons',
     'nvim-telescope/telescope-file-browser.nvim',
+    'natecraddock/workspaces.nvim',
   },
   config = function()
     local telescope = require 'telescope'
@@ -105,17 +106,22 @@ return {
             },
           },
         },
+        workspaces = {
+          keep_insert = true,
+        }
       },
     }
 
     telescope.load_extension 'fzf'
     telescope.load_extension 'file_browser'
+    telescope.load_extension 'workspaces'
     local builtin = require 'telescope.builtin'
     local keymaps = {
       { 'n', '<leader><leader>', '<cmd>Telescope find_files shorten_path=true<CR>', { desc = '文件搜索' } },
       { 'n', '<leader>.', '<cmd>Telescope live_grep<CR>', { desc = '字符搜索' } },
       { 'n', "<leader>'", '<cmd>Telescope registers<CR>', { desc = '当前registers' } },
       { 'n', '<leader>o', '<cmd>Telescope oldfiles<CR>', { desc = '搜索之前打开过的文件' } },
+      { 'n', '<leader>wf', '<cmd>Telescope workspaces<CR>', { desc = '当前Workspaces列表' } },
       { 'n', '<leader>b', builtin.buffers, { desc = 'Buffer搜索' } },
       { 'n', '<leader>`', builtin.colorscheme, { desc = '主题切换' } },
       { 'n', '<leader><TAB>', '<CMD>Telescope switch_indent<CR>', { desc = 'Indent切换' } },
