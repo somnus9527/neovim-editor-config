@@ -1,10 +1,9 @@
 local M = {}
-local is_windows = vim.loop.os_uname().version:match 'Windows'
-local path_separator = is_windows and '\\' or '/'
-
+local path_separator = M.is_windows and '\\' or '/'
+M.is_windows = vim.loop.os_uname().version:match 'Windows'
 M.path = {
   conf_root = function()
-    return is_windows and vim.fn.expand '~\\AppData\\Local\\nvim' or vim.fn.expand '~/.config/nvim'
+    return M.is_windows and vim.fn.expand '~\\AppData\\Local\\nvim' or vim.fn.expand '~/.config/nvim'
   end,
   root = function()
     return vim.loop.cwd()
