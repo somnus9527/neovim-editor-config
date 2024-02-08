@@ -6,6 +6,10 @@ local opt = vim.opt
 
 -- 判断是否在neovide中
 if g.neovide then
+  if not utils.is_windows then
+    -- 让mac 的neovide环境中的option快捷键生效
+    g.neovide_input_macos_alt_is_meta = true
+  end
   -- 是neovide环境，将外边界置0
   g.neovide_padding_top = 0
   g.neovide_padding_left = 0
