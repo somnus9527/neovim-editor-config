@@ -1,5 +1,6 @@
 return {
   'Joakker/lua-json5',
+  -- enabled = false,
   build = function()
     local utils = require 'utils'
     if utils.is_windows then

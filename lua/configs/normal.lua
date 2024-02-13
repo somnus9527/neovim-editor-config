@@ -4,6 +4,9 @@ local o = vim.o
 local g = vim.g
 local opt = vim.opt
 
+if not utils.is_windows then
+  package.cpath = package.cpath .. ';/Users/wangxuepei/.local/share/nvim/lazy/lua-json5/lua/json5.dylib'
+end
 -- 判断是否在neovide中
 if g.neovide then
   if not utils.is_windows then
@@ -80,7 +83,11 @@ if g.neovide then
   }
   utils.set_keymap(keymaps)
 end
-
+local gui_font_family = 'ComicShannsMono Nerd Font Mono'
+local gui_font_size = 'h15'
+if utils.is_windows then
+  gui_font_size = 'h13'
+end
 -- 显示行号
 o.number = true
 -- 相对行号原点显示原行号
@@ -90,7 +97,7 @@ o.relativenumber = true
 -- 开启终端使用GUI颜色
 o.termguicolors = true
 -- gui 模式下使用的字体
-o.guifont = 'ComicShannsMono Nerd Font Mono:h13'
+o.guifont = gui_font_family .. ':' .. gui_font_size
 -- 设置行间距
 o.linespace = 0
 -- 高亮当前列

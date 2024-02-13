@@ -4,7 +4,7 @@ return {
   dependencies = {
     'rcarriga/nvim-dap-ui',
     'theHamsta/nvim-dap-virtual-text',
-    -- 'mxsdev/nvim-dap-vscode-js',
+    'mxsdev/nvim-dap-vscode-js',
     'microsoft/vscode-js-debug',
     'Joakker/lua-json5',
   },
@@ -31,26 +31,26 @@ return {
         { text = sign[1], texthl = sign[2] or 'DiagnosticInfo', linehl = sign[3], numhl = sign[3] }
       )
     end
-    local adapters = {
-      ['pwa-node'] = {
-        type = 'server',
-        host = 'localhost',
-        port = '${port}', --let both ports be the same for now...
-        executable = {
-          command = 'node',
-          -- -- 💀 Make sure to update this path to point to your installation
-          args = {
-            vim.fn.stdpath 'data' .. '/lazy/vscode-js-debug/src/dapDebugServer.js',
-            '${port}',
-          },
-          -- command = "js-debug-adapter",
-          -- args = { "${port}" },
-        },
-      },
-    }
-    for type, config in pairs(adapters) do
-      dap.adapters[type] = config
-    end
+    -- local adapters = {
+    --   ['pwa-node'] = {
+    --     type = 'server',
+    --     host = 'localhost',
+    --     port = '${port}', --let both ports be the same for now...
+    --     executable = {
+    --       command = 'node',
+    --       -- -- 💀 Make sure to update this path to point to your installation
+    --       args = {
+    --         vim.fn.stdpath 'data' .. '/lazy/vscode-js-debug/src/dapDebugServer.js',
+    --         '${port}',
+    --       },
+    --       -- command = "js-debug-adapter",
+    --       -- args = { "${port}" },
+    --     },
+    --   },
+    -- }
+    -- for type, config in pairs(adapters) do
+    --   dap.adapters[type] = config
+    -- end
     for _, language in ipairs(js_based_languages) do
       dap.configurations[language] = {
         -- Debug single nodejs files
