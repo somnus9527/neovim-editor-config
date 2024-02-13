@@ -83,11 +83,12 @@ if g.neovide then
   }
   utils.set_keymap(keymaps)
 end
-local gui_font_family = 'ComicShannsMono Nerd Font Mono'
-local gui_font_size = 'h15'
+local gui_font_family = config_opts.default.guifont or 'JetBrainsMono Nerd Font'
+local gui_font_size = config_opts.default.fontsize and 'h' .. config_opts.default.fontsize or 'h15'
 if utils.is_windows then
   gui_font_size = 'h13'
 end
+opt.shortmess = opt.shortmess + "c"
 -- 显示行号
 o.number = true
 -- 相对行号原点显示原行号

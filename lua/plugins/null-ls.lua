@@ -23,7 +23,7 @@ return {
         nls.builtins.formatting.stylua,
         -- 需要安装luacheck
         -- TODO: luacheck 设置参数之后vim倒是不报错了，但是整个校验全失效了。。。服了
-        nls.builtins.diagnostics.luacheck,
+        -- nls.builtins.diagnostics.luacheck,
         -- nls.builtins.diagnostics.luacheck.with({
         --   extra_args = { '--globals', 'vim' }
         -- }),

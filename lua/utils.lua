@@ -40,6 +40,13 @@ M.is_eslint_project = function()
   }
 end
 
+M.is_lua_conf_project = function()
+  return M.root_has_file {
+    '.stylua.toml',
+    'lazy-lock.json',
+  }
+end
+
 M.is_prettier_project = function()
   return M.root_has_file {
     '.prettierrc',
@@ -60,6 +67,7 @@ end
 M.is_rust_project = function()
   return M.root_has_file {
     'Cargo.toml',
+    'rustfmt.toml',
   }
 end
 

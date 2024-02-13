@@ -2,6 +2,7 @@ return {
   'neovim/nvim-lspconfig',
   dependencies = {
     'hrsh7th/cmp-nvim-lsp',
+    'Saecki/crates.nvim',
   },
   config = function()
     local lsp = require 'lspconfig'
@@ -150,8 +151,60 @@ return {
         },
       },
     }
+
+    -- rust
+    lsp.rust_analyzer.setup {
+      capabilities = capabilities,
+      settings = {
+        ['rust-analyzer'] = {
+          cargo = {
+            allFeatures = true,
+            loadOutDirsFromCheck = true,
+            runBuildScripts = true,
+          },
+          checkOnSave = {
+            allFeatures = true,
+            command = 'clippy',
+            extraArgs = { '--no-deps' },
+          },
+          procMacro = {
+            enable = true,
+          },
+        },
+      },
+    }
+    -- toml
+    lsp.taplo.setup {}
+    -- cmake
+    lsp.cmake.setup {
+      filetypes = {
+        'cmake',
+        'CMakeLists.txt',
+      },
+    }
+    -- cpp
+    lsp.clangd.setup {}
     -- 取消lsp的diagnostics，使用null-ls的服务
-    vim.lsp.handlers['textDocument/publishDiagnostics'] = function() end
+    -- 2024-02-13 不再全局取消,而是分情况而定,目前场景如下:
+    -- 1. lua项目还是使用lua_ls服务的diagnostics,主要null-ls的luacheck有问题,所以luacheck不需要再安装,null-ls那边的luacheck配置也需要取消
+    -- 2. rust项目没有比rust-analyzer更好的diagnostics选择
+    -- 3. web项目一般不会没有eslint,但是也有例外,对于例外,tsserver的报错
+    local publish_diagnostics = vim.lsp.handlers['textDocument/publishDiagnostics']
+    vim.lsp.handlers['textDocument/publishDiagnostics'] = function(...)
+      local err, method, params, client_id = ...
+      local do_publish = function()
+        publish_diagnostics(err, method, params, client_id)
+      end
+      if tools.is_lua_conf_project() then
+        do_publish()
+      elseif tools.is_rust_project() then
+        do_publish()
+      elseif tools.is_web_project() then
+        if not tools.is_eslint_project() and not tools.is_prettier_project() then
+          do_publish()
+        end
+      end
+    end
 
     -- 快捷键配置
     vim.api.nvim_create_autocmd('LspAttach', {
@@ -166,6 +219,13 @@ return {
           return re_opt
         end
 
+        local show_crate_doc = function()
+          if vim.fn.expand '%:t' == 'Cargo.toml' and require('crates').popup_available() then
+            require('crates').show_popup()
+          else
+            vim.lsp.buf.hover()
+          end
+        end
         local map = vim.keymap
         map.set('n', 'gd', vim.lsp.buf.definition, extend { desc = '跳转Definition' })
         map.set('n', 'gD', vim.lsp.buf.declaration, extend { desc = '跳转Declaration' })
@@ -174,7 +234,7 @@ return {
         map.set('n', '<leader>r', vim.lsp.buf.rename, extend { desc = '重命名' })
         map.set({ 'n', 'v' }, '<leader>a', vim.lsp.buf.code_action, { desc = 'Code Action' })
         map.set('n', '<leader>f', lsp_formatting, { desc = 'Format' })
-        map.set('n', 'K', vim.lsp.buf.hover, extend { desc = 'Hover展示代码说明' })
+        map.set('n', 'K', show_crate_doc, extend { desc = 'Hover展示代码说明' })
         map.set('n', 'ge', '<cmd>lua vim.diagnostic.open_float()<CR>', extend { desc = '展示报错详情' })
       end,
     })

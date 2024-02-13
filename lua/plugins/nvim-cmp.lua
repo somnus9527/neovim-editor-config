@@ -10,6 +10,7 @@ return {
     'David-Kunz/cmp-npm',
     'hrsh7th/cmp-nvim-lua',
     'onsails/lspkind.nvim',
+    'Saecki/crates.nvim',
   },
   config = function()
     -- 自定义样式
@@ -210,6 +211,7 @@ return {
     })
     cmp.setup.filetype('lua', {
       sources = cmp.config.sources({
+        { name = 'nvim_lsp' },
         { name = 'luasnip' },
       }, {
         { name = 'nvim_lua' },
@@ -219,7 +221,16 @@ return {
     })
     cmp.setup.filetype('json', {
       sources = cmp.config.sources({
+        { name = 'nvim_lsp' },
+      }, {
         { name = 'npm' },
+        { name = 'path' },
+      }),
+    })
+    cmp.setup.filetype('toml', {
+      sources = cmp.config.sources({
+        { name = 'nvim_lsp' },
+        { name = 'crates' },
       }, {
         { name = 'path' },
       }),
