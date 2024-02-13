@@ -92,8 +92,11 @@ return {
     }
     -- 前置安装 npm install -g @vue/language-server
     local util = require 'lspconfig.util'
+    local tools = require 'utils'
+    local global_opts = tools.load_conf()
     local function get_typescript_server_path(root_dir)
-      local global_ts = 'C:\\Users\\Administrator\\AppData\\Roaming\\npm\\node_modules\\typescript\\lib'
+      local global_ts = tools.is_windows and global_opts.default.typescript_win_path
+        or global_opts.default.typescript_mac_path
       -- 需要自己配置本地global的typescript地址
       local found_ts = ''
       local function check_dir(path)
