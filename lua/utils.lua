@@ -139,7 +139,14 @@ end
 M.load_conf = function()
   local ini = require 'ini'
   local conf_path = M.path.join(M.path.conf_root(), 'conf.ini')
+  local local_conf_path = M.path.join(M.path.conf_root(), 'local_conf.ini')
   local opts = ini.load(conf_path)
+  if M.exist_file(local_conf_path) then
+    local local_opts = ini.load(local_conf_path)
+    for k, v in pairs(local_opts) do
+      opts[k] = v
+    end
+  end
   -- print(opts.default.indent)
   return opts
 end
