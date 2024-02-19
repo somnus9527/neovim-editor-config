@@ -21,9 +21,9 @@ local spaces = function()
 end
 local line_format = function()
   local format_icons = {
-    unix = 'LF ',
-    dos = 'CRLF ',
-    mac = 'LF ',
+    unix = 'LF(UNIX) ',
+    dos = 'CRLF(DOS) ',
+    mac = 'LF(MAC) ',
   }
   return function()
     return format_icons[vim.bo.fileformat] or vim.bo.fileformat
@@ -100,7 +100,6 @@ basic.file = {
   end,
 }
 
-local get_lsp_name = function(buf) end
 basic.mid = {
   hl_colors = {
     sep_before = { 'black_light', 'black' },
@@ -125,7 +124,7 @@ basic.right = {
   hl_colors = {
     branch_name_before = { 'deepgreen', 'black' },
     branch_name_after = { 'deeppurple', 'deepgreen' },
-    sep_before = { 'deeppurple', 'cyan_light' },
+    sep_before = { 'deeppurple', 'midgray' },
     sep_after = { 'deeppurple', 'black' },
     text = { 'white', 'deeppurple' },
     branch_name = { 'orange', 'deepgreen' },
@@ -133,9 +132,9 @@ basic.right = {
     line_format_before = { 'lightgray', 'deepgreen' },
     line_format_after = { 'deeppurple', 'lightgray' },
     line_format = { 'black_light', 'lightgray' },
-    encode_before = { 'cyan_light', 'lightgray' },
-    encode_after = { 'cyan_light', 'cyan_light' },
-    encode = { 'yellow_light', 'cyan_light' },
+    encode_before = { 'midgray', 'lightgray' },
+    encode_after = { 'midgray', 'midgray' },
+    encode = { 'black_light', 'midgray' },
   },
   text = function(buf)
     -- local branch =
@@ -153,7 +152,7 @@ basic.right = {
       { b_components.file_encoding(), 'encode' },
       { sep.left_rounded, 'encode_after' },
       { sep.left_rounded, 'sep_before' },
-      { ' Row/Column', 'text' },
+      { ' Row:Col', 'text' },
       { b_components.line_col_lua },
       { '' .. icons.Other.Progress },
       { b_components.progress_lua },
@@ -262,11 +261,13 @@ windline.setup {
     colors.purple = '#a29ed9'
     colors.orange = '#fc8615'
     colors.deeporange = '#87511c'
-    colors.lightgray = "#a4accd"
+    colors.lightgray = '#a4accd'
+    colors.midgray = '#bdc1cf'
   end,
   statuslines = {
     default,
     explorer,
     quickfix,
   },
+  git = 'branch',
 }

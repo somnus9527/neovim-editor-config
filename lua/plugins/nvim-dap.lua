@@ -21,6 +21,7 @@ return {
     local widgets = require 'dap.ui.widgets'
     local icons = require 'configs.icons'
     local utils = require 'utils'
+    local global_opts = utils.load_conf()
     -- 设置断点行展示Visual样式
     vim.api.nvim_set_hl(0, 'DapStoppedLine', { default = true, link = 'Visual' })
     -- 设置debug时各种状态的icon
@@ -31,21 +32,23 @@ return {
         { text = sign[1], texthl = sign[2] or 'DiagnosticInfo', linehl = sign[3], numhl = sign[3] }
       )
     end
+    -- local expand_cargo = function(options)
+    --   if options == '${cargo:program}' then
+    --   end
+    --   return options
+    -- end
     -- local adapters = {
-    --   ['pwa-node'] = {
+    --   ['codelldb'] = {
     --     type = 'server',
-    --     host = 'localhost',
-    --     port = '${port}', --let both ports be the same for now...
+    --     port = '${port}',
     --     executable = {
-    --       command = 'node',
-    --       -- -- 💀 Make sure to update this path to point to your installation
-    --       args = {
-    --         vim.fn.stdpath 'data' .. '/lazy/vscode-js-debug/src/dapDebugServer.js',
-    --         '${port}',
-    --       },
-    --       -- command = "js-debug-adapter",
-    --       -- args = { "${port}" },
+    --       command = utils.is_windows and global_opts.default.lldb_win_path or global_opts.default.lldb_mac_path,
+    --       args = { '--port', '${port}' },
     --     },
+    --     name = 'codelldb',
+    --     -- enrich_config = function(config, on_config)
+    --     --   on_config(vim.tbl_map(expand_cargo, config))
+    --     -- end,
     --   },
     -- }
     -- for type, config in pairs(adapters) do
@@ -57,7 +60,7 @@ return {
         {
           type = 'pwa-node',
           request = 'launch',
-          name = 'Launch current file',
+          name = 'Debug current file',
           cwd = vim.fn.getcwd(),
           args = { '${file}' },
           sourceMaps = true,
@@ -67,44 +70,57 @@ return {
         {
           type = 'pwa-node',
           request = 'attach',
-          name = 'Attach',
+          name = 'Debug NodeJS Progress (need --inspect)',
           processId = dap_utils.pick_process,
           cwd = '${workspaceFolder}',
           sourceMaps = true,
         },
         -- Debug web applications (client side)
-        -- {
-        --   type = 'pwa-chrome',
-        --   request = 'launch',
-        --   name = 'Launch & Debug Chrome',
-        --   url = function()
-        --     local co = coroutine.running()
-        --     return coroutine.create(function()
-        --       vim.ui.input({
-        --         prompt = 'Enter URL: ',
-        --         default = 'http://localhost:3000',
-        --       }, function(url)
-        --         if url == nil or url == '' then
-        --           return
-        --         else
-        --           coroutine.resume(co, url)
-        --         end
-        --       end)
-        --     end)
-        --   end,
-        --   webRoot = '${workspaceFolder}',
-        --   protocol = 'inspector',
-        --   sourceMaps = true,
-        --   userDataDir = false,
-        -- },
+        {
+          type = 'pwa-chrome',
+          request = 'launch',
+          name = 'Debug SPA with Chrome',
+          -- url = 'http://localhost:5173',
+          url = function()
+            local co = coroutine.running()
+            return coroutine.create(function()
+              vim.ui.input({
+                prompt = 'Enter PWA URL: ',
+                default = 'http://localhost:3000',
+              }, function(url)
+                if url == nil or url == '' then
+                  return
+                else
+                  coroutine.resume(co, url)
+                end
+              end)
+            end)
+          end,
+          webRoot = '${workspaceFolder}',
+          userDataDir = '${workspaceFolder}/.vscode/vscode-chrome-debug-userdatadir',
+        },
         -- Divider for the launch.json derived configs
         {
-          name = '----- ↓ launch.json configs ↓ -----',
+          name = '----- ↓ launch.json configs ↓ ----- Do Nothing -----',
           type = '',
           request = 'launch',
         },
       }
     end
+    -- dap.configurations.rust = {
+    --   {
+    --     name = 'Debug Rust (Cargo Project)',
+    --     type = 'codelldb',
+    --     request = 'launch',
+    --     -- program = function()
+    --     --   return vim.ui.input('Path to executable: ', vim.fn.getcwd() .. '/target/debug/', 'file')
+    --     -- end,
+    --     program = vim.fn.getcwd() .. '/target/debug/rust-cook',
+    --     cwd = '${workspaceFolder}',
+    --     stopOnEntry = false,
+    --     args = {},
+    --   },
+    -- }
     local run_with_args = function()
       if vim.fn.filereadable '.vscode/launch.json' then
         require('dap.ext.vscode').json_decode = require('json5').parse
@@ -142,7 +158,7 @@ return {
       },
       {
         'n',
-        '<leader>cc',
+        '<F2>',
         function()
           dap.continue()
         end,
@@ -150,7 +166,7 @@ return {
       },
       {
         'n',
-        '<leader>cC',
+        '<leader>cc',
         function()
           dap.run_to_cursor()
         end,
@@ -166,7 +182,7 @@ return {
       },
       {
         'n',
-        '<leader>ci',
+        '<F3>',
         function()
           dap.step_into()
         end,
@@ -198,7 +214,7 @@ return {
       },
       {
         'n',
-        '<leader>cO',
+        '<F4>',
         function()
           dap.step_out()
         end,
@@ -206,7 +222,7 @@ return {
       },
       {
         'n',
-        '<leader>co',
+        '<F1>',
         function()
           dap.step_over()
         end,

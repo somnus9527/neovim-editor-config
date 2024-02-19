@@ -75,11 +75,12 @@ local M = {
     FullArrow = '',
   },
   Menu = {
-    buffer = '󰬉',
-    nvim_lsp = '',
-    path = '󰬗',
+    buffer = '󰯰',
+    nvim_lsp = '󰰣',
+    path = '󰰚',
     nvim_lua = '󰢱',
-    cmdline = '󰬊',
+    cmdline = '',
+    Copilot = '',
   },
   dap = {
     Stopped = { '󰁕 ', 'DiagnosticWarn', 'DapStoppedLine' },

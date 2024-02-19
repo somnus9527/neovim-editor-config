@@ -11,6 +11,7 @@ return {
     'hrsh7th/cmp-nvim-lua',
     'onsails/lspkind.nvim',
     'Saecki/crates.nvim',
+    -- 'zbirenbaum/copilot-cmp',
   },
   config = function()
     -- 自定义样式
@@ -54,11 +55,21 @@ return {
     vim.api.nvim_set_hl(0, 'CmpItemKindInterface', { fg = '#D8EEEB', bg = '#58B5A8' })
     vim.api.nvim_set_hl(0, 'CmpItemKindColor', { fg = '#D8EEEB', bg = '#58B5A8' })
     vim.api.nvim_set_hl(0, 'CmpItemKindTypeParameter', { fg = '#D8EEEB', bg = '#58B5A8' })
+    -- vim.api.nvim_set_hl(0, 'CmpItemKindCopilot', { fg = '#6CC644' })
     -- 自定义样式结束
     local luasnip = require 'luasnip'
     local lspkind = require 'lspkind'
     local icons = require 'configs.icons'
     local cmp = require 'cmp'
+    local types = require 'cmp.types'
+    local function deprioritize_snippet(entry1, entry2)
+      if entry1:get_kind() == types.lsp.CompletionItemKind.Snippet then
+        return false
+      end
+      if entry2:get_kind() == types.lsp.CompletionItemKind.Snippet then
+        return true
+      end
+    end
     local has_words_before = function()
       unpack = unpack or table.unpack
       local line, col = unpack(vim.api.nvim_win_get_cursor(0))
@@ -79,9 +90,28 @@ return {
           luasnip.lsp_expand(args.body)
         end,
       },
+      sorting = {
+        priority_weight = 2,
+        comparators = {
+          deprioritize_snippet,
+          -- the rest of the comparators are pretty much the defaults
+          cmp.config.compare.offset,
+          cmp.config.compare.exact,
+          cmp.config.compare.scopes,
+          cmp.config.compare.score,
+          cmp.config.compare.recently_used,
+          cmp.config.compare.locality,
+          cmp.config.compare.kind,
+          cmp.config.compare.sort_text,
+          cmp.config.compare.length,
+          cmp.config.compare.order,
+        },
+      },
       -- 这两个table的区别是，先在第一个table里面找，找不到再去第二个table找
       sources = cmp.config.sources({
         { name = 'nvim_lsp' },
+        { name = 'emmet' },
+        -- { name = 'copilot', group_index = 3 },
       }, {
         { name = 'buffer' },
         { name = 'path' },
@@ -123,8 +153,9 @@ return {
           local kind = lspkind.cmp_format { mode = 'symbol_text', maxwidth = 50 }(entry, vim_item)
           local strings = vim.split(kind.kind, '%s', { trimempty = true })
           local icon = icons.Menu[entry.source.name]
-          kind.kind = ' ' .. (strings[1] or '') .. ' ' .. '(' .. (strings[2] or '') .. ')'
-          kind.menu = '[' .. icon .. ']'
+          local type = strings[2] == 'Snippet' and 'Snippets' or (strings[2] or '')
+          kind.kind = ' ' .. (strings[1] or '') .. ' ' .. '(' .. type .. ')'
+          kind.menu = icon
           return kind
           -- local lspkind_ok, lspkind = pcall(require, 'lspkind')
           -- if not lspkind_ok then
@@ -174,7 +205,9 @@ return {
           select = true,
         },
         ['<Tab>'] = cmp.mapping(function(fallback)
-          if cmp.visible() then
+          if cmp.visible() and has_words_before() then
+            cmp.select_next_item { behavior = cmp.SelectBehavior.Select }
+          elseif cmp.visible() then
             cmp.select_next_item()
           elseif luasnip.expand_or_jumpable() then
             luasnip.expand_or_jump()

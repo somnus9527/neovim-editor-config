@@ -96,6 +96,7 @@ return {
         -- c/c++ diagnostics
         nls.builtins.diagnostics.clang_check.with {
           diagnostics_format = diagnostics_fmt,
+          extra_args = { '-X', 'cxx' }
         },
         -- c/c++ formatting
         nls.builtins.formatting.clang_format,

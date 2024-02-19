@@ -76,6 +76,7 @@ local keymaps = {
   { 'n', '<leader>do', '<cmd>DiffviewOpen <CR>', { desc = '打开Diffview(默认模式)' } },
   { 'n', '<leader>dc', '<cmd>DiffviewClose <CR>', { desc = '退出Diffview' } },
   { 'n', '<leader>k', '<Plug>(git-messenger)', { desc = '显示当前光标下的git信息' } },
+  { 'v', '<C-c>', '"+y', { desc = '复制选中内容到系统粘贴板' } },
 }
 
 utils.set_keymap(keymaps)

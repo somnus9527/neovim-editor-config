@@ -174,16 +174,24 @@ return {
       },
     }
     -- toml
-    lsp.taplo.setup {}
+    lsp.taplo.setup {
+      capabilities = capabilities,
+    }
     -- cmake
     lsp.cmake.setup {
+      capabilities = capabilities,
       filetypes = {
         'cmake',
         'CMakeLists.txt',
       },
     }
     -- cpp
-    lsp.clangd.setup {}
+    local clangd_capabilities = require('cmp_nvim_lsp').default_capabilities()
+    clangd_capabilities.textDocument.completion.completionItem.snippetSupport = true
+    clangd_capabilities.offsetEncoding = { 'utf-16' }
+    lsp.clangd.setup {
+      capabilities = clangd_capabilities,
+    }
     -- 取消lsp的diagnostics，使用null-ls的服务
     -- 2024-02-13 不再全局取消,而是分情况而定,目前场景如下:
     -- 1. lua项目还是使用lua_ls服务的diagnostics,主要null-ls的luacheck有问题,所以luacheck不需要再安装,null-ls那边的luacheck配置也需要取消
