@@ -4,6 +4,7 @@ return {
   dependencies = {
     'hrsh7th/cmp-nvim-lsp',
     'L3MON4D3/LuaSnip',
+    'saadparwaiz1/cmp_luasnip',
     'hrsh7th/cmp-buffer',
     'hrsh7th/cmp-path',
     'hrsh7th/cmp-cmdline',
@@ -110,11 +111,12 @@ return {
       -- 这两个table的区别是，先在第一个table里面找，找不到再去第二个table找
       sources = cmp.config.sources({
         { name = 'nvim_lsp' },
-        { name = 'emmet' },
+        { name = 'luasnip' },
         -- { name = 'copilot', group_index = 3 },
       }, {
         { name = 'buffer' },
         { name = 'path' },
+        { name = 'emmet' },
       }),
       window = {
         completion = {
@@ -186,7 +188,7 @@ return {
         ['<M-[>'] = cmp.mapping.scroll_docs(-4),
         ['<M-]>'] = cmp.mapping.scroll_docs(4),
         ['<M-c>'] = cmp.mapping.complete(),
-        ['<M-e>'] = cmp.mapping.abort(),
+        ['<M-q>'] = cmp.mapping.abort(),
         ['<CR>'] = cmp.mapping(cmp.mapping.confirm { select = true }, { 'i' }),
         ['`'] = cmp.mapping(cmp.mapping.confirm { select = true }, { 'c' }),
         -- ['<CR>'] = cmp.mapping {
@@ -231,17 +233,18 @@ return {
     cmp.setup(opt)
     cmp.setup.cmdline(':', {
       mapping = cmp.mapping.preset.cmdline {},
-      sources = cmp.config.sources {
-        { name = 'cmdline' },
+      sources = cmp.config.sources({
         { name = 'path' },
-      },
+      }, {
+        { name = 'cmdline' },
+      }),
     })
-    cmp.setup.cmdline({ '/', '?' }, {
-      mapping = cmp.mapping.preset.cmdline(),
-      sources = {
-        { name = 'buffer' },
-      },
-    })
+    -- cmp.setup.cmdline({ '/', '?' }, {
+    --   mapping = cmp.mapping.preset.cmdline(),
+    --   sources = {
+    --     { name = 'buffer' },
+    --   },
+    -- })
     cmp.setup.filetype('lua', {
       sources = cmp.config.sources({
         { name = 'nvim_lsp' },
@@ -276,5 +279,6 @@ return {
     --     { name = 'cmdline' },
     --   }),
     -- })
+    require 'configs.luasnip'
   end,
 }

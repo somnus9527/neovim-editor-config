@@ -1,7 +1,8 @@
 local M = {}
-local path_separator = M.is_windows and '\\' or '/'
 M.is_windows = vim.loop.os_uname().version:match 'Windows'
+local path_separator = M.is_windows and '\\' or '/'
 M.path = {
+  path_separator = path_separator,
   conf_root = function()
     return M.is_windows and vim.fn.expand '~\\AppData\\Local\\nvim' or vim.fn.expand '~/.config/nvim'
   end,
@@ -144,7 +145,9 @@ M.load_conf = function()
   if M.exist_file(local_conf_path) then
     local local_opts = ini.load(local_conf_path)
     for k, v in pairs(local_opts) do
-      opts[k] = v
+      for sk, sv in pairs(v) do
+        opts[k][sk] = sv
+      end
     end
   end
   -- print(opts.default.indent)

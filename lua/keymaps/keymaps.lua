@@ -15,7 +15,7 @@ local keymaps = {
   { 'i', '<M-l>', '<Right>', utils.default_keymap_opt },
   { 'n', '<M-d>', 'yyp', utils.default_keymap_opt },
   { 'n', '<M-o>', 'o<Esc>', utils.default_keymap_opt },
-  { 'i', '<M-p>', '<C-r>+', utils.default_keymap_opt },
+  { 'i', '<C-v>', '<C-r>+', utils.default_keymap_opt },
   { 'i', '<M-0>', '<c-r>"', utils.default_keymap_opt },
   { { 'n', 'v' }, '<M-p>', '"+p', utils.default_keymap_opt },
   { { 'n', 'v' }, '<M-0>', '""p', utils.default_keymap_opt },
