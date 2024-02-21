@@ -1,6 +1,8 @@
 return {
   'mfussenegger/nvim-dap',
   lazy = true,
+  branch = 'master',
+  commit = '780fd4dd06b0744b235a520d71660c45279d9447',
   dependencies = {
     'rcarriga/nvim-dap-ui',
     'theHamsta/nvim-dap-virtual-text',

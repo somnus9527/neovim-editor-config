@@ -15,7 +15,7 @@ local keymaps = {
   { 'i', '<M-l>', '<Right>', utils.default_keymap_opt },
   { 'n', '<M-d>', 'yyp', utils.default_keymap_opt },
   { 'n', '<M-o>', 'o<Esc>', utils.default_keymap_opt },
-  { 'i', '<C-v>', '<C-r>+', utils.default_keymap_opt },
+  { 'i', '<M-p>', '<C-r>+', utils.default_keymap_opt },
   { 'i', '<M-0>', '<c-r>"', utils.default_keymap_opt },
   { { 'n', 'v' }, '<M-p>', '"+p', utils.default_keymap_opt },
   { { 'n', 'v' }, '<M-0>', '""p', utils.default_keymap_opt },
@@ -75,6 +75,7 @@ local keymaps = {
   { 'n', '<leader>df', '<cmd>DiffviewFileHistory %<CR>', { desc = '打开Diffview(文件历史)' } },
   { 'n', '<leader>do', '<cmd>DiffviewOpen <CR>', { desc = '打开Diffview(默认模式)' } },
   { 'n', '<leader>dc', '<cmd>DiffviewClose <CR>', { desc = '退出Diffview' } },
+  { 'n', '<M-a>', '<cmd>Neogen<CR>', { desc = 'Block 备注' } },
   { 'n', '<leader>k', '<Plug>(git-messenger)', { desc = '显示当前光标下的git信息' } },
   { 'v', '<C-c>', '"+y', { desc = '复制选中内容到系统粘贴板' } },
 }

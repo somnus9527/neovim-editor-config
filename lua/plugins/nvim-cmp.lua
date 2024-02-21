@@ -210,6 +210,7 @@ return {
           if cmp.visible() and has_words_before() then
             cmp.select_next_item { behavior = cmp.SelectBehavior.Select }
           elseif cmp.visible() then
+          -- if cmp.visible() then
             cmp.select_next_item()
           elseif luasnip.expand_or_jumpable() then
             luasnip.expand_or_jump()
@@ -232,19 +233,19 @@ return {
     }
     cmp.setup(opt)
     cmp.setup.cmdline(':', {
-      mapping = cmp.mapping.preset.cmdline {},
-      sources = cmp.config.sources({
-        { name = 'path' },
-      }, {
+      -- mapping = cmp.mapping.preset.cmdline {},
+      sources = {
         { name = 'cmdline' },
-      }),
+        { name = 'nvim_lua' },
+        { name = 'path' },
+      },
     })
-    -- cmp.setup.cmdline({ '/', '?' }, {
-    --   mapping = cmp.mapping.preset.cmdline(),
-    --   sources = {
-    --     { name = 'buffer' },
-    --   },
-    -- })
+    cmp.setup.cmdline('/', {
+      -- mapping = cmp.mapping.preset.cmdline(),
+      sources = {
+        { name = 'buffer' },
+      },
+    })
     cmp.setup.filetype('lua', {
       sources = cmp.config.sources({
         { name = 'nvim_lsp' },
