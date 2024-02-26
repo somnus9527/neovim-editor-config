@@ -1,17 +1,19 @@
 return {
   'nvim-neo-tree/neo-tree.nvim',
   branch = 'v3.x',
+  cmd = 'Neotree',
   dependencies = {
     'nvim-lua/plenary.nvim',
     'nvim-tree/nvim-web-devicons',
     'MunifTanjim/nui.nvim',
   },
   config = function()
-    local icons = require 'configs.icons'
+    local icons = require 'tools.icons'
     local opt = {
       close_if_last_window = true,
       window = {
         mappings = {
+	  -- 移动窗口我用的s快捷键，避免冲突
           ['s'] = '',
           ['S'] = '',
         },

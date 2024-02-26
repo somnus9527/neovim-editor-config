@@ -10,8 +10,8 @@ return {
   },
   config = function()
     local telescope = require 'telescope'
-    local icons = require 'configs.icons'
-    local utils = require 'utils'
+    local icons = require 'tools.icons'
+    local tools = require 'tools.tools'
     local fb_actions = require('telescope').extensions.file_browser.actions
     -- local telescopeConfig = require("telescope.config")
     --
@@ -156,6 +156,6 @@ return {
         { desc = 'lsp diagnostics' },
       },
     }
-    utils.set_keymap(keymaps)
+    tools.set_keymap(keymaps)
   end,
 }

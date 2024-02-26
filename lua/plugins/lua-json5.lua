@@ -1,14 +1,13 @@
 return {
   'Joakker/lua-json5',
-  -- enabled = false,
+  lazy = true,
   build = function()
-    local utils = require 'utils'
-    if utils.is_windows then
-      return 'powershell ./install.ps1'
+    local const = require 'tools.const'
+    if const.is_windows then
+      os.execute [[powershell.exe -file .\install.ps1]]
     else
-      return './install.sh'
+      os.execute './install.sh'
     end
   end,
   module = true,
-  -- run = './install.sh'
 }

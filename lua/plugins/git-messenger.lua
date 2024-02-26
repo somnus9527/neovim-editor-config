@@ -1,4 +1,4 @@
 return {
   'rhysd/git-messenger.vim',
-  event = 'BufEnter',
+  event = 'BufReadPre',
 }

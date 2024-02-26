@@ -1,4 +1,5 @@
 return {
   "SmiteshP/nvim-navic",
-  event = "VeryLazy"
+  lazy = true,
+  module = true,
 }

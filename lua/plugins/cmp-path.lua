@@ -1,4 +1,5 @@
 return {
   'hrsh7th/cmp-path',
-  lazy = true
+  lazy = true,
+  module = true,
 }

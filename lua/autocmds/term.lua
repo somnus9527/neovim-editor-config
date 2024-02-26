@@ -1,4 +1,4 @@
-local utils = require 'utils'
+local tools = require 'tools.tools'
 function set_terminal_keymaps()
   local keymaps = {
     { 't', '<esc>', [[<C-\><C-n>]], { desc = '回到Normal模式' } },
@@ -8,7 +8,7 @@ function set_terminal_keymaps()
     { 't', '<C-k>', [[<C-\><C-n><C-W>k]], { desc = '聚焦到上边终端窗口' } },
     { 't', '<C-l>', [[<C-\><C-n><C-W>l]], { desc = '聚焦到右边终端窗口' } },
   }
-  utils.set_buf_keymap(keymaps)
+  tools.set_buf_keymap(keymaps)
 end
 
 -- 自动注册快捷键
@@ -26,9 +26,11 @@ local node = terminal:new {
 function _Lazygit_Toggle()
   lazygit:toggle()
 end
+
 function _Node_Toggle()
   node:toggle()
 end
+
 local api = vim.api
 -- api.nvim_create_augroup('Somnus_Terminal', {})
 api.nvim_create_user_command('ToggleLazygit', function()
@@ -44,4 +46,4 @@ local keymaps = {
   { 'n', '<leader>tv', '<cmd>ToggleTerm direction=vertical<CR>', { desc = '打开Terminal Vertical模式' } },
   { 'n', '<leader>th', '<cmd>ToggleTerm direction=horizontal<CR>', { desc = '打开Terminal Horizontal模式' } },
 }
-utils.set_keymap(keymaps)
+tools.set_keymap(keymaps)

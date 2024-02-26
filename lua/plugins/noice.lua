@@ -1,11 +1,8 @@
 return {
   'folke/noice.nvim',
-  event = 'VimEnter',
-  -- enabled = false,
   dependencies = {
     'MunifTanjim/nui.nvim',
     'rcarriga/nvim-notify',
-    'hrsh7th/nvim-cmp',
   },
   config = function()
     local opts = {

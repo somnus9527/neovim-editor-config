@@ -1,10 +1,11 @@
 return {
   'akinsho/bufferline.nvim',
+  event = { 'BufNewFile', 'BufReadPre' },
   dependencies = {
     'nvim-tree/nvim-web-devicons',
   },
   config = function()
-    local icons = require "configs.icons"
+    local icons = require "tools.icons"
     require('bufferline').setup {
       options = {
         numbers = 'ordinal',

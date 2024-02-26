@@ -1,7 +1,7 @@
 return {
   'mxsdev/nvim-dap-vscode-js',
+  lazy = true,
   module = true,
-  -- enabled = false,
   dependencies = {
     'microsoft/vscode-js-debug',
   },

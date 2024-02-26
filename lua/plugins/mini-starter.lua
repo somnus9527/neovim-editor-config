@@ -9,8 +9,8 @@ return {
     local starter = require 'mini.starter'
     local workspaces = require 'workspaces'
     local sessions = require 'sessions'
-    local utils = require 'utils'
-    local icons = require 'configs.icons'
+    local tools = require 'tools.tools'
+    local icons = require 'tools.icons'
     local pad = string.rep(' ', 42)
     local session_pad = string.rep(' ', 3)
     local new_section = function(name, action, section)
@@ -68,7 +68,7 @@ return {
     }
     local load_session = function(workspace_name)
       return function()
-        local session_path = utils.get_session_path(workspace_name)
+        local session_path = tools.get_session_path(workspace_name)
         if workspaces.name() ~= workspace_name then
           workspaces.open(workspace_name)
         end
@@ -86,8 +86,8 @@ return {
           workspace_section,
           new_section(icons.Other.FullArrow .. '. ' .. name, open_workspace(name), workspace_section_name)
         )
-        local session_path = utils.get_session_path(name)
-        if utils.exist_file(session_path) then
+        local session_path = tools.get_session_path(name)
+        if tools.exist_file(session_path) then
           table.insert(
             workspace_section,
             new_section(
@@ -100,15 +100,15 @@ return {
       end
       return workspace_section
     end
+    local workspace_items = get_workspace_item()
     local opts = {
       header = somnus_logo,
       evaluate_single = true,
-      items = get_workspace_item(),
-      -- {
-      --   ,
-      --   new_section('New File', 'ene | startinsert', 'BuiltIN'),
-      --   new_section('Quit', 'qa', 'BuiltIN'),
-      -- },
+      items = next(workspace_items) == nil and
+          {
+            new_section('New File', 'ene | startinsert', '内置功能'),
+            new_section('Quit', 'qa', '内置功能'),
+          } or workspace_items,
       content_hooks = {
         starter.gen_hook.adding_bullet('░ ', false),
         starter.gen_hook.aligning('center', 'center'),

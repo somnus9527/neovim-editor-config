@@ -1,11 +1,12 @@
 return {
   'rcarriga/nvim-dap-ui',
+  lazy = true,
   module = true,
   opts = {},
   config = function(_, opts)
     local dap = require 'dap'
     local dap_ui = require 'dapui'
-    local utils = require 'utils'
+    local tools = require 'tools.tools'
     dap_ui.setup { opts }
     dap.listeners.after.event_initialized['dapui_config'] = function()
       dap_ui.open {}
@@ -19,7 +20,7 @@ return {
     local keymaps = {
       {
         'n',
-        '<leader>cu',
+        '<leader>du',
         function()
           dap_ui.toggle {}
         end,
@@ -27,13 +28,13 @@ return {
       },
       {
         { 'n', 'v' },
-        '<leader>ce',
+        '<leader>de',
         function()
           dap_ui.eval()
         end,
         { desc = 'DapUI Eval' },
       },
     }
-    utils.set_keymap(keymaps)
+    tools.set_keymap(keymaps)
   end,
 }

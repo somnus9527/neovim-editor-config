@@ -1,4 +1,5 @@
 return {
   'onsails/lspkind.nvim',
-  event = 'BufRead',
+  lazy = true,
+  module = true,
 }

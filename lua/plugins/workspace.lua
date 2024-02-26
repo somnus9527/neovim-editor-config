@@ -3,7 +3,7 @@ return {
   event = 'VeryLazy',
   config = function()
     local workspaces = require 'workspaces'
-    local utils = require 'utils'
+    local tools = require 'tools.tools'
     local opts = {
       path = vim.fn.stdpath 'data' .. '/workspaces',
       auto_open = true,
@@ -71,6 +71,6 @@ return {
       { 'n', '<leader>wr', rename_workspace, { desc = '重命名具名Workspace' } },
       { 'n', '<leader>wo', open_workspace, { desc = '打开具名Workspace' } },
     }
-    utils.set_keymap(keymaps)
+    tools.set_keymap(keymaps)
   end,
 }

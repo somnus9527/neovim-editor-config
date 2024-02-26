@@ -1,15 +1,15 @@
-local utils = require 'utils'
-local config_opts = utils.load_conf()
+local tools = require 'tools.tools'
+local const = require 'tools.const'
+local config_opts = tools.load_conf()
 local o = vim.o
 local g = vim.g
 local opt = vim.opt
 
-if not utils.is_windows then
-  package.cpath = package.cpath .. ';/Users/wangxuepei/.local/share/nvim/lazy/lua-json5/lua/json5.dylib'
-end
+g.mapleader = ' '
+
 -- 判断是否在neovide中
 if g.neovide then
-  if not utils.is_windows then
+  if not const.is_windows then
     -- 让mac 的neovide环境中的option快捷键生效
     g.neovide_input_macos_alt_is_meta = true
   end
@@ -81,11 +81,11 @@ if g.neovide then
       { desc = '缩小窗口' },
     },
   }
-  utils.set_keymap(keymaps)
+  tools.set_keymap(keymaps)
 end
 local gui_font_family = config_opts.default.guifont or 'JetBrainsMono Nerd Font'
 local gui_font_size = config_opts.default.fontsize and 'h' .. config_opts.default.fontsize or 'h15'
-if utils.is_windows then
+if const.is_windows then
   gui_font_size = 'h13'
 end
 opt.shortmess = opt.shortmess + "c"

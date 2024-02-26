@@ -4,8 +4,8 @@ vim.api.nvim_create_autocmd('VimLeavePre', {
   callback = function()
     local sessions = require 'sessions'
     local workspaces = require 'workspaces'
-    local utils = require 'utils'
-    local session_path = utils.get_session_path(workspaces.name())
+    local tools = require 'tools.tools'
+    local session_path = tools.get_session_path(workspaces.name())
     local action_opt = {
       auto_save = true,
       silent = false,

@@ -1,6 +1,6 @@
 return {
   'echasnovski/mini.splitjoin',
-  event = 'BufEnter',
+  event = { 'BufNewFile', 'BufReadPre' },
   config = function()
     local splitjoin = require 'mini.splitjoin'
     local opt = {

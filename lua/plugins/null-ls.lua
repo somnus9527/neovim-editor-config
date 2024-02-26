@@ -6,7 +6,8 @@ return {
   opts = function()
     local nls = require 'null-ls'
     local diagnostics_fmt = '"[#{c}] #{m} (#{s})"'
-    local utils = require 'utils'
+    local tools = require 'tools.tools'
+    local const = require 'tools.const'
     return {
       diagnostics_format = diagnostics_fmt,
       update_in_insert = false,
@@ -31,13 +32,13 @@ return {
         nls.builtins.formatting.eslint_d.with {
           diagnostics_format = diagnostics_fmt,
           condition = function()
-            return utils.is_eslint_project()
+            return tools.is_eslint_project()
           end,
         },
         nls.builtins.diagnostics.eslint_d.with {
           diagnostics_format = diagnostics_fmt,
           condition = function()
-            return utils.is_eslint_project()
+            return tools.is_eslint_project()
           end,
         },
         require 'typescript.extensions.null-ls.code-actions',
@@ -62,7 +63,7 @@ return {
         -- }),
         nls.builtins.formatting.prettierd.with {
           condition = function()
-            return utils.is_prettier_project() and not utils.is_eslint_project()
+            return tools.is_prettier_project() and not tools.is_eslint_project()
           end,
         },
         nls.builtins.formatting.deno_fmt.with {
@@ -70,7 +71,7 @@ return {
           -- condition = function()
           --   return not utils.is_eslint_project() and not utils.is_prettier_project()
           -- end,
-          extra_args = { '-c', vim.fn.expand '~\\AppData\\Local\\nvim\\deno.json' },
+          extra_args = { '-c', vim.fn.expand(const.conf_path .. const.path_separator .. 'deno.json' )},
         },
         -- format json & markdown
         -- nls.builtins.formatting.deno_fmt.with {
@@ -91,7 +92,7 @@ return {
         -- yaml diagnostics
         nls.builtins.diagnostics.yamllint.with {
           diagnostics_format = diagnostics_fmt,
-          extra_args = { '-c', vim.fn.expand '~\\AppData\\Local\\nvim\\.yamllint.yaml' },
+          extra_args = { '-c', vim.fn.expand(const.conf_path .. const.path_separator .. '.yamllint.yaml')},
         },
         -- c/c++ diagnostics
         nls.builtins.diagnostics.clang_check.with {

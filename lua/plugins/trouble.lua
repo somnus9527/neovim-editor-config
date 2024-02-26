@@ -1,14 +1,15 @@
 return {
   'folke/trouble.nvim',
+  event = { 'BufNewFile', 'BufReadPre' },
   dependencies = { 'nvim-tree/nvim-web-devicons' },
   config = function()
     local trouble = require 'trouble'
     trouble.setup {}
-    local utils = require 'utils'
+    local tools = require 'tools.tools'
     local keymaps = {
       {
         'n',
-        '<leader>dd',
+        '<leader>da',
         function()
           trouble.toggle 'document_diagnostics'
         end,
@@ -24,13 +25,13 @@ return {
       },
       {
         'n',
-        '<leader>dq',
+        '<leader>df',
         function()
           trouble.toggle 'quick_fix'
         end,
         { desc = '显示/隐藏quick_fix' },
       },
     }
-    utils.set_keymap(keymaps)
+    tools.set_keymap(keymaps)
   end,
 }

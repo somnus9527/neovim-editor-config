@@ -1,6 +1,6 @@
 local windline = require 'windline'
 local helper = require 'windline.helpers'
-local icons = require 'configs.icons'
+local icons = require 'tools.icons'
 local sep = helper.separators
 local vim_components = require 'windline.components.vim'
 

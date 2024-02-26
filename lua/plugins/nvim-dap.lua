@@ -1,8 +1,6 @@
 return {
   'mfussenegger/nvim-dap',
-  lazy = true,
-  branch = 'master',
-  commit = '780fd4dd06b0744b235a520d71660c45279d9447',
+  event = { 'BufNewFile', 'BufReadPre' },
   dependencies = {
     'rcarriga/nvim-dap-ui',
     'theHamsta/nvim-dap-virtual-text',
@@ -11,19 +9,12 @@ return {
     'Joakker/lua-json5',
   },
   config = function()
-    local js_based_languages = {
-      'typescript',
-      'javascript',
-      'typescriptreact',
-      'javascriptreact',
-      'vue',
-    }
     local dap = require 'dap'
     local dap_utils = require 'dap.utils'
     local widgets = require 'dap.ui.widgets'
-    local icons = require 'configs.icons'
-    local utils = require 'utils'
-    local global_opts = utils.load_conf()
+    local icons = require 'tools.icons'
+    local tools = require 'tools.tools'
+    local const = require 'tools.const'
     -- 设置断点行展示Visual样式
     vim.api.nvim_set_hl(0, 'DapStoppedLine', { default = true, link = 'Visual' })
     -- 设置debug时各种状态的icon
@@ -34,29 +25,7 @@ return {
         { text = sign[1], texthl = sign[2] or 'DiagnosticInfo', linehl = sign[3], numhl = sign[3] }
       )
     end
-    -- local expand_cargo = function(options)
-    --   if options == '${cargo:program}' then
-    --   end
-    --   return options
-    -- end
-    -- local adapters = {
-    --   ['codelldb'] = {
-    --     type = 'server',
-    --     port = '${port}',
-    --     executable = {
-    --       command = utils.is_windows and global_opts.default.lldb_win_path or global_opts.default.lldb_mac_path,
-    --       args = { '--port', '${port}' },
-    --     },
-    --     name = 'codelldb',
-    --     -- enrich_config = function(config, on_config)
-    --     --   on_config(vim.tbl_map(expand_cargo, config))
-    --     -- end,
-    --   },
-    -- }
-    -- for type, config in pairs(adapters) do
-    --   dap.adapters[type] = config
-    -- end
-    for _, language in ipairs(js_based_languages) do
+    for _, language in ipairs(const.js_based_languages) do
       dap.configurations[language] = {
         -- Debug single nodejs files
         {
@@ -109,28 +78,14 @@ return {
         },
       }
     end
-    -- dap.configurations.rust = {
-    --   {
-    --     name = 'Debug Rust (Cargo Project)',
-    --     type = 'codelldb',
-    --     request = 'launch',
-    --     -- program = function()
-    --     --   return vim.ui.input('Path to executable: ', vim.fn.getcwd() .. '/target/debug/', 'file')
-    --     -- end,
-    --     program = vim.fn.getcwd() .. '/target/debug/rust-cook',
-    --     cwd = '${workspaceFolder}',
-    --     stopOnEntry = false,
-    --     args = {},
-    --   },
-    -- }
     local run_with_args = function()
       if vim.fn.filereadable '.vscode/launch.json' then
         require('dap.ext.vscode').json_decode = require('json5').parse
         local dap_vscode = require 'dap.ext.vscode'
         dap_vscode.load_launchjs(nil, {
-          ['pwa-node'] = js_based_languages,
-          ['chrome'] = js_based_languages,
-          ['pwa-chrome'] = js_based_languages,
+          ['pwa-node'] = const.js_based_languages,
+          ['chrome'] = const.js_based_languages,
+          ['pwa-chrome'] = const.js_based_languages,
         })
       end
       dap.continue()
@@ -138,37 +93,37 @@ return {
     local keymaps = {
       {
         'n',
-        '<leader>cs',
+        '<leader>ds',
         run_with_args,
-        { desc = 'Run With Args' },
+        { desc = 'Run With Args | <F1> Start|Continue' },
       },
       {
         'n',
-        '<leader>cb',
+        '<leader>db',
         function()
           dap.toggle_breakpoint()
         end,
-        { desc = 'Toggle Breakpoint' },
+        { desc = 'Toggle Breakpoint | <F2> Step Over' },
       },
       {
         'n',
-        '<leader>cB',
+        '<leader>dB',
         function()
           dap.set_breakpoint(vim.fn.input 'Breakpoint condition: ')
         end,
-        { desc = 'Set Breakpoint Condition' },
+        { desc = 'Set Breakpoint Condition | <F3> Step Into' },
       },
       {
         'n',
-        '<F2>',
+        '<F1>',
         function()
           dap.continue()
         end,
-        { desc = 'Continue' },
+        { desc = 'Continue | <F4> Step Out' },
       },
       {
         'n',
-        '<leader>cc',
+        '<leader>dd',
         function()
           dap.run_to_cursor()
         end,
@@ -176,7 +131,7 @@ return {
       },
       {
         'n',
-        '<leader>cg',
+        '<leader>dg',
         function()
           dap.goto_()
         end,
@@ -192,7 +147,7 @@ return {
       },
       {
         'n',
-        '<leader>cj',
+        '<leader>dj',
         function()
           dap.down()
         end,
@@ -200,7 +155,7 @@ return {
       },
       {
         'n',
-        '<leader>ck',
+        '<leader>dk',
         function()
           dap.up()
         end,
@@ -208,7 +163,7 @@ return {
       },
       {
         'n',
-        '<leader>cl',
+        '<leader>dl',
         function()
           dap.run_last()
         end,
@@ -224,7 +179,7 @@ return {
       },
       {
         'n',
-        '<F1>',
+        '<F2>',
         function()
           dap.step_over()
         end,
@@ -232,7 +187,7 @@ return {
       },
       {
         'n',
-        '<leader>cp',
+        '<leader>dp',
         function()
           dap.pause()
         end,
@@ -240,7 +195,7 @@ return {
       },
       {
         'n',
-        '<leader>cr',
+        '<leader>dr',
         function()
           dap.repl.toggle()
         end,
@@ -248,7 +203,7 @@ return {
       },
       {
         'n',
-        '<leader>cS',
+        '<leader>dS',
         function()
           dap.session()
         end,
@@ -256,7 +211,7 @@ return {
       },
       {
         'n',
-        '<leader>cq',
+        '<leader>dq',
         function()
           dap.terminate()
         end,
@@ -264,13 +219,13 @@ return {
       },
       {
         'n',
-        '<leader>ch',
+        '<leader>dh',
         function()
           widgets.hover()
         end,
         { desc = 'Hover' },
       },
     }
-    utils.set_keymap(keymaps)
+    tools.set_keymap(keymaps)
   end,
 }

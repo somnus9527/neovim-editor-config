@@ -1,4 +1,5 @@
 return {
   'MunifTanjim/nui.nvim',
-  event = 'VeryLazy',
+  lazy = true,
+  module = true,
 }

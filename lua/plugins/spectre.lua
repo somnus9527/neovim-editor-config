@@ -2,12 +2,14 @@
 -- 安装sed,地址：https://gnuwin32.sourceforge.net/packages/sed.html
 return {
   'nvim-pack/nvim-spectre',
+  event = { event = 'User', pattern = 'SpectreToggle' },
   dependencies = {
     'nvim-lua/plenary.nvim',
     'nvim-tree/nvim-web-devicons',
   },
   config = function()
     require('spectre').setup {
+      is_block_ui_break = true,
       mapping = {
         ['toggle_line'] = {
           map = '<leader>wt',

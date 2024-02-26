@@ -1,5 +1,6 @@
 return {
   'nvim-treesitter/nvim-treesitter',
+  event = { 'BufNewFile', 'BufReadPre' },
   dependencies = {
     'windwp/nvim-ts-autotag',
   },
@@ -8,6 +9,7 @@ return {
     require('nvim-treesitter.install').compilers = { 'clang' }
     local install = {
       'lua',
+      'rust',
       'javascript',
       'css',
       'html',
@@ -22,9 +24,7 @@ return {
       'markdown_inline',
       'c',
       'cpp',
-      'c_sharp',
       'cmake',
-      'rust',
       'tsx',
       'toml',
       'svelte',
@@ -43,9 +43,6 @@ return {
       ensure_installed = install,
       highlight = {
         enable = true,
-        -- disable = {
-        --   "txt"
-        -- }
         additional_vim_regex_highlighting = false,
         use_languagetree = false,
         disable = function(lang, buf)
