@@ -15,6 +15,7 @@ return {
     local icons = require 'tools.icons'
     local tools = require 'tools.tools'
     local const = require 'tools.const'
+    require 'configs.dap-cpp'
     -- 设置断点行展示Visual样式
     vim.api.nvim_set_hl(0, 'DapStoppedLine', { default = true, link = 'Visual' })
     -- 设置debug时各种状态的icon

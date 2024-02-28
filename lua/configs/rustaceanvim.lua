@@ -1,17 +1,7 @@
 local tools = require 'tools.tools'
 local const = require 'tools.const'
 vim.g.rustaceanvim = function()
-  local conf = tools.load_conf()
-  -- 我没有linux, 所以不考虑linux的情况
-  local extension_path = const.is_windows and conf.default.lldb_win_path or conf.default.lldb_mac_path
-  local codelldb_path = extension_path .. 'adapter' .. const.path_separator .. 'codelldb'
-  local liblldb_path = extension_path .. 'lldb' .. const.path_separator .. 'lib' .. const.path_separator .. 'liblldb'
-  if const.is_windows then
-    codelldb_path = extension_path .. 'adapter' .. const.path_separator .. 'codelldb.exe'
-    liblldb_path = extension_path .. 'lldb' .. const.path_separator .. 'lib' .. const.path_separator .. 'liblldb.dll'
-  else
-    liblldb_path = liblldb_path .. '.dylib'
-  end
+  local adapters = tools.get_codelldb_path()
   return {
     -- 插件配置
     tools = {
@@ -80,7 +70,7 @@ vim.g.rustaceanvim = function()
         port = '${port}',
         host = '127.0.0.1',
         executable = {
-          command = codelldb_path,
+          command = adapters.codelldb_path,
           args = {
             "--port",
             "${port}"

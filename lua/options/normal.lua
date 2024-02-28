@@ -19,12 +19,13 @@ if g.neovide then
   g.neovide_padding_right = 0
   g.neovide_padding_bottom = 0
   -- 设置背景透明度 start
-  local alpha = function()
-    return string.format('%x', math.floor((255 * vim.g.transparency) or 0.8))
-  end
+  -- local alpha = function()
+  --   return string.format('%x', math.floor((255 * vim.g.transparency) or 0.8))
+  -- end
   g.neovide_transparency = 0.95
   g.transparency = 0.95
-  g.neovide_background_color = '#0f1012' .. alpha()
+  -- 新版本neovide,这个参数已经被deprecated
+  -- g.neovide_background_color = '#0f1012' .. alpha()
   -- 设置背景透明度 end
   -- 浮动窗口设置 start 除了第一个开启/关闭控制，其余都是设置阴影效果的，官方解释看不懂
   g.neovide_floating_shadow = true

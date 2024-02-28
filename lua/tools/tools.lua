@@ -165,4 +165,22 @@ M.get_session_path = function(workspace_name)
   return const.session_base_path .. file_name
 end
 
+M.get_codelldb_path = function ()
+  local conf = M.load_conf()
+  -- 我没有linux, 所以不考虑linux的情况
+  local extension_path = const.is_windows and conf.default.lldb_win_path or conf.default.lldb_mac_path
+  local codelldb_path = extension_path .. 'adapter' .. const.path_separator .. 'codelldb'
+  local liblldb_path = extension_path .. 'lldb' .. const.path_separator .. 'lib' .. const.path_separator .. 'liblldb'
+  if const.is_windows then
+    codelldb_path = extension_path .. 'adapter' .. const.path_separator .. 'codelldb.exe'
+    liblldb_path = extension_path .. 'lldb' .. const.path_separator .. 'lib' .. const.path_separator .. 'liblldb.dll'
+  else
+    liblldb_path = liblldb_path .. '.dylib'
+  end
+  return {
+    codelldb_path = codelldb_path,
+    liblldb_path = liblldb_path,
+  }
+end
+
 return M
