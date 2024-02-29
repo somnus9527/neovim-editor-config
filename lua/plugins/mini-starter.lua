@@ -108,7 +108,7 @@ return {
           {
             new_section('New File', 'ene | startinsert', '内置功能'),
             new_section('Quit', 'qa', '内置功能'),
-          } or workspace_items,
+          } or get_workspace_item(),
       content_hooks = {
         starter.gen_hook.adding_bullet('░ ', false),
         starter.gen_hook.aligning('center', 'center'),
