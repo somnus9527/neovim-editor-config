@@ -1,6 +1,8 @@
+-- 好像另外起了一个没有代理的终端，所以用不起来，暂时禁用
 return {
   'jackMort/ChatGPT.nvim',
-  event = 'VeryLazy',
+  cmd = "ChatGPT",
+  enabled = false,
   config = function()
     local chatgpt = require 'chatgpt'
     local tools = require 'tools.tools'
