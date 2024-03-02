@@ -55,26 +55,26 @@ lsp.lua_ls.setup {
           runtime = {
             -- Tell the language server which version of Lua you're using
             -- (most likely LuaJIT in the case of Neovim)
-            version = 'LuaJIT'
+            version = 'LuaJIT',
           },
           -- Make the server aware of Neovim runtime files
           workspace = {
             checkThirdParty = false,
             library = {
-              vim.env.VIMRUNTIME
+              vim.env.VIMRUNTIME,
               -- Depending on the usage, you might want to add additional paths here.
               -- E.g.: For using `vim.*` functions, add vim.env.VIMRUNTIME/lua.
               -- "${3rd}/luv/library"
               -- "${3rd}/busted/library",
-            }
+            },
             -- or pull in all of 'runtimepath'. NOTE: this is a lot slower
             -- library = vim.api.nvim_get_runtime_file("", true)
-          }
-        }
+          },
+        },
       })
     end
     return true
-  end
+  end,
 }
 -- 前置安装 npm install -g typescript typescript-language-server
 lsp.tsserver.setup {
@@ -109,7 +109,7 @@ local tools = require 'tools.tools'
 local global_opts = tools.load_conf()
 local function get_typescript_server_path(root_dir)
   local global_ts = tools.is_windows and global_opts.default.typescript_win_path
-      or global_opts.default.typescript_mac_path
+    or global_opts.default.typescript_mac_path
   -- 需要自己配置本地global的typescript地址
   local found_ts = ''
   local function check_dir(path)
@@ -223,7 +223,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
     map.set('n', 'gi', vim.lsp.buf.implementation, extend { desc = '显示Implementation' })
     map.set('n', '<leader>r', vim.lsp.buf.rename, extend { desc = '重命名' })
     map.set({ 'n', 'v' }, '<leader>ca', vim.lsp.buf.code_action, { desc = 'Code Action' })
-    map.set('n', '<leader>f', vim.lsp.buf.format, { desc = 'Format' })
+    map.set('n', '<leader>f', lsp_formatting, { desc = 'Format' })
     map.set('n', 'K', vim.lsp.buf.hover, extend { desc = 'Hover展示代码说明' })
     map.set('n', 'ge', '<cmd>lua vim.diagnostic.open_float()<CR>', extend { desc = '展示报错详情' })
   end,

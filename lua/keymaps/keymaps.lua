@@ -4,6 +4,7 @@ local trigger = require 'tools.trigger'
 
 local keymaps = {
   -- 原生能力快捷键配置
+  { { 'i', 'n', 'v' }, '<Esc>', ':lua custom_esc_behavior()<CR>', const.default_keymap_opt },
   { 'i', 'jk', '<Esc>', const.default_keymap_opt },
   { 'n', 'sh', '<C-w>h', { desc = '切换到左侧窗口' } },
   { 'n', 'sl', '<C-w>l', { desc = '切换到右侧窗口' } },

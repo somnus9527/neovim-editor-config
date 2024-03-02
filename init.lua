@@ -1,3 +1,4 @@
+require 'tools.global_fn'
 require 'options.normal'
 require 'autocmds.index'
 require 'keymaps.keymaps'
