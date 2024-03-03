@@ -165,7 +165,7 @@ M.get_session_path = function(workspace_name)
   return const.session_base_path .. file_name
 end
 
-M.get_codelldb_path = function ()
+M.get_codelldb_path = function()
   local conf = M.load_conf()
   -- 我没有linux, 所以不考虑linux的情况
   local extension_path = const.is_windows and conf.default.lldb_win_path or conf.default.lldb_mac_path
@@ -181,6 +181,20 @@ M.get_codelldb_path = function ()
     codelldb_path = codelldb_path,
     liblldb_path = liblldb_path,
   }
+end
+
+M.get_buf_filetype = function()
+  local bufnr = vim.api.nvim_get_current_buf()
+  return vim.api.nvim_buf_get_option(bufnr, 'filetype')
+end
+
+M.is_valid_filetype = function(filetype)
+  for _, ft in ipairs(const.js_based_languages) do
+    if filetype == ft then
+      return true
+    end
+  end
+  return false
 end
 
 return M

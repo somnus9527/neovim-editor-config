@@ -3,6 +3,8 @@ if not ok then
   return
 end
 local icons = require 'tools.icons'
+local tools = require 'tools.tools'
+local const = require 'tools.const'
 -- 配置diagnostics图标
 for name, icon in pairs(icons.diagnostics) do
   local name = 'DiagnosticSign' .. name
@@ -36,6 +38,15 @@ vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.s
 local lsp_formatting = function(bufnr)
   vim.lsp.buf.format {
     filter = function(client)
+      if tools.is_web_project() and not tools.is_eslint_project() and not tools.is_prettier_project() then
+        local filetype = tools.get_buf_filetype()
+        local is_valid = tools.is_valid_filetype(filetype)
+        if is_valid then
+          return client.name == 'tsserver'
+        else
+          return client.name == 'null-ls'
+        end
+      end
       -- 方法来自null-ls官网，限制lsp.format使用null-ls
       return client.name == 'null-ls'
     end,
