@@ -4,7 +4,6 @@ if not ok then
 end
 local icons = require 'tools.icons'
 local tools = require 'tools.tools'
-local const = require 'tools.const'
 -- 配置diagnostics图标
 for name, icon in pairs(icons.diagnostics) do
   local name = 'DiagnosticSign' .. name
@@ -116,7 +115,6 @@ lsp.jsonls.setup {
   capabilities = capabilities,
 }
 local util = require 'lspconfig.util'
-local tools = require 'tools.tools'
 local global_opts = tools.load_conf()
 local function get_typescript_server_path(root_dir)
   local global_ts = tools.is_windows and global_opts.default.typescript_win_path
