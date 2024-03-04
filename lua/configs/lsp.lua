@@ -4,6 +4,7 @@ if not ok then
 end
 local icons = require 'tools.icons'
 local tools = require 'tools.tools'
+local const = require 'tools.const'
 -- 配置diagnostics图标
 for name, icon in pairs(icons.diagnostics) do
   local name = 'DiagnosticSign' .. name
@@ -184,6 +185,31 @@ lsp.cmake.setup {
     'CMakeLists.txt',
   },
 }
+
+-- angular
+local opts = tools.load_conf()
+if opts.default.pnpm_win_path then
+  local project_library_path = opts.default.pnpm_win_path
+  local tssdk_path = get_typescript_server_path(vim.loop.cwd())
+  local cmd =
+    { 'ngserver', '--stdio', '--tsProbeLocations', tssdk_path, '--ngProbeLocations', project_library_path }
+  local file = io.open(vim.fn.getcwd() .. '/node_modules/@angular/core/package.json', 'r')
+  if file then
+    local file_contents = file:read '*all'
+    if tonumber(file_contents.match(file_contents, [["version": "(%d+).%d+.%d+"]])) < 9 then
+      table.insert(cmd, '--viewEngine')
+    end
+  end
+  lsp.angularls.setup {
+    capabilities = capabilities,
+    cmd = cmd,
+    on_new_config = function(new_config)
+      new_config.cmd = cmd
+    end,
+    root_dir = util.root_pattern('angular.json', 'project.json'),
+  }
+end
+
 -- cpp
 local clangd_capabilities = require('cmp_nvim_lsp').default_capabilities()
 clangd_capabilities.textDocument.completion.completionItem.snippetSupport = true
