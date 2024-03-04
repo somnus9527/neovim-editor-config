@@ -1,5 +1,6 @@
 return {
   'jose-elias-alvarez/null-ls.nvim',
+  event = { 'BufNewFile', 'BufReadPre' },
   dependencies = {
     'jose-elias-alvarez/typescript.nvim',
   },
