@@ -197,4 +197,13 @@ M.is_valid_filetype = function(filetype)
   return false
 end
 
+M.is_git_project = function()
+  local path = vim.loop.cwd() .. '/.git'
+  local ok = vim.loop.fs_stat(path)
+  if ok == nil then
+    return false
+  end
+  return true
+end
+
 return M

@@ -75,7 +75,7 @@ local keymaps = {
     { desc = '只在当前Buffer搜索' },
   },
   -- Plugin: gitblame
-  { 'n', '<leader>gb', '<cmd>GitBlameToggle<cr>', { desc = '显示/隐藏Git Blame' } },
+  { 'n', '<leader>gl', '<cmd>GitBlameToggle<cr>', { desc = '显示/隐藏Git Blame' } },
   -- Plugin: diffview
   { 'n', '<leader>vf', '<cmd>DiffviewFileHistory %<CR>', { desc = '打开Diffview(文件历史)' } },
   { 'n', '<leader>vv', '<cmd>DiffviewOpen <CR>', { desc = '打开Diffview(默认模式)' } },

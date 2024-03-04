@@ -16,9 +16,6 @@ local hl_list = {
   Inactive = { 'InactiveFg', 'InactiveBg' },
   Active = { 'ActiveFg', 'ActiveBg' },
 }
-local spaces = function()
-  return 'Spaces: ' .. vim.api.nvim_buf_get_option(0, 'shiftwidth') .. ' '
-end
 local line_format = function()
   local format_icons = {
     unix = 'LF(UNIX) ',

@@ -20,7 +20,7 @@ return {
         local gs = package.loaded.gitsigns
         local function map(mode, l, r, opts)
           opts = opts or {}
-          opts.buffer = bufnr
+          opts.buffer = buf
           vim.keymap.set(mode, l, r, opts)
         end
         map('n', '<leader>hp', gs.preview_hunk, { desc = '预览git hunk' })
@@ -31,8 +31,7 @@ return {
     }
   end,
   cond = function()
-    if vim.api.nvim_command_output '!git rev-parse --is-inside-work-tree' == true then
-      return true
-    end
+    local tools = require 'tools.tools'
+    return tools.is_git_project()
   end,
 }
