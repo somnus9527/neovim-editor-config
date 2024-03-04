@@ -189,7 +189,7 @@ lsp.cmake.setup {
 -- angular
 local opts = tools.load_conf()
 if opts.default.pnpm_win_path then
-  local project_library_path = opts.default.pnpm_win_path
+  local project_library_path = const.is_windows and opts.default.pnpm_win_path or opts.default.pnpm_mac_path
   local tssdk_path = get_typescript_server_path(vim.loop.cwd())
   local cmd =
     { 'ngserver', '--stdio', '--tsProbeLocations', tssdk_path, '--ngProbeLocations', project_library_path }
