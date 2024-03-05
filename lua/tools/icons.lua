@@ -89,6 +89,20 @@ local M = {
     BreakpointRejected = { ' ', 'DiagnosticError' },
     LogPoint = '.>',
   },
+  biscuits = {
+    Prefix = '',
+    Html = '󰌝',
+    Javascript = '󰌞',
+  },
+  todo = {
+    Fix = '',
+    Todo = '',
+    Hack = '󰈸',
+    Warn = '',
+    Perf = '󱛢',
+    Note = '󰠮',
+    Test = '󰇉',
+  }
 }
 
 return M
