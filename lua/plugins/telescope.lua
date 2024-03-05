@@ -33,7 +33,8 @@ return {
           'node_modules',
           'build',
           'dist',
-          '.git/.*',
+          '.git',
+          '.vscode',
         },
         -- 设置透明度的，效果不好
         -- winblend = 90,
@@ -108,7 +109,7 @@ return {
         },
         workspaces = {
           keep_insert = true,
-        }
+        },
       },
     }
 
@@ -119,6 +120,7 @@ return {
     local keymaps = {
       { 'n', '<leader><leader>', '<cmd>Telescope find_files shorten_path=true<CR>', { desc = '文件搜索' } },
       { 'n', '<leader>.', '<cmd>Telescope live_grep<CR>', { desc = '字符搜索' } },
+      { 'n', '<leader>q', '<cmd>Telescope file_browser path=%:p:h select_buffer=true<CR>', { desc = 'telescope 文件树' } },
       { 'n', "<leader>'", '<cmd>Telescope registers<CR>', { desc = '当前registers' } },
       { 'n', '<leader>o', '<cmd>Telescope oldfiles<CR>', { desc = '搜索之前打开过的文件' } },
       { 'n', '<leader>wf', '<cmd>Telescope workspaces<CR>', { desc = '当前Workspaces列表' } },

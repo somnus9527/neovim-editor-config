@@ -191,8 +191,7 @@ local opts = tools.load_conf()
 if opts.default.pnpm_win_path then
   local project_library_path = const.is_windows and opts.default.pnpm_win_path or opts.default.pnpm_mac_path
   local tssdk_path = get_typescript_server_path(vim.loop.cwd())
-  local cmd =
-    { 'ngserver', '--stdio', '--tsProbeLocations', tssdk_path, '--ngProbeLocations', project_library_path }
+  local cmd = { 'ngserver', '--stdio', '--tsProbeLocations', tssdk_path, '--ngProbeLocations', project_library_path }
   local file = io.open(vim.fn.getcwd() .. '/node_modules/@angular/core/package.json', 'r')
   if file then
     local file_contents = file:read '*all'
@@ -207,6 +206,21 @@ if opts.default.pnpm_win_path then
       new_config.cmd = cmd
     end,
     root_dir = util.root_pattern('angular.json', 'project.json'),
+  }
+end
+
+-- tailwindcss
+local tailwind_conf_path = vim.loop.cwd() .. const.path_separator
+local some_exist = false
+for _, filename in ipairs(const.tailwind_definition) do
+  local file_path = tailwind_conf_path .. filename
+  if tools.exist_file(file_path) then
+    some_exist = true
+  end
+end
+if some_exist then
+  lsp.tailwindcss.setup {
+    capabilities = capabilities,
   }
 end
 
