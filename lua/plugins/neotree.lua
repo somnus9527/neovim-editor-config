@@ -13,7 +13,7 @@ return {
       close_if_last_window = true,
       window = {
         mappings = {
-	  -- 移动窗口我用的s快捷键，避免冲突
+          -- 移动窗口我用的s快捷键，避免冲突
           ['s'] = '',
           ['S'] = '',
         },
@@ -21,11 +21,13 @@ return {
       filesystem = {
         bind_to_cwd = false,
         follow_current_file = {
-          enable = true
+          enable = true,
         },
         filtered_items = {
           visible = true,
         },
+        -- 没有效果。。。
+        use_libuv_file_watcher = true,
       },
       default_component_configs = {
         modified = {
@@ -44,6 +46,21 @@ return {
             staged = icons.git.staged,
             conflict = icons.git.conflict,
           },
+        },
+      },
+      buffers = {
+        follow_current_file = {
+          enable = true,
+        },
+      },
+      event_handlers = {
+        {
+          event = 'neo_tree_window_after_open',
+          handler = function()
+            vim.schedule(function()
+              vim.cmd 'Neotree dir=./'
+            end)
+          end,
         },
       },
     }

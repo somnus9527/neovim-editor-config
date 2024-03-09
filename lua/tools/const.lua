@@ -55,6 +55,15 @@ M.tailwind_definition = {
 }
 M.conf_file_name = 'conf.ini'
 M.local_conf_file_name = 'local_conf.ini'
-M.session_base_path = vim.fn.stdpath 'data' .. '/sessions/'
+M.session_base_path = vim.fn.stdpath 'data' .. '/sessions'
+M.workspace_base_path = vim.fn.stdpath 'data' .. '/workspaces'
+M.workspace_auto_add_patterns = {
+  '.git',
+  '.svn',
+  'package.json',
+  'Cargo.toml',
+  'CMakeLists.txt',
+  '.vs',
+}
 
 return M

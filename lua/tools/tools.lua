@@ -206,4 +206,16 @@ M.is_git_project = function()
   return true
 end
 
+M.folder_is_contain_patterns = function ()
+  local current_dir = vim.fn.expand('%:p:h')
+  local res = false
+  for _, pattern in ipairs(const.workspace_auto_add_patterns) do
+    local exist = vim.loop.fs_stat(current_dir .. const.path_separator .. pattern)
+    if exist then
+      res = true
+    end
+  end
+  return res
+end
+
 return M
