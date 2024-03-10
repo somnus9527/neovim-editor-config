@@ -13,6 +13,7 @@ return {
         min_distance = 5,
         prefix_string = ' ' .. icons.biscuits.Prefix .. ' ',
       },
+      on_events = { 'InsertLeave', 'CursorHoldI' },
       language_config = {
         html = {
           prefix_string = ' ' .. icons.biscuits.Html .. ' ',
@@ -20,6 +21,9 @@ return {
         javascript = {
           prefix_string = ' ' .. icons.biscuits.Javascript .. ' ',
           max_length = 80,
+        },
+        lua = {
+          prefix_string = ' ' .. icons.Menu.nvim_lua .. ' ',
         },
         python = {
           disabled = true,

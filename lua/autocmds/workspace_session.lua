@@ -42,14 +42,14 @@ vim.api.nvim_create_autocmd({ 'User' }, {
   end,
 })
 
-vim.api.nvim_create_autocmd({ 'DirChanged' }, {
-  group = group,
-  callback = function()
-    vim.notify('DirChanged! The new dir is ' .. vim.loop.cwd())
-    local is_ok, _ = pcall(require, 'neo-tree')
-    if not is_ok then
-      return
-    end
-    -- vim.cmd([[silent! Neotree dir=./ close]])
-  end,
-})
+-- vim.api.nvim_create_autocmd({ 'DirChanged' }, {
+--   group = group,
+--   callback = function()
+--     vim.notify('DirChanged! The new dir is ' .. vim.loop.cwd())
+--     local is_ok, _ = pcall(require, 'neo-tree')
+--     if not is_ok then
+--       return
+--     end
+--     -- vim.cmd([[silent! Neotree dir=./ close]])
+--   end,
+-- })
