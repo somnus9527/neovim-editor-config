@@ -8,6 +8,11 @@ vim.api.nvim_create_autocmd({ 'VimLeavePre' }, {
       vim.notify 'Sessions Plugin Got Error!'
       return
     end
+    local is_tree_ok, neotree = pcall(require, 'neo-tree')
+    if not is_tree_ok then
+      return
+    end
+    neotree.close_all()
     local const = require 'tools.const'
     local workspace_tools = require 'tools.workspace'
     local path = const.session_base_path

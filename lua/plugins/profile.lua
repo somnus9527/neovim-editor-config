@@ -27,7 +27,7 @@ return {
       end
     end
     local keymaps = {
-      { 'n', '<f1>', toggle_profile, { desc = '开始/结束profile' } }
+      { 'n', '<f12>', toggle_profile, { desc = '开始/结束profile' } }
     }
     tools.set_keymap(keymaps)
   end,

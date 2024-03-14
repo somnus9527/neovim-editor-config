@@ -206,8 +206,8 @@ M.is_git_project = function()
   return true
 end
 
-M.folder_is_contain_patterns = function ()
-  local current_dir = vim.fn.expand('%:p:h')
+M.folder_is_contain_patterns = function()
+  local current_dir = vim.fn.expand '%:p:h'
   local res = false
   for _, pattern in ipairs(const.workspace_auto_add_patterns) do
     local exist = vim.loop.fs_stat(current_dir .. const.path_separator .. pattern)
@@ -216,6 +216,17 @@ M.folder_is_contain_patterns = function ()
     end
   end
   return res
+end
+
+-- Lua函数，将文件移动到回收站
+M.trash_file = function(file_path)
+  local cmd = vim.fn.system('trash ' .. vim.fn.fnameescape(file_path))
+  if const.is_windows then
+    -- 使用PowerShell命令移动文件到回收站
+    cmd = string.format('powershell Remove-Item -Path "%s" -Force -Confirm:$false', file_path)
+  end
+  -- 调用vim.fn.system()执行删除命令
+  vim.fn.system(cmd)
 end
 
 return M

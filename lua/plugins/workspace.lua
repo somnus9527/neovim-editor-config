@@ -17,6 +17,7 @@ return {
       notify_info = false,
       hooks = {
         open_pre = {
+          'Neotree close',
           'SessionsStop!',
           'silent wall',
           'silent! bufdo bd',

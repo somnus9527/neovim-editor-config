@@ -9,6 +9,7 @@ return {
   },
   config = function()
     local icons = require 'tools.icons'
+    local tools = require 'tools.tools'
     local opt = {
       close_if_last_window = true,
       window = {
@@ -28,6 +29,15 @@ return {
         },
         -- 没有效果。。。
         use_libuv_file_watcher = true,
+        commands = {
+          -- Override delete to use trash instead of rm
+          delete = function(state)
+            local path = state.tree:get_node().path
+            tools.trash_file(path)
+            -- vim.fn.system('trash ' .. vim.fn.fnameescape(path))
+            require('neo-tree.sources.manager').refresh(state.name)
+          end,
+        },
       },
       default_component_configs = {
         modified = {
