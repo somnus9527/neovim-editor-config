@@ -1,3 +1,4 @@
+require 'global_variables'
 require 'tools.global_fn'
 require 'options.normal'
 require 'autocmds.index'

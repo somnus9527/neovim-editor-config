@@ -23,6 +23,7 @@ return {
           'silent! bufdo bd',
         },
         open = function()
+          _G.need_refresh_neotree = true
           vim.schedule(function()
             sessions.load(const.session_base_path .. const.path_separator .. workspace.name(), { silent = true })
           end)

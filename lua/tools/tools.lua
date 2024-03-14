@@ -229,4 +229,21 @@ M.trash_file = function(file_path)
   vim.fn.system(cmd)
 end
 
+-- 删除除当前文件之外的其它所有未修改的buffer
+M.delete_other_unmodified_buffers = function()
+  -- 获取当前 buffer 号码
+  local current_bufnr = vim.api.nvim_get_current_buf()
+
+  -- 获取所有 buffer 号码列表
+  local bufnrs = vim.api.nvim_list_bufs()
+
+  -- 遍历所有 buffer
+  for _, bufnr in ipairs(bufnrs) do
+    -- 如果不是当前 buffer，并且未修改，则关闭它
+    if bufnr ~= current_bufnr and not vim.api.nvim_buf_get_option(bufnr, 'modified') then
+      vim.api.nvim_buf_delete(bufnr, { force = true })
+    end
+  end
+end
+
 return M

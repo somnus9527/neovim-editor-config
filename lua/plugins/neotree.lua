@@ -6,17 +6,52 @@ return {
     'nvim-lua/plenary.nvim',
     'nvim-tree/nvim-web-devicons',
     'MunifTanjim/nui.nvim',
+    { 's1n7ax/nvim-window-picker', version = '2.*' },
   },
   config = function()
     local icons = require 'tools.icons'
     local tools = require 'tools.tools'
     local opt = {
       close_if_last_window = true,
+      source_selector = {
+        winbar = true,
+        statusline = false,
+        content_layout = 'center',
+        tabs_layout = 'equal',
+        show_separator_on_edge = true,
+        sources = { -- table
+          {
+            source = 'filesystem', -- string
+            display_name = ' 󰉓 Files ', -- string | nil
+          },
+          {
+            source = 'buffers', -- string
+            display_name = ' 󰈚 Buffers ', -- string | nil
+          },
+          {
+            source = 'git_status', -- string
+            display_name = ' 󰊢 Git ', -- string | nil
+          },
+        },
+      },
+      sources = {
+        'filesystem',
+        'buffers',
+        'git_status',
+      },
       window = {
         mappings = {
           -- 移动窗口我用的s快捷键，避免冲突
           ['s'] = '',
           ['S'] = '',
+          ['m'] = {
+            'move',
+            config = {
+              show_path = 'relative',
+            },
+          },
+          ['<left>'] = 'prev_source',
+          ['<right>'] = 'next_source',
         },
       },
       filesystem = {
@@ -62,14 +97,18 @@ return {
         follow_current_file = {
           enable = true,
         },
+        bind_to_cwd = false,
       },
       event_handlers = {
         {
           event = 'neo_tree_window_after_open',
           handler = function()
-            vim.schedule(function()
-              vim.cmd 'Neotree dir=./'
-            end)
+            if _G.need_refresh_neotree then
+              vim.schedule(function()
+                vim.cmd 'Neotree dir=./'
+                _G.need_refresh_neotree = false
+              end)
+            end
           end,
         },
       },

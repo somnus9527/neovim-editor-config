@@ -35,6 +35,7 @@ local keymaps = {
   { 'v', 'p', '"_dP', { desc = '避免visual模式下粘贴影响正常yank的register' } },
   { 'v', '<C-r>', '"hy:%s/<C-r>h//gc<left><left><left>', { desc = '替换当前选择的文本(逐个确认)' } },
   { 'v', '<C-c>', '"+y', { desc = '复制选中内容到系统粘贴板' } },
+  { { 'n', 'v' }, '<leader>-', tools.delete_other_unmodified_buffers, { desc = '删除其它buffer' } },
   -- Plugin: hop快捷键
   { 'n', 'ss', '<cmd>HopChar1<cr>', { desc = '单个字符搜索' } },
   { 'n', 'sc', '<cmd>HopChar2<cr>', { desc = '两个字符搜索' } },
@@ -83,7 +84,19 @@ local keymaps = {
   -- Plugin: git-messenger
   { 'n', '<leader>k', '<Plug>(git-messenger)', { desc = '显示当前光标下的git信息' } },
   -- Plugin: neogit
-  { 'n', '<leader>gg', '<cmd>Neogit cwd=%:p:h<CR>', { desc = '打开Neogit' } },
+  {
+    'n',
+    '<leader>gg',
+    function()
+      local neogit_ok, neogit = pcall(require, 'neogit')
+      if not neogit_ok then
+        return
+      end
+      neogit.open()
+      vim.cmd([[Gitsigns detach]])
+    end,
+    { desc = '打开Neogit' },
+  },
   {
     'n',
     '<leader>gq',
@@ -93,6 +106,7 @@ local keymaps = {
         return
       end
       neogit.close()
+      vim.cmd([[Gitsigns attach]])
     end,
     { desc = '关闭Neogit' },
   },
