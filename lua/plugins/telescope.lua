@@ -33,7 +33,7 @@ return {
           'node_modules',
           'build',
           'dist',
-          '.git',
+          -- '.git/*',
           '.vscode',
         },
         -- 设置透明度的，效果不好
