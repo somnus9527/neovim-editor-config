@@ -16,7 +16,6 @@ return {
       auto_open = false,
       notify_info = false,
       hooks = {
-        -- wwwwwccc
         open_pre = {
           'SessionsStop!',
           'silent wall',
