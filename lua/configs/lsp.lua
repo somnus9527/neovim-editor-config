@@ -120,19 +120,21 @@ local global_opts = tools.load_conf()
 local function get_typescript_server_path(root_dir)
   local global_ts = tools.is_windows and global_opts.default.typescript_win_path
     or global_opts.default.typescript_mac_path
+  return global_ts
+  -- 2024-03-15 这边注释的原因是 angularls大概率安装的是新版本,但是新版本对于tssdk的版本要求比较高,但是一半项目又不会使用这么高的版本,所以直接使用全局的tsserver,保证angularls的服务能够正常启动
   -- 需要自己配置本地global的typescript地址
-  local found_ts = ''
-  local function check_dir(path)
-    found_ts = util.path.join(path, 'node_modules', 'typescript', 'lib')
-    if util.path.exists(found_ts) then
-      return path
-    end
-  end
-  if util.search_ancestors(root_dir, check_dir) then
-    return found_ts
-  else
-    return global_ts
-  end
+  -- local found_ts = ''
+  -- local function check_dir(path)
+  --   found_ts = util.path.join(path, 'node_modules', 'typescript', 'lib')
+  --   if util.path.exists(found_ts) then
+  --     return path
+  --   end
+  -- end
+  -- if util.search_ancestors(root_dir, check_dir) then
+  --   return found_ts
+  -- else
+  --   return global_ts
+  -- end
 end
 lsp.volar.setup {
   filetypes = { 'vue' },

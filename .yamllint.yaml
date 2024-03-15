@@ -1,3 +1,4 @@
+---
 rules:
   anchors: enable
   braces: enable
@@ -18,7 +19,7 @@ rules:
   indentation: enable
   key-duplicates: enable
   key-ordering: disable
-  line-length: 
+  line-length:
     max: 80
     level: warning
   new-line-at-end-of-file: enable
