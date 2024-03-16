@@ -115,6 +115,11 @@ M.exist_file = function(path)
   end
 end
 
+M.load_global_conf = function ()
+  local conf_path = M.path.join(M.path.conf_root(), const.conf_file_name)
+  return ini_parser.load(conf_path)
+end
+
 M.load_conf = function()
   local conf_path = M.path.join(M.path.conf_root(), const.conf_file_name)
   local local_conf_path = M.path.join(M.path.conf_root(), const.local_conf_file_name)
