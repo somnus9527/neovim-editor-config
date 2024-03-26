@@ -9,6 +9,9 @@ return {
   config = function()
     local neogit = require 'neogit'
     local opts = {
+      integrations = {
+        virtualtext = false,
+      },
       mappings = {
         commit_editor = {
           ['q'] = 'Close',

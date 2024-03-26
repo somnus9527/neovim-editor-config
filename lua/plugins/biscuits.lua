@@ -28,6 +28,9 @@ return {
         python = {
           disabled = true,
         },
+        json = {
+          disabled = true,
+        }
       },
     }
     biscuits.setup(opts)

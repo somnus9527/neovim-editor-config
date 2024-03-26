@@ -93,7 +93,7 @@ local keymaps = {
         return
       end
       neogit.open()
-      vim.cmd([[Gitsigns detach]])
+      -- vim.cmd([[Gitsigns detach]])
     end,
     { desc = '打开Neogit' },
   },
@@ -106,7 +106,7 @@ local keymaps = {
         return
       end
       neogit.close()
-      vim.cmd([[Gitsigns attach]])
+      -- vim.cmd([[Gitsigns attach]])
     end,
     { desc = '关闭Neogit' },
   },
