@@ -10,6 +10,7 @@ local keymaps = {
   { 'n', 'sl', '<C-w>l', { desc = '切换到右侧窗口' } },
   { 'n', 'sj', '<C-w>j', { desc = '切换到下方窗口' } },
   { 'n', 'sk', '<C-w>k', { desc = '切换到上方窗口' } },
+  { 'n', 'U', '<C-r>', { desc = 'Redo' } },
   { 'i', '<M-j>', '<Down>', const.default_keymap_opt },
   { 'n', '<M-j>', 'ddp', const.default_keymap_opt },
   { 'i', '<M-k>', '<Up>', const.default_keymap_opt },
