@@ -22,6 +22,9 @@ M.eslint_project_definition = {
   -- 有的场景会出现eslint配置在package.json中，但是加上package.json之后对于没有配置eslint规则的项目就无法使用别的服务了，所以注释掉
   -- 'package.json',
 }
+M.typescript_project_definition = {
+  'tsconfig.json',
+}
 M.lua_project_definition = {
   '.stylua.toml',
   'lazy-lock.json',

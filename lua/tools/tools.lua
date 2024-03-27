@@ -69,6 +69,10 @@ M.is_eslint_project = function()
   return M.root_has_file(const.eslint_project_definition)
 end
 
+M.is_typescript_project = function ()
+  return M.root_has_file(const.typescript_project_definition)
+end
+
 M.is_lua_conf_project = function()
   return M.root_has_file(const.lua_project_definition)
 end

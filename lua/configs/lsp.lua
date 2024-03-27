@@ -251,6 +251,8 @@ vim.lsp.handlers['textDocument/publishDiagnostics'] = function(...)
   elseif tools.is_web_project() then
     if not tools.is_eslint_project() and not tools.is_prettier_project() then
       do_publish()
+    elseif tools.is_typescript_project() then
+      do_publish()
     end
   end
 end
