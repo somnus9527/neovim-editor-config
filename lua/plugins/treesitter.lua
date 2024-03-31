@@ -68,6 +68,9 @@ return {
           node_decremental = 'V',
         },
       },
+      indent = {
+        enable = false,
+      },
     }
   end,
 }

@@ -266,4 +266,16 @@ M.delete_other_unmodified_buffers = function()
   end
 end
 
+M.myMiniView = function(pattern, kind)
+	kind = kind or ""
+	return {
+		view = "mini",
+		filter = {
+			event = "msg_show",
+			kind = kind,
+			find = pattern,
+		},
+	}
+end
+
 return M

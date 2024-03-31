@@ -5,6 +5,7 @@ return {
     'rcarriga/nvim-notify',
   },
   config = function()
+    local tools = require 'tools.tools'
     local opts = {
       lsp = {
         override = {
@@ -22,6 +23,27 @@ return {
         command_palette = true,
         long_message_to_split = false,
         lsp_doc_border = false,
+      },
+      popupmenu = {
+        -- 直接使用cmp的menu,不然一按tab会出现两个menu
+        backend = 'cmp',
+      },
+      routes = {
+        tools.myMiniView 'Already at .* change',
+        tools.myMiniView 'written',
+        tools.myMiniView 'yanked',
+        tools.myMiniView 'more lines?',
+        tools.myMiniView 'fewer lines?',
+        tools.myMiniView('fewer lines?', 'lua_error'),
+        tools.myMiniView 'change; before',
+        tools.myMiniView 'change; after',
+        tools.myMiniView 'line less',
+        tools.myMiniView 'lines indented',
+        tools.myMiniView 'No lines in buffer',
+        tools.myMiniView('search hit .*, continuing at', 'wmsg'),
+        tools.myMiniView('E486: Pattern not found', 'emsg'),
+        -- 和第二条一致,都是不显示写入文件成功的提示,但是我的提示是中文的已写入...,所以加这么一条
+        tools.myMiniView '已写入',
       },
     }
     local notify = require 'noice'

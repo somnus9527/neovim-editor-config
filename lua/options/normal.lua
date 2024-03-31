@@ -93,7 +93,8 @@ opt.shortmess = opt.shortmess + "c"
 -- 显示行号
 o.number = true
 -- 相对行号原点显示原行号
-o.signcolumn = 'number'
+-- 会造成gitsigns的图标覆盖行号,所以注释掉
+-- o.signcolumn = 'number'
 -- 显示相对行号
 o.relativenumber = true
 -- 开启终端使用GUI颜色
