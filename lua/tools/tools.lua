@@ -69,7 +69,7 @@ M.is_eslint_project = function()
   return M.root_has_file(const.eslint_project_definition)
 end
 
-M.is_typescript_project = function ()
+M.is_typescript_project = function()
   return M.root_has_file(const.typescript_project_definition)
 end
 
@@ -119,7 +119,7 @@ M.exist_file = function(path)
   end
 end
 
-M.load_global_conf = function ()
+M.load_global_conf = function()
   local conf_path = M.path.join(M.path.conf_root(), const.conf_file_name)
   return ini_parser.load(conf_path)
 end
@@ -207,12 +207,23 @@ M.is_valid_filetype = function(filetype)
 end
 
 M.is_git_project = function()
-  local path = vim.loop.cwd() .. '/.git'
-  local ok = vim.loop.fs_stat(path)
-  if ok == nil then
-    return false
-  end
-  return true
+  -- local path = vim.loop.cwd() .. '/.git'
+  -- local ok = vim.loop.fs_stat(path)
+  -- if ok == nil then
+  --   return false
+  -- end
+  -- return true
+  local handle = io.popen 'git rev-parse --is-inside-work-tree 2>/dev/null'
+  local result = handle:read '*a'
+  handle:close()
+  return result:match '^true'
+end
+
+M.get_git_branch = function()
+  local handle = io.popen 'git rev-parse --abbrev-ref HEAD'
+  local result = handle:read '*a'
+  handle:close()
+  return result:gsub('^%s*(.-)%s*$', '%1')
 end
 
 M.folder_is_contain_patterns = function()

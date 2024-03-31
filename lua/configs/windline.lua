@@ -1,6 +1,7 @@
 local windline = require 'windline'
 local helper = require 'windline.helpers'
 local icons = require 'tools.icons'
+local tools = require 'tools.tools'
 local sep = helper.separators
 local vim_components = require 'windline.components.vim'
 
@@ -155,10 +156,10 @@ basic.right = {
       { b_components.progress_lua },
       { sep.right_rounded, 'sep_after' },
     }
-    if git_comps.is_git(buf) then
+    if tools.is_git_project() then
       table.insert(option, 1, { sep.left_rounded, 'branch_name_before' })
       table.insert(option, 2, { ' ', 'branch_name' })
-      table.insert(option, 3, { git_comps.git_branch { icon = icons.git.branch .. ' ' }, 'branch_name', 130 })
+      table.insert(option, 3, { icons.git.branch .. tools.get_git_branch(), 'branch_name', 130 })
       table.insert(option, 4, { ' ', 'branch_name' })
       table.insert(option, 5, { sep.left_rounded, 'line_format_before' })
     else
