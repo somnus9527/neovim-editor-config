@@ -72,7 +72,7 @@ return {
           -- condition = function()
           --   return not utils.is_eslint_project() and not utils.is_prettier_project()
           -- end,
-          extra_args = { '-c', vim.fn.expand(const.conf_path .. const.path_separator .. 'deno.json' )},
+          extra_args = { '-c', vim.fn.expand(const.conf_path .. const.path_separator .. 'deno.json') },
         },
         -- format json & markdown
         -- nls.builtins.formatting.deno_fmt.with {
@@ -93,12 +93,12 @@ return {
         -- yaml diagnostics
         nls.builtins.diagnostics.yamllint.with {
           diagnostics_format = diagnostics_fmt,
-          extra_args = { '-c', vim.fn.expand(const.conf_path .. const.path_separator .. '.yamllint.yaml')},
+          extra_args = { '-c', vim.fn.expand(const.conf_path .. const.path_separator .. '.yamllint.yaml') },
         },
         -- c/c++ diagnostics
         nls.builtins.diagnostics.clang_check.with {
           diagnostics_format = diagnostics_fmt,
-          extra_args = { '-X', 'cxx' }
+          extra_args = { '-X', 'cxx' },
         },
         -- c/c++ formatting
         nls.builtins.formatting.clang_format,
@@ -112,6 +112,13 @@ return {
         nls.builtins.formatting.rustfmt,
         -- toml formatting
         nls.builtins.formatting.taplo,
+        -- css scss sass less diagnostics
+        nls.builtins.diagnostics.stylelint.with {
+          diagnostics_format = diagnostics_fmt,
+          extra_args = { '-c', vim.fn.expand(const.conf_path .. const.path_separator .. '.stylelintrc.json') },
+        },
+        -- css scss sass less formatting
+        nls.builtins.formatting.stylelint,
       },
     }
   end,
