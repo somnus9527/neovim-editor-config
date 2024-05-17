@@ -44,6 +44,7 @@ return {
           -- 移动窗口我用的s快捷键，避免冲突
           ['s'] = '',
           ['S'] = '',
+          ['z'] = '',
           ['m'] = {
             'move',
             config = {
@@ -56,9 +57,7 @@ return {
       },
       filesystem = {
         bind_to_cwd = false,
-        follow_current_file = {
-          enable = true,
-        },
+        follow_current_file = true,
         filtered_items = {
           visible = true,
         },
@@ -94,9 +93,7 @@ return {
         },
       },
       buffers = {
-        follow_current_file = {
-          enable = true,
-        },
+        follow_current_file = true,
         bind_to_cwd = false,
       },
       event_handlers = {
@@ -111,6 +108,9 @@ return {
             end
           end,
         },
+      },
+      git_status = {
+        follow_current_file = true, -- This will automatically focus the current file in git_status tab
       },
     }
     require('neo-tree').setup(opt)
