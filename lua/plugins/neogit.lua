@@ -10,7 +10,8 @@ return {
     local neogit = require 'neogit'
     local opts = {
       integrations = {
-        virtualtext = false,
+        fzf_lua = true,
+        diffview = true,
       },
       mappings = {
         commit_editor = {
@@ -78,7 +79,6 @@ return {
           ['u'] = 'Unstage',
           ['U'] = 'UnstageStaged',
           ['$'] = 'CommandHistory',
-          ['#'] = 'Console',
           ['Y'] = 'YankSelected',
           ['<c-r>'] = 'RefreshBuffer',
           ['<enter>'] = 'GoToFile',

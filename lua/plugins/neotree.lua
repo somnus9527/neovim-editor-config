@@ -57,7 +57,9 @@ return {
       },
       filesystem = {
         bind_to_cwd = false,
-        follow_current_file = true,
+        follow_current_file = {
+          enabled = true,
+        },
         filtered_items = {
           visible = true,
         },
@@ -93,7 +95,9 @@ return {
         },
       },
       buffers = {
-        follow_current_file = true,
+        follow_current_file = {
+          enabled = true,
+        },
         bind_to_cwd = false,
       },
       event_handlers = {

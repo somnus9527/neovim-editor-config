@@ -39,6 +39,7 @@ return {
         tools.myMiniView 'change; after',
         tools.myMiniView 'line less',
         tools.myMiniView 'lines indented',
+        tools.myMiniView 'Messages: Some options have changed',
         tools.myMiniView 'No lines in buffer',
         tools.myMiniView('search hit .*, continuing at', 'wmsg'),
         tools.myMiniView('E486: Pattern not found', 'emsg'),

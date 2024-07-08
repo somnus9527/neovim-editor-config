@@ -7,6 +7,7 @@ return {
     'mxsdev/nvim-dap-vscode-js',
     'microsoft/vscode-js-debug',
     'Joakker/lua-json5',
+    'nvim-neotest/nvim-nio',
   },
   config = function()
     local dap = require 'dap'

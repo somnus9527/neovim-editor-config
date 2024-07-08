@@ -11,7 +11,7 @@ g.mapleader = ' '
 if g.neovide then
   if not const.is_windows then
     -- 让mac 的neovide环境中的option快捷键生效
-    g.neovide_input_macos_alt_is_meta = true
+    g.neovide_input_macos_option_key_is_meta = 'only_left'
   end
   -- 是neovide环境，将外边界置0
   g.neovide_padding_top = 0
@@ -22,8 +22,9 @@ if g.neovide then
   -- local alpha = function()
   --   return string.format('%x', math.floor((255 * vim.g.transparency) or 0.8))
   -- end
-  g.neovide_transparency = 0.95
-  g.transparency = 0.95
+  g.neovide_transparency = 0.9
+  g.transparency = 0.1
+  g.neovide_window_blurred = 0
   -- 新版本neovide,这个参数已经被deprecated
   -- g.neovide_background_color = '#0f1012' .. alpha()
   -- 设置背景透明度 end
@@ -58,7 +59,8 @@ if g.neovide then
   g.neovide_cursor_vfx_mode = 'ripple'
   -- 设置刷新率
   g.neovide_refresh_rate = 60
-  g.neovide_refresh_rate_idle = 20
+  g.neovide_refresh_rate_idle = 5
+  g.neovide_show_border = true
   -- 设置neovide缩放
   vim.g.neovide_scale_factor = 1.0
   local change_scale_factor = function(delta)
