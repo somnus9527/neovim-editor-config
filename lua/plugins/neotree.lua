@@ -11,8 +11,15 @@ return {
   config = function()
     local icons = require 'tools.icons'
     local tools = require 'tools.tools'
+    -- 配置diagnostics图标
+    for name, icon in pairs(icons.diagnostics) do
+      local name = 'DiagnosticSign' .. name
+      vim.fn.sign_define(name, { texthl = name, text = icon, numhl = '' })
+    end
     local opt = {
       close_if_last_window = true,
+      enable_git_status = true,
+      enable_diagnostics = true,
       source_selector = {
         winbar = true,
         statusline = false,
@@ -40,6 +47,7 @@ return {
         'git_status',
       },
       window = {
+        width = 60,
         mappings = {
           -- 移动窗口我用的s快捷键，避免冲突
           ['s'] = '',
@@ -76,6 +84,7 @@ return {
         },
       },
       default_component_configs = {
+        use_git_status_colors = true,
         modified = {
           symbol = icons.git.modified,
           highlight = 'NeoTreeModified',
