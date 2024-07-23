@@ -8,14 +8,18 @@ return {
     local fzf = require 'fzf-lua'
     local tools = require 'tools.tools'
     local opts = {
-      file_ignore_patterns = { 'node_modules', 'build', 'dist', '.vscode' },
+      file_ignore_patterns = { 'node_modules', 'build', 'dist', '.vscode', '.git' },
       winopts = {
+        width = 0.9,
+        height = 0.9,
+        backdrop = 80,
         preview = {
           hidden = 'hidden',
         },
       },
       files = {
         git_icons = false,
+        fd_opts = [[--color=never --type f --hidden --follow --exclude .git --no-ignore]],
       },
       keymap = {
         -- 这个插件不太一样, 不定义也会禁用掉快捷键,所以先全量拷过来
