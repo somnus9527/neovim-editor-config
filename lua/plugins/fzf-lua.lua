@@ -16,6 +16,13 @@ return {
         preview = {
           hidden = 'hidden',
         },
+        on_create = function ()
+          local keymaps = {
+            { 't', '<M-n>', '<Down>', { desc = '下移一个选项' } },
+            { 't', '<M-m>', '<Up>', { desc = '上移一个选项' } },
+          }
+          tools.set_keymap(keymaps)
+        end
       },
       files = {
         git_icons = false,
@@ -37,11 +44,11 @@ return {
           ['<S-up>'] = 'preview-page-up',
           ['<S-left>'] = 'preview-page-reset',
           -- 自定义
-          ['<C-q>'] = 'abort',
+          ['<alt-e>'] = 'abort',
         },
         fzf = {
           -- fzf '--bind=' options
-          ['ctrl-q'] = 'abort', -- 自定义
+          ['alt-e'] = 'abort', -- 自定义
           ['ctrl-u'] = 'unix-line-discard',
           ['ctrl-f'] = 'half-page-down',
           ['ctrl-b'] = 'half-page-up',
