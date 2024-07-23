@@ -22,7 +22,7 @@ if g.neovide then
   -- local alpha = function()
   --   return string.format('%x', math.floor((255 * vim.g.transparency) or 0.8))
   -- end
-  g.neovide_transparency = 0.9
+  g.neovide_transparency = 0.96
   g.transparency = 0.1
   g.neovide_window_blurred = 0
   -- 新版本neovide,这个参数已经被deprecated
