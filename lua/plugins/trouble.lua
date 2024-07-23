@@ -4,23 +4,26 @@ return {
   dependencies = { 'nvim-tree/nvim-web-devicons' },
   config = function()
     local trouble = require 'trouble'
-    trouble.setup {}
+    trouble.setup({
+      auto_close = true,
+      focus = true,
+      keys = {
+        ['<cr>'] = "jump_close",
+        o = "jump",
+      }
+    })
     local tools = require 'tools.tools'
     local keymaps = {
       {
         'n',
         '<leader>da',
-        function()
-          trouble.toggle 'document_diagnostics'
-        end,
+        "<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
         { desc = '显示/隐藏文件diagnostics' },
       },
       {
         'n',
         '<leader>dw',
-        function()
-          trouble.toggle 'workspace_diagnostics'
-        end,
+        "<cmd>Trouble diagnostics toggle<cr>",
         { desc = '显示/隐藏工作目录所有diagnostics' },
       },
       {
