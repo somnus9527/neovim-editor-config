@@ -12,7 +12,7 @@ for name, icon in pairs(icons.diagnostics) do
 end
 -- diagnostics配置
 local config = {
-  virtual_text = false, -- disable virtual text
+  virtual_text = true, -- disable virtual text
   update_in_insert = true,
   underline = true,
   severity_sort = true,
@@ -38,19 +38,24 @@ vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.s
 local lsp_formatting = function(bufnr)
   vim.lsp.buf.format {
     filter = function(client)
-      if tools.is_web_project() and not tools.is_eslint_project() and not tools.is_prettier_project() then
-        local filetype = tools.get_buf_filetype()
-        local is_valid = tools.is_valid_filetype(filetype)
-        if is_valid then
-          return client.name == 'tsserver'
-        else
-          return client.name == 'null-ls'
-        end
+      -- if tools.is_web_project() and not tools.is_eslint_project() and not tools.is_prettier_project() then
+      --   local filetype = tools.get_buf_filetype()
+      --   local is_valid = tools.is_valid_filetype(filetype)
+      --   if is_valid then
+      if tools.is_web_project() then
+        return client.name == 'tsserver'
+      else
+        return client.name == 'null-ls'
       end
+      --   else
+      --     return client.name == 'null-ls'
+      --   end
+      -- end
       -- 方法来自null-ls官网，限制lsp.format使用null-ls
-      return client.name == 'null-ls'
+      -- return client.name == 'null-ls'
     end,
     bufnr = bufnr,
+    timeout_ms = 20000,
   }
 end
 -- 获取优化版lsp-cmp capabilities
