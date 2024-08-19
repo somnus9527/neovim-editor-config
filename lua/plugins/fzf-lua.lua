@@ -126,18 +126,25 @@ return {
         '<cmd>lua require("fzf-lua").lsp_implementations()<CR>',
         { desc = 'FZF搜索implementations' },
       },
-      -- {
-      --   'n',
-      --   '<leader>ls',
-      --   '<cmd>lua require("fzf-lua").lsp_document_symbols()<CR>',
-      --   { desc = 'FZF搜索symbols(当前Buffer)' },
-      -- },
+      {
+        'n',
+        '<leader>ls',
+        '<cmd>lua require("fzf-lua").lsp_document_symbols()<CR>',
+        { desc = 'FZF搜索symbols(当前Buffer)' },
+      },
       {
         'n',
         '<leader>ld',
         '<cmd>lua require("fzf-lua").diagnostics_document()<CR>',
         { desc = 'FZF搜索diagnostics(当前Buffer)' },
       },
+      -- TODO: 需要把todo-comments的搜索注入到fzf-lua中
+      -- {
+      --   'n',
+      --   '<leader>lt',
+      --   ':lua require("tools.tools").show_todo()<CR>',
+      --   { desc = '搜索所以TODO' }
+      -- }
     }
     tools.set_keymap(keymaps)
   end,

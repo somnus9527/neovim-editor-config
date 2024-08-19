@@ -75,13 +75,6 @@ local keymaps = {
     '<cmd>lua require("spectre").open_file_search({select_word=true})<CR>',
     { desc = '只在当前Buffer搜索' },
   },
-  -- Plugins: navbuddy快捷键
-  {
-    'n',
-    '<leader>ls',
-    ':lua require("nvim-navbuddy").open()<CR>',
-    { desc = '打开当前buffer的symbol' }
-  }
 }
 
 tools.set_keymap(keymaps)

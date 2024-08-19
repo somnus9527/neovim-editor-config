@@ -45,11 +45,6 @@ local mason_lsp_opt = {
 }
 mason_lsp.setup(mason_lsp_opt)
 
-local navbuddy_ok, navbuddy = pcall(require, "nvim-navbuddy")
-if not navbuddy_ok then
-	return
-end
-
 local cmp_lsp_ok, cmp_lsp = pcall(require, "cmp_nvim_lsp")
 if not cmp_lsp_ok then
 	return
@@ -71,7 +66,7 @@ for name, icon in pairs(icons.diagnostics) do
 end
 -- diagnostics配置
 local config = {
-	virtual_text = true,
+	virtual_text = false,
 	update_in_insert = false,
 	underline = true,
 	severity_sort = true,
@@ -94,10 +89,6 @@ vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.s
 	border = "rounded",
 })
 
-local on_attach = function(client, buffer)
-	navbuddy.attach(client, buffer)
-end
-
 -- 配置 eslint 为 JavaScript、JSX、TypeScript、TSX、Vue 文件的诊断工具
 lspconfig.eslint.setup({
 	capabilities = capabilities,
@@ -109,13 +100,11 @@ lspconfig.eslint.setup({
 		"typescriptreact",
 		"vue",
 	},
-	on_attach = on_attach,
 })
 
 -- 开始服务配置
 lspconfig.lua_ls.setup({
 	capabilities = capabilities,
-	on_attach = on_attach,
 	-- 主要处理undefinded global vim 报错, 方案来自https://github.com/neovim/neovim/discussions/24119
 	on_init = function(client)
 		local path = client.workspace_folders[1].name
@@ -140,7 +129,6 @@ lspconfig.lua_ls.setup({
 
 -- 前置安装 npm install emmet-ls -g
 lspconfig.emmet_ls.setup({
-	on_attach = on_attach,
 	capabilities = capabilities,
 	filetypes = {
 		"css",
@@ -183,7 +171,6 @@ local servers = {
 for _, lsp in ipairs(servers) do
 	lspconfig[lsp].setup({
 		capabilities = capabilities,
-		on_attach = on_attach,
 	})
 end
 

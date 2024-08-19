@@ -101,4 +101,24 @@ M.is_prettier_project = function()
   return M.root_has_file(const.prettier_project_definition)
 end
 
+M.show_todo = function()
+  local fzf = require('fzf-lua')
+
+  -- 使用 ripgrep 搜索 TODO 项
+  local command = "rg --files-with-matches --ignore-case --no-heading --color never 'TODO'"
+
+  -- 执行命令并获取结果
+  local results = vim.fn.systemlist(command)
+
+  -- 使用 fzf-lua 显示结果
+  fzf.fzf(results, {
+    prompt = 'TODO > ',
+    previewer = 'bat', -- 可选：使用 bat 作为预览工具
+    preview = {
+      default = 'bat',
+      bat_opts = '--color=always',
+    },
+  })
+end
+
 return M
