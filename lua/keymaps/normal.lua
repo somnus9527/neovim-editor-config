@@ -6,7 +6,7 @@ local keymaps = {
   { { 'i', 'n', 'v' }, '<Esc>', ':lua custom_esc_behavior()<CR>', const.default_keymap_opt },
   { 'i', 'jk', '<Esc>', const.default_keymap_opt, { desc = '推出编辑模式' } },
   { 'n', '<leader>e', '<cmd>Oil<CR>', const.default_keymap_opt, { desc = '打开文件树系统' } },
-  { 'n', '<leader>c', ':lua require("neogen").generate()<CR>', const.default_keymap_opt, { desc = '添加注释' } },
+  { 'n', '<leader>cc', ':lua require("neogen").generate()<CR>', const.default_keymap_opt, { desc = '添加注释' } },
   { 'n', 'sh', '<C-w>h', { desc = '切换到左侧窗口' } },
   { 'n', 'sl', '<C-w>l', { desc = '切换到右侧窗口' } },
   { 'n', 'sj', '<C-w>j', { desc = '切换到下方窗口' } },
@@ -44,8 +44,8 @@ local keymaps = {
   { 'n', 'sw', '<cmd>HopWord<cr>', { desc = '单词搜索' } },
   { 'n', 'sp', '<cmd>HopPattern<cr>', { desc = '正则搜索' } },
   -- Plugin: bufferline快捷键
-  { 'n', ']]', '<cmd>BufferLineCycleNext<cr>', { desc = '切换下一个Tab签' } },
-  { 'n', '[[', '<cmd>BufferLineCyclePrev<cr>', { desc = '切换上一个Tab签' } },
+  { 'n', '<leader>]', '<cmd>BufferLineCycleNext<cr>', { desc = '切换下一个Tab签' } },
+  { 'n', '<leader>[', '<cmd>BufferLineCyclePrev<cr>', { desc = '切换上一个Tab签' } },
   { 'n', '=', '<cmd>BufferLinePick<cr>', { desc = '选择跳转指定Tab签' } },
   { 'n', '-', '<cmd>BufferLinePickClose<cr>', { desc = '选择关闭指定Tab签' } },
   -- Plugin: spectre快捷键
