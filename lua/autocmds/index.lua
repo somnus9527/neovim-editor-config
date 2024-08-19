@@ -1,6 +1,0 @@
-require 'autocmds.colorscheme'
-require 'autocmds.spectre'
-require 'autocmds.js_indent'
-require 'autocmds.neogit'
-require 'autocmds.workspace_session'
-require 'autocmds.load_session'

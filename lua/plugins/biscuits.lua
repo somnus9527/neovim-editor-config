@@ -6,7 +6,7 @@ return {
   event = { 'BufNewFile', 'BufReadPre' },
   config = function()
     local biscuits = require 'nvim-biscuits'
-    local icons = require 'tools.icons'
+    local icons = require 'config.icons'
     local opts = {
       default_config = {
         max_length = 60,

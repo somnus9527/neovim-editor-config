@@ -1,6 +1,4 @@
-require 'global_variables'
 require 'tools.global_fn'
-require 'options.normal'
-require 'autocmds.index'
-require 'keymaps.keymaps'
+require 'config.normal'
+require 'keymaps.normal'
 require 'bootstrap'

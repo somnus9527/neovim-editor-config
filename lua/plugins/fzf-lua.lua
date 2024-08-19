@@ -2,7 +2,6 @@ return {
   'ibhagwan/fzf-lua',
   dependencies = {
     'nvim-tree/nvim-web-devicons',
-    'natecraddock/workspaces.nvim',
   },
   config = function()
     local fzf = require 'fzf-lua'
@@ -127,12 +126,12 @@ return {
         '<cmd>lua require("fzf-lua").lsp_implementations()<CR>',
         { desc = 'FZF搜索implementations' },
       },
-      {
-        'n',
-        '<leader>ls',
-        '<cmd>lua require("fzf-lua").lsp_document_symbols()<CR>',
-        { desc = 'FZF搜索symbols(当前Buffer)' },
-      },
+      -- {
+      --   'n',
+      --   '<leader>ls',
+      --   '<cmd>lua require("fzf-lua").lsp_document_symbols()<CR>',
+      --   { desc = 'FZF搜索symbols(当前Buffer)' },
+      -- },
       {
         'n',
         '<leader>ld',
@@ -141,9 +140,5 @@ return {
       },
     }
     tools.set_keymap(keymaps)
-
-    -- 加载自定义插件
-    require 'configs.switch_indent'
-    require 'configs.switch_workspace'
   end,
 }
