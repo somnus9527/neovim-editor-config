@@ -43,6 +43,8 @@ local keymaps = {
   { 'n', 'sc', '<cmd>HopChar2<cr>', { desc = '两个字符搜索' } },
   { 'n', 'sw', '<cmd>HopWord<cr>', { desc = '单词搜索' } },
   { 'n', 'sp', '<cmd>HopPattern<cr>', { desc = '正则搜索' } },
+  -- Plugin: gitblame
+  { 'n', '<leader>gl', '<cmd>GitBlameToggle<cr>', { desc = '显示/隐藏Git Blame' } },
   -- Plugin: bufferline快捷键
   { 'n', '<leader>]', '<cmd>BufferLineCycleNext<cr>', { desc = '切换下一个Tab签' } },
   { 'n', '<leader>[', '<cmd>BufferLineCyclePrev<cr>', { desc = '切换上一个Tab签' } },
