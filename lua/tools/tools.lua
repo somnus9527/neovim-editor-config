@@ -50,4 +50,17 @@ M.delete_other_unmodified_buffers = function()
   end
 end
 
+M.is_git_project = function()
+  -- local path = vim.loop.cwd() .. '/.git'
+  -- local ok = vim.loop.fs_stat(path)
+  -- if ok == nil then
+  --   return false
+  -- end
+  -- return true
+  local handle = io.popen 'git rev-parse --is-inside-work-tree 2>/dev/null'
+  local result = handle:read '*a'
+  handle:close()
+  return result:match '^true'
+end
+
 return M

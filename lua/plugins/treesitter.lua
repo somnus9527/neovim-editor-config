@@ -71,6 +71,17 @@ return {
       indent = {
         enable = false,
       },
+      fold = {
+        enable = true,
+      }
     }
+    -- Neovim 原生折叠设置
+    vim.opt.foldmethod = 'expr'
+    vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
+    vim.opt.foldcolumn = '0'
+    vim.opt.foldlevel = 99  -- 设置初始折叠级别 (可以展开所有折叠)
+    vim.opt.foldtext = ''
+    vim.opt.foldlevelstart = 4
+    vim.opt.foldnestmax = 4
   end,
 }

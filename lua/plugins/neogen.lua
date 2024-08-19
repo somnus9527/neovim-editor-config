@@ -1,4 +1,4 @@
-return { 
-  "danymat/neogen", 
+return {
+  "danymat/neogen",
   config = true,
 }
