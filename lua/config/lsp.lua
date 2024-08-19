@@ -93,7 +93,7 @@ vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.s
 lspconfig.eslint.setup({
 	capabilities = capabilities,
   -- 由于大型项目会造成eslint内存溢出，且很多文件也没必要交给eslint处理，这边增加限制，只处理最小需要处理的集合
-  cmd = { 'vscode-eslint-language-server', '--stdio', '-ext', 'ts,tsx,js,jsx,vue', './src' },
+  cmd = { 'vscode-eslint-language-server', '--stdio', '--ext', 'ts,tsx,js,jsx,vue', './src' },
 	-- 确保 eslint 仅在以下文件类型上启用
 	filetypes = {
 		"javascript",
