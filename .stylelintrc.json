@@ -1,0 +1,7 @@
+{
+  "rules": {
+    "block-no-empty": null,
+    "at-rule-no-unknown": false,
+    "no-descending-specificity": null
+  }
+}

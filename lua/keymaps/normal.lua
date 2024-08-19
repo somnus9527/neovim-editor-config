@@ -27,7 +27,7 @@ local keymaps = {
   { { 'v', 'o', 'n' }, 'H', '^', const.default_keymap_opt },
   { { 'v', 'o', 'n' }, 'L', '$', const.default_keymap_opt },
   { 'n', '<M-v>', '<C-v>', const.default_keymap_opt },
-  { 'n', '<M-b>', '<C-o>', const.default_keymap_opt },
+  { 'n', 'gb', '<C-o>', const.default_keymap_opt },
   { 'n', '<M-\\>', '<cmd>FocusSplitDown<cr>', const.default_keymap_opt },
   { 'n', '\\', '<cmd>FocusSplitRight<cr>', const.default_keymap_opt },
   { 'n', '<M-=>', '<C-w>10>', { desc = '窗口宽度扩大' } },

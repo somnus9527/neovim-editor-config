@@ -2,6 +2,25 @@ local const = require "tools.const"
 
 local M = {}
 
+M.path = {
+  path_separator = const.path_separator,
+  conf_root = function()
+    return vim.fn.expand(const.conf_path)
+  end,
+  root = function()
+    return vim.loop.cwd()
+  end,
+  exists = function(filename)
+    local stat = vim.loop.fs_stat(filename)
+    return stat ~= nil
+  end,
+  join = function(...)
+    return table
+      .concat(vim.tbl_flatten { ... }, const.path_separator)
+      :gsub(const.path_separator .. '+', const.path_separator)
+  end,
+}
+
 --- 扩展设置keymap的opts
 ---@param opts 
 ---@return 
@@ -61,6 +80,25 @@ M.is_git_project = function()
   local result = handle:read '*a'
   handle:close()
   return result:match '^true'
+end
+
+M.root_has_file = function(...)
+  local patterns = vim.tbl_flatten { ... }
+  local root = M.path.root()
+  for _, name in ipairs(patterns) do
+    if M.path.exists(M.path.join(root, name)) then
+      return true
+    end
+  end
+  return false
+end
+
+M.is_eslint_project = function()
+  return M.root_has_file(const.eslint_project_definition)
+end
+
+M.is_prettier_project = function()
+  return M.root_has_file(const.prettier_project_definition)
 end
 
 return M
