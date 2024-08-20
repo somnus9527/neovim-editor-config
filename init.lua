@@ -1,3 +1,4 @@
+require 'tools.load-env'
 require 'tools.global_fn'
 require 'config.normal'
 require 'keymaps.normal'

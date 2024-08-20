@@ -1,6 +1,7 @@
 local o = vim.o
 local g = vim.g
 local opt = vim.opt
+local env = vim.env
 
 g.mapleader = ' '
 opt.shortmess = opt.shortmess + "c"
@@ -27,11 +28,11 @@ o.numberwidth = 4
 o.swapfile = false
 -- tab转空格配置 start
 -- 设置文件里Tab代表的空格数
-o.tabstop = 2
+o.tabstop = tonumber(env.indent)
 -- (自动) 缩进每一步使用的空白数目
-o.shiftwidth = 2
+o.shiftwidth = tonumber(env.indent)
 -- 编辑时tab代表的空格数
-o.softtabstop = 2
+o.softtabstop = tonumber(env.indent)
 -- 插入模式里: 插入 <Tab> 时使用合适数量的空格
 o.expandtab = true
 -- 自动缩进

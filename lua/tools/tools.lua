@@ -82,6 +82,22 @@ M.is_git_project = function()
   return result:match '^true'
 end
 
+M.get_git_branch = function()
+  local handle = io.popen 'git rev-parse --abbrev-ref HEAD'
+  local result = handle:read '*a'
+  handle:close()
+  return result:gsub('^%s*(.-)%s*$', '%1')
+end
+
+M.is_contain = function (ckey, keys)
+  for _, key in ipairs(keys) do
+    if key == ckey then
+        return true
+    end
+  end
+  return false
+end
+
 M.root_has_file = function(...)
   local patterns = vim.tbl_flatten { ... }
   local root = M.path.root()
