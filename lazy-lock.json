@@ -63,6 +63,7 @@
   "trouble.nvim": { "branch": "main", "commit": "e32c194558ebeb433ccfd580a34c66770bc102bd" },
   "typescript.nvim": { "branch": "main", "commit": "4de85ef699d7e6010528dcfbddc2ed4c2c421467" },
   "usage-tracker.nvim": { "branch": "main", "commit": "739532b069e0d829b45ede989c657ac32a2141a6" },
+  "vim-fugitive": { "branch": "master", "commit": "0444df68cd1cdabc7453d6bd84099458327e5513" },
   "vim-polyglot": { "branch": "master", "commit": "bc8a81d3592dab86334f27d1d43c080ebf680d42" },
   "vscode-js-debug": { "branch": "main", "commit": "3df69ff4faf389301e1d9f05ba21c838462cc0d2" },
   "windline.nvim": { "branch": "master", "commit": "47b53bb49c663f3c177b2f0d00a79bb8166a6e59" },
