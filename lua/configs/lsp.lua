@@ -39,14 +39,19 @@ local lsp_formatting = function(bufnr)
   vim.lsp.buf.format {
     filter = function(client)
       -- if tools.is_web_project() and not tools.is_eslint_project() and not tools.is_prettier_project() then
-      --   local filetype = tools.get_buf_filetype()
-      --   local is_valid = tools.is_valid_filetype(filetype)
+        local filetype = tools.get_buf_filetype()
+        local is_valid = tools.is_valid_filetype(filetype)
+        if is_valid then
+          return client.name == 'null-ls'
+        else
+          return client.name ~= "null-ls"
+        end
       --   if is_valid then
-      if tools.is_web_project() then
-        return client.name == 'tsserver'
-      else
-        return client.name == 'null-ls'
-      end
+      -- if tools.is_web_project() then
+      --   return client.name == 'tsserver'
+      -- else
+      --   return client.name == 'null-ls'
+      -- end
       --   else
       --     return client.name == 'null-ls'
       --   end
