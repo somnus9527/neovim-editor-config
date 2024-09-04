@@ -7,7 +7,7 @@ return {
     local fzf = require 'fzf-lua'
     local tools = require 'tools.tools'
     local opts = {
-      file_ignore_patterns = { 'node_modules', 'build', 'dist', '.vscode' },
+      file_ignore_patterns = { 'node_modules/', 'dist/', '.vscode/' },
       winopts = {
         width = 0.9,
         height = 0.9,

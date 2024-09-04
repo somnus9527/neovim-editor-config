@@ -12,7 +12,7 @@ return {
 			if is_eslint_project then
 				return {
 					exe = "eslint_d",
-					args = { "--stdin", "--stdin-filename", vim.api.nvim_buf_get_name(0), "--fix-to-stdout" },
+					args = { "--stdin", "--stdin-filename", vim.api.nvim_buf_get_name(0), "--fix-to-stdout", try_node_modules = true },
 					stdin = true,
 				}
 			elseif is_prettier_project then

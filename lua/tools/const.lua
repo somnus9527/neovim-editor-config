@@ -10,7 +10,7 @@ M.default_keymap_opt = {
 }
 
 M.eslint_project_definition = {
-  '.eslintrc',
+  -- '.eslintrc',
   '.eslintrc.js',
   '.eslintrc.cjs',
   '.eslintrc.yaml',
