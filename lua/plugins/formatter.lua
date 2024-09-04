@@ -49,14 +49,21 @@ return {
 				javascriptreact = {
 					web_format,
 				},
+        vue = {
+          web_format,
+        },
 				lua = {
 					require("formatter.filetypes.lua").stylua,
 				},
-				["*"] = {
-					-- "formatter.filetypes.any" defines default configurations for any
-					-- filetype
-					require("formatter.filetypes.any").remove_trailing_whitespace,
-				},
+				json = {
+					function()
+						return {
+							exe = "jq",
+							args = {},
+							stdin = true,
+						}
+					end,
+				}
 			},
 		}
 		formatter.setup(opt)

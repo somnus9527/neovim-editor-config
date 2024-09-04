@@ -175,15 +175,22 @@ for _, lsp in ipairs(servers) do
 end
 
 local lsp_formatting = function(buffer)
-	-- 尝试执行格式化命令，并捕获成功或失败状态
-	local success = pcall(function()
-		vim.api.nvim_command("Format")
-	end)
-
-	-- 检查格式化是否成功
-	if not success then
-		-- 如果 formatter.nvim 不处理，使用 LSP 的格式化
-		vim.lsp.buf.formatting_sync({
+	-- 使用当前缓冲区编号作为默认值
+	buffer = buffer or vim.api.nvim_get_current_buf()
+	-- 获取当前文件类型
+	local filetype = vim.api.nvim_buf_get_option(buffer, "filetype")
+	local supported_filetypes =
+		{ "javascript", "typescript", "javascriptreact", "typescriptreact", "vue", "json", "lua" }
+	local is_support = false
+	for _, ft in ipairs(supported_filetypes) do
+		if filetype == ft then
+			is_support = true
+		end
+	end
+	if is_support then
+		pcall(vim.api.nvim_command, "Format")
+	else
+		vim.lsp.buf.format({
 			bufnr = buffer,
 			timeout_ms = 20000,
 		})
