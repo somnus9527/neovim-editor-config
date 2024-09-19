@@ -1,9 +1,16 @@
 return {
   "hrsh7th/nvim-cmp",
+  dependencies = {
+    "hrsh7th/cmp-nvim-lsp",
+    "hrsh7th/cmp-buffer",
+    "hrsh7th/cmp-path",
+    "onsails/lspkind-nvim",
+  },
   opts = function()
     vim.api.nvim_set_hl(0, "CmpGhostText", { link = "Comment", default = true })
     local cmp = require("cmp")
     local defaults = require("cmp.config.default")()
+    local lspkind = require('lspkind')
     local auto_select = true
     return {
       auto_brackets = {}, -- configure any filetype to auto add brackets
@@ -32,25 +39,29 @@ return {
         { name = "buffer" },
       }),
       formatting = {
-        format = function(entry, item)
-          local icons = LazyVim.config.icons.kinds
-          if icons[item.kind] then
-            item.kind = icons[item.kind] .. item.kind
-          end
-
-          local widths = {
-            abbr = vim.g.cmp_widths and vim.g.cmp_widths.abbr or 40,
-            menu = vim.g.cmp_widths and vim.g.cmp_widths.menu or 30,
-          }
-
-          for key, width in pairs(widths) do
-            if item[key] and vim.fn.strdisplaywidth(item[key]) > width then
-              item[key] = vim.fn.strcharpart(item[key], 0, width - 1) .. "…"
-            end
-          end
-
-          return item
-        end,
+        format = lspkind.cmp_format({
+          mode = 'symbol_text', -- 选择是否显示符号和文本
+          maxwidth = 80, -- 选项名称的最大宽度
+        }),
+        -- format = function(entry, item)
+        --   local icons = LazyVim.config.icons.kinds
+        --   if icons[item.kind] then
+        --     item.kind = icons[item.kind] .. item.kind
+        --   end
+        --
+        --   local widths = {
+        --     abbr = vim.g.cmp_widths and vim.g.cmp_widths.abbr or 40,
+        --     menu = vim.g.cmp_widths and vim.g.cmp_widths.menu or 30,
+        --   }
+        --
+        --   for key, width in pairs(widths) do
+        --     if item[key] and vim.fn.strdisplaywidth(item[key]) > width then
+        --       item[key] = vim.fn.strcharpart(item[key], 0, width - 1) .. "…"
+        --     end
+        --   end
+        --
+        --   return item
+        -- end,
       },
       experimental = {
         ghost_text = {
