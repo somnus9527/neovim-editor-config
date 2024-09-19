@@ -1,6 +1,2 @@
-require 'global_variables'
-require 'tools.global_fn'
-require 'options.normal'
-require 'autocmds.index'
-require 'keymaps.keymaps'
-require 'bootstrap'
+-- bootstrap lazy.nvim, LazyVim and your plugins
+require("config.lazy")

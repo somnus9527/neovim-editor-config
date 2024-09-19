@@ -1,4 +1,8 @@
-profile.json
-.git
-local_conf.ini
-usage_data.json
+tt.*
+.tests
+doc/tags
+debug
+.repro
+foo.*
+*.log
+data
