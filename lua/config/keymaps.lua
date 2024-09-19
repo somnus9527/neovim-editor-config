@@ -8,6 +8,10 @@ local del = vim.keymap.del
 del("i", "<A-j>")
 del("i", "<A-k>")
 del("n", "<leader>|")
+del("n", "<C-h>")
+del("n", "<C-j>")
+del("n", "<C-k>")
+del("n", "<C-l>")
 
 -- 增加自定义快捷键配置
 local map = LazyVim.safe_keymap_set
@@ -27,6 +31,12 @@ map("i", "<A-0>", '<C-r>"', { desc = "插入模式粘贴默认register中内容"
 map({ "n", "v" }, "<C-p>", '"+p', { desc = "普通/visual模式粘贴系统剪切板内容"})
 map({ "n", "v" }, "<C-0>", '""p', { desc = "普通/visual模式粘贴默认register中内容"})
 map("v", "p", '"_dP', { desc = "避免visual模式下粘贴影响正常yank的register" })
+map("n", "x", '"_x', { desc = "避免x删除的内容影响默认register" })
 map("v", "<C-c>", '"+y', { desc = "复制选中内容到系统剪切板" })
 map("n", "<leader>\\", "<C-w>v", { desc = "Split Window Right", remap = true })
 map("n", "<C-x>", "<C-w>q", { desc = "关闭Window" })
+map("n", "<leader>e", "<cmd>Oil<CR>", { desc = "打开文件系统" })
+map("n", "sh", "<C-w>h", { desc = "聚焦到左侧窗口" })
+map("n", "sj", "<C-w>j", { desc = "聚焦到下侧窗口" })
+map("n", "sk", "<C-w>k", { desc = "聚焦到上侧窗口" })
+map("n", "sl", "<C-w>l", { desc = "聚焦到右侧窗口" })
