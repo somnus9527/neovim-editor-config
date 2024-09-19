@@ -24,6 +24,7 @@ return {
         "toml",
         "vue",
         "yaml",
+        "bash",
       },
     },
     config = function(_, opts)
