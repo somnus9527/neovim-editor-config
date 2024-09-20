@@ -2,6 +2,9 @@
 -- Default options that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/options.lua
 -- Add any additional options here
 
+
+-- 使用fzf-lua替换telescope
+vim.g.lazyvim_picker = "fzf"
 vim.g.autoformat = false
 vim.g.bigfile_size = 1024 * 1024 * 5 -- 5 MB
 
