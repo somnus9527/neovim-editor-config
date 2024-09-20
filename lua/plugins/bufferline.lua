@@ -13,7 +13,7 @@ return {
     { "[B", false },
     { "]B", false },
     { "<Tab>", "<Cmd>BufferLineCycleNext<CR>", desc = "Next tab" },
-    { "<S-Tab>", "<Cmd>BufferLineCyclePrev<CR>", desc = "Prev tab" },
+    { "<A-Tab>", "<Cmd>BufferLineCyclePrev<CR>", desc = "Prev tab" },
   },
   opts = {
     options = {
