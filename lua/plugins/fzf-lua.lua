@@ -264,5 +264,15 @@ return {
       end,
       desc = "Goto Symbol (Workspace)",
     },
+    {
+      "<leader>sr",
+      '<cmd>lua require("fzf-lua").lsp_references({ jump_to_single_result = true, ignore_current_line = true, includeDeclaration = false })<CR>',
+      desc = "lsp references"
+    },
+    {
+      "<leader>si",
+      '<cmd>lua require("fzf-lua").lsp_implementations()<CR>',
+      desc = 'lsp implementations'
+    }
   },
 }
