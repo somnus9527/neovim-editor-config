@@ -124,7 +124,7 @@ return {
       },
       files = {
         rg_opts = "--files -g '!{.git,node_modules}/*'",
-        fd_opts = "--max-depth=5", -- 限制查找深度
+        fd_opts = "--max-depth=8", -- 限制查找深度
         cwd_prompt = false,
         actions = {
           ["alt-i"] = { actions.toggle_ignore },
