@@ -124,7 +124,8 @@ return {
       },
       files = {
         rg_opts = "--files -g '!{.git,node_modules}/*'",
-        fd_opts = "--max-depth=8", -- 限制查找深度
+        -- 不再限制，有的项目大的离谱，通过放大mac系统文件句柄限制来解决 ulimit -n 8192  # 适当增加限制，8192 是一个比较安全的值
+        -- fd_opts = "--max-depth=8", -- 限制查找深度
         cwd_prompt = false,
         actions = {
           ["alt-i"] = { actions.toggle_ignore },
