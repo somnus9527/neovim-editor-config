@@ -3,8 +3,9 @@
 -- Add any additional options here
 
 
--- 使用fzf-lua替换telescope
-vim.g.lazyvim_picker = "fzf"
+-- 使用fzf-lua替换telescope, 取消使用fzf-lua，占用大量文件句柄
+-- vim.g.lazyvim_picker = "fzf"
+vim.g.lazyvim_picker = "telescope"
 vim.g.autoformat = false
 vim.g.bigfile_size = 1024 * 1024 * 5 -- 5 MB
 
@@ -15,3 +16,4 @@ opt.clipboard = ""
 opt.cmdheight = 2
 opt.numberwidth = 4
 opt.showmode = true
+opt.swapfile = false
