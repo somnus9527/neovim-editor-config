@@ -34,9 +34,10 @@ require("lazy").setup({
     { import = "lazyvim.plugins.extras.ui.mini-indentscope" },
     { import = "lazyvim.plugins.extras.ui.treesitter-context" },
     { import = "lazyvim.plugins.extras.util.dot" },
-    { import = "lazyvim.plugins.extras.editor.telescope" },
+    -- telescope 也一样占用句柄。。。
+    -- { import = "lazyvim.plugins.extras.editor.telescope" },
     -- fzf虽然快，但是占用了大量的文件句柄，所以还是换回telescope
-    -- { import = "lazyvim.plugins.extras.editor.fzf" },
+    { import = "lazyvim.plugins.extras.editor.fzf" },
     -- import/override with your plugins
     { import = "plugins" },
   },
