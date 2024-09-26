@@ -12,6 +12,7 @@ del("n", "<C-h>")
 del("n", "<C-j>")
 del("n", "<C-k>")
 del("n", "<C-l>")
+del({ "n", "v" }, "<leader>cf")
 
 -- 增加自定义快捷键配置
 local map = LazyVim.safe_keymap_set
@@ -40,3 +41,6 @@ map("n", "sh", "<C-w>h", { desc = "聚焦到左侧窗口" })
 map("n", "sj", "<C-w>j", { desc = "聚焦到下侧窗口" })
 map("n", "sk", "<C-w>k", { desc = "聚焦到上侧窗口" })
 map("n", "sl", "<C-w>l", { desc = "聚焦到右侧窗口" })
+map({ "n", "v" }, "<a-;>", function()
+  LazyVim.format({ force = true })
+end, { desc = "Format" })
