@@ -17,3 +17,4 @@ opt.cmdheight = 2
 opt.numberwidth = 4
 opt.showmode = true
 opt.swapfile = false
+opt.shadafile = "none"
