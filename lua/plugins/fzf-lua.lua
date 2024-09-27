@@ -209,7 +209,7 @@ return {
       "<cmd>FzfLua buffers sort_mru=true sort_lastused=true<cr>",
       desc = "Buffers",
     },
-    { "<leader>.", LazyVim.pick("live_grep"), desc = "Grep (Root Dir)" },
+    { "<leader>.", LazyVim.pick("live_grep", { cwd = vim.uv.cwd() }), desc = "Grep (Root Dir)" },
     { "<leader>:", "<cmd>FzfLua command_history<cr>", desc = "Command History" },
     { "<leader><space>", LazyVim.pick("files", { cwd = vim.uv.cwd() }), desc = "Find Files (Root Dir)" },
     -- find
@@ -268,12 +268,12 @@ return {
     {
       "<leader>sr",
       '<cmd>lua require("fzf-lua").lsp_references({ jump_to_single_result = true, ignore_current_line = true, includeDeclaration = false })<CR>',
-      desc = "lsp references"
+      desc = "lsp references",
     },
     {
       "<leader>si",
       '<cmd>lua require("fzf-lua").lsp_implementations()<CR>',
-      desc = 'lsp implementations'
-    }
+      desc = "lsp implementations",
+    },
   },
 }
