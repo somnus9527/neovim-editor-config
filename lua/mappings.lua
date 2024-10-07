@@ -93,5 +93,81 @@ map("n", "-", "<cmd>BufferLinePickClose<cr>", { desc = "选择关闭指定Tab签
 map("n", "<leader>-", "<cmd>BufferLineCloseOthers<CR>", { desc = "关闭其它Tab签" })
 
 map("n", "<leader>ww", "<cmd>lua require('spectre').toggle()<CR>", { desc = "显示/隐藏Spectre" })
-map("n", "<leader>wc", "<cmd>lua require('spectre').open_visual({select_word=true})<CR>", { desc = "搜索当前单词(spectre)" })
-map("n", "<leader>wb", "<cmd>lua require('spectre').open_file_search({select_word=true})<CR>", { desc = "只在当前Buffer搜索" })
+map(
+  "n",
+  "<leader>wc",
+  "<cmd>lua require('spectre').open_visual({select_word=true})<CR>",
+  { desc = "搜索当前单词(spectre)" }
+)
+map(
+  "n",
+  "<leader>wb",
+  "<cmd>lua require('spectre').open_file_search({select_word=true})<CR>",
+  { desc = "只在当前Buffer搜索" }
+)
+
+map({ "n", "t" }, "<A-i>", function()
+  require("nvchad.term").toggle { pos = "vsp", size = 0.5 }
+end, { desc = "打开Terminal" })
+
+-- fzf-lua
+map("n", "<leader><space>", '<cmd>lua require("fzf-lua").files()<CR>', { desc = "FZF搜索文件" })
+map("n", "<leader>b", '<cmd>lua require("fzf-lua").buffers()<CR>', { desc = "FZF搜索当前打开的Buffers" })
+map("n", "<leader>,", '<cmd>lua require("fzf-lua").resume()<CR>', { desc = "还原FZF上次搜索" })
+map("n", "<leader>.", '<cmd>lua require("fzf-lua").live_grep()<CR>', { desc = "FZF搜索字符(整个项目)" })
+map(
+  "v",
+  "<leader>.",
+  '<cmd>lua require("fzf-lua").grep_visual()<CR>',
+  { desc = "FZF搜索选中的字符(整个项目)" }
+)
+map(
+  "n",
+  "<leader>w",
+  '<cmd>lua require("fzf-lua").grep_cword()<CR>',
+  { desc = "FZF搜索光标下的字母(整个项目)" }
+)
+map("n", "<leader>/", '<cmd>lua require("fzf-lua").lgrep_curbuf()<CR>', { desc = "FZF搜索字符(当前Buffer)" })
+map("n", "<leader>'", '<cmd>lua require("fzf-lua").registers()<CR>', { desc = "FZF搜索registers" })
+map(
+  "n",
+  "<leader>o",
+  '<cmd>lua require("fzf-lua").oldfiles({ cwd_only = true })<CR>',
+  { desc = "FZF搜索文件历史" }
+)
+map(
+  "n",
+  "<leader>gcc",
+  '<cmd>lua require("fzf-lua").git_bcommits()<CR>',
+  { desc = "FZF搜索提交历史(当前Buffer)" }
+)
+map(
+  "n",
+  "<leader>gca",
+  '<cmd>lua require("fzf-lua").git_commits()<CR>',
+  { desc = "FZF搜索提交历史(整个项目)" }
+)
+map("n", "<leader>gs", '<cmd>lua require("fzf-lua").git_status()<CR>', { desc = "FZF搜索git status" })
+map("n", "<leader>gb", '<cmd>lua require("fzf-lua").git_commits()<CR>', { desc = "FZF搜索git branchs" })
+map(
+  "n",
+  "<leader>lr",
+  '<cmd>lua require("fzf-lua").lsp_references({ jump_to_single_result = true, ignore_current_line = true, includeDeclaration = false })<CR>',
+  { desc = "FZF搜索references" }
+)
+map("n", "<leader>li", '<cmd>lua require("fzf-lua").lsp_implementations()<CR>', { desc = "FZF搜索implementations" })
+map(
+  "n",
+  "<leader>ls",
+  '<cmd>lua require("fzf-lua").lsp_document_symbols()<CR>',
+  { desc = "FZF搜索symbols(当前Buffer)" }
+)
+map(
+  "n",
+  "<leader>ld",
+  '<cmd>lua require("fzf-lua").diagnostics_document()<CR>',
+  { desc = "FZF搜索diagnostics(当前Buffer)" }
+)
+map("n", "<leader>`", function()
+  require("nvchad.themes").open { style = "flat" }
+end, { desc = "切换主题" })

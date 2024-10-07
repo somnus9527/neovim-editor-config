@@ -8,11 +8,11 @@ local M = {}
 M.ui = {
   statusline = {
     theme = "minimal",
-    separator_style = "arrow",
+    separator_style = "block",
   },
   cmp = {
     lspkind_text = true,
-    style = "atom",
+    style = "atom_colored",
   },
 }
 
@@ -47,7 +47,7 @@ M.nvdash = {
 }
 
 M.base46 = {
-  theme = "tokyodark",
+  theme = "chocolate",
 
   hl_override = {
     Comment = { italic = true },
