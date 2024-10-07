@@ -35,12 +35,14 @@ del("n", "<C-w><C-d>")
 del("n", "<C-w>d")
 del("n", "<leader>ch")
 del("n", "<leader>th")
+del("n", "<TAB>")
 
 -- 增加自定义快捷键
 
 local map = vim.keymap.set
 
 map("i", "jk", "<ESC>")
+map("n", "<A-q>", "<cmd>q<cr>", { desc = "cmd quit" })
 map("n", "sh", "<C-w>h", { desc = "切换到左侧窗口" })
 map("n", "sj", "<C-w>j", { desc = "切换到下方窗口" })
 map("n", "sk", "<C-w>k", { desc = "切换到上方窗口" })
@@ -107,7 +109,13 @@ map(
 )
 
 map({ "n", "t" }, "<A-i>", function()
-  require("nvchad.term").toggle { pos = "vsp", size = 0.5 }
+  require("nvchad.term").toggle { pos = "vsp" }
+end, { desc = "打开Terminal" })
+map({ "n", "t" }, "<A-s>", function()
+  require("nvchad.term").toggle { pos = "sp" }
+end, { desc = "打开Terminal" })
+map({ "n", "t" }, "<A-f>", function()
+  require("nvchad.term").toggle { pos = "float" }
 end, { desc = "打开Terminal" })
 
 -- fzf-lua
@@ -137,13 +145,13 @@ map(
 )
 map(
   "n",
-  "<leader>gcc",
+  "<leader>gh",
   '<cmd>lua require("fzf-lua").git_bcommits()<CR>',
   { desc = "FZF搜索提交历史(当前Buffer)" }
 )
 map(
   "n",
-  "<leader>gca",
+  "<leader>gc",
   '<cmd>lua require("fzf-lua").git_commits()<CR>',
   { desc = "FZF搜索提交历史(整个项目)" }
 )
@@ -171,3 +179,5 @@ map(
 map("n", "<leader>`", function()
   require("nvchad.themes").open { style = "flat" }
 end, { desc = "切换主题" })
+
+map("n", "ge", "<cmd>lua vim.diagnostic.open_float()<CR>", { desc = "展示报错详情" })

@@ -26,6 +26,7 @@ o.foldmethod = 'expr'
 o.foldexpr = 'nvim_treesitter#foldexpr()'
 -- 自动打开文件时不折叠
 o.foldlevelstart = 99
+o.sessionoptions="buffers,curdir,folds,help,tabpages,winsize,winpos,localoptions"
 
 opt.shortmess = opt.shortmess + "c"
 -- 不使用系统粘贴板

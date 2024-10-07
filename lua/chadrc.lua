@@ -41,7 +41,7 @@ M.nvdash = {
     "",
   },
   buttons = {
-    { txt = "  Find File", keys = "<Space><Space>", cmd = "FzfLua files" },
+    { txt = "", keys = "", cmd = "FzfLua files" },
   },
   load_on_startup = true,
 }
@@ -57,6 +57,26 @@ M.base46 = {
 
 M.colorify = {
   enabled = true,
+}
+
+M.term = {
+  winopts = {
+    number = true,
+  },
+  sizes = {
+    sp = 0.5,
+    vsp = 0.5,
+    ["bo sp"] = 0.5,
+    ["bo vsp"] = 0.5,
+  },
+  float = {
+    relative = "editor",
+    width = 0.75,
+    height = 0.75,
+    row = 0.6,
+    col = 0.5,
+    border = "single",
+  }
 }
 
 return M

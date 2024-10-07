@@ -1,6 +1,7 @@
 {
   "LuaSnip": { "branch": "master", "commit": "e808bee352d1a6fcf902ca1a71cee76e60e24071" },
   "NvChad": { "branch": "v2.5", "commit": "c253efe61fbc81bd58054f7fc2f3ac919e35db63" },
+  "auto-session": { "branch": "main", "commit": "9d02776ed42874d37869dc683396234e3724b52d" },
   "barbecue": { "branch": "main", "commit": "3e31404f0b93a2c30d151abf0648650ac811c664" },
   "base46": { "branch": "v2.5", "commit": "d5a768e9a8849a36c6cfc0c7134b05cb7584c7af" },
   "better-escape.nvim": { "branch": "master", "commit": "bb197e51a91a635deb88630813c3bfc284413697" },
@@ -32,7 +33,6 @@
   "nvim-autopairs": { "branch": "master", "commit": "ee297f215e95a60b01fde33275cc3c820eddeebe" },
   "nvim-biscuits": { "branch": "main", "commit": "ff1d12c8b47cd28723da593b2cfa2e98391d439a" },
   "nvim-cmp": { "branch": "main", "commit": "ae644feb7b67bf1ce4260c231d1d4300b19c6f30" },
-  "nvim-cursorline": { "branch": "main", "commit": "804f0023692653b2b2368462d67d2a87056947f9" },
   "nvim-lspconfig": { "branch": "master", "commit": "0678aa439b82965daf03679cd146e84f10e299c3" },
   "nvim-navic": { "branch": "master", "commit": "8649f694d3e76ee10c19255dece6411c29206a54" },
   "nvim-spectre": { "branch": "master", "commit": "ba7fb777edff6c1fbbeffd343e113af64c04e90a" },

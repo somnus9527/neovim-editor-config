@@ -35,7 +35,7 @@ return {
     todo.setup(opts)
     local keymaps = {
       -- { 'n', '<leader>tt', '<cmd>TodoTrouble<CR>', { desc = '在Trouble中展示所有TODO Comments' } },
-      { 'n', '<leader>t', '<cmd>TodoFzfLua<CR>', { desc = '在Telescope中展示所有TODO Comments' } },
+      { 'n', '<leader>t', '<cmd>TodoFzfLua<CR>', { desc = '在FzfLua中展示所有TODO Comments' } },
       {
         'n',
         '<A-]>',
