@@ -52,5 +52,6 @@
   "ui": { "branch": "v3.0", "commit": "69194f69ac2037519ac9f4749580a544fe4d7b93" },
   "vim-cursorword": { "branch": "master", "commit": "371fdd7fa8817c28aa09d181cfcfa3c7ca29bf56" },
   "vim-jsdoc": { "branch": "master", "commit": "6e5bc2a1f98a69e4902081c9f5969b228a7a5fd6" },
+  "vim-visual-multi": { "branch": "master", "commit": "a6975e7c1ee157615bbc80fc25e4392f71c344d4" },
   "volt": { "branch": "main", "commit": "a0c9e76cc8998444d22bf27476987529dc010525" }
 }
