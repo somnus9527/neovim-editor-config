@@ -181,3 +181,6 @@ map("n", "<leader>`", function()
 end, { desc = "切换主题" })
 
 map("n", "ge", "<cmd>lua vim.diagnostic.open_float()<CR>", { desc = "展示报错详情" })
+map("n", "<leader>c", "<cmd>JsDoc<CR>", { desc = "JS/TS注释" })
+
+map("n", "<leader>m", "<cmd>Grapple toggle_tags<CR>", { desc = "Toggle Mark" })
