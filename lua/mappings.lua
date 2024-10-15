@@ -145,7 +145,7 @@ map(
 )
 map(
   "n",
-  "<leader>gh",
+  "<leader>gb",
   '<cmd>lua require("fzf-lua").git_bcommits()<CR>',
   { desc = "FZF搜索提交历史(当前Buffer)" }
 )
@@ -156,7 +156,8 @@ map(
   { desc = "FZF搜索提交历史(整个项目)" }
 )
 map("n", "<leader>gs", '<cmd>lua require("fzf-lua").git_status()<CR>', { desc = "FZF搜索git status" })
-map("n", "<leader>gb", '<cmd>lua require("fzf-lua").git_commits()<CR>', { desc = "FZF搜索git branchs" })
+-- 几乎不用
+-- map("n", "<leader>gb", '<cmd>lua require("fzf-lua").git_branches()<CR>', { desc = "FZF搜索git branchs" })
 map(
   "n",
   "<leader>lr",
@@ -184,3 +185,4 @@ map("n", "ge", "<cmd>lua vim.diagnostic.open_float()<CR>", { desc = "展示报�
 map("n", "<leader>c", "<cmd>JsDoc<CR>", { desc = "JS/TS注释" })
 
 map("n", "<leader>m", "<cmd>Grapple toggle_tags<CR>", { desc = "Toggle Mark" })
+map("v", "<leader>gh", ":lua require('git-log').check_log()<CR>", { desc = "当前选中内容的git log" })
