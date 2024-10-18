@@ -1,6 +1,6 @@
 -- 为前端相关语言优化keyword配置
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "javascript", "javascriptreact", "typescript", "typescriptreact", "html", "css", "vue", "json" },
+  pattern = { "javascript", "javascriptreact", "typescript", "typescriptreact", "html", "css", "vue", "json", "less", "scss" },
   callback = function()
     vim.opt_local.iskeyword:append("-")
     vim.opt_local.iskeyword:append("_")
