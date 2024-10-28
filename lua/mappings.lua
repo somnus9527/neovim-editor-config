@@ -182,7 +182,7 @@ map("n", "<leader>`", function()
 end, { desc = "切换主题" })
 
 map("n", "ge", "<cmd>lua vim.diagnostic.open_float()<CR>", { desc = "展示报错详情" })
-map("n", "<leader>c", "<cmd>JsDoc<CR>", { desc = "JS/TS注释" })
+map("n", "<leader>cm", "<cmd>JsDoc<CR>", { desc = "JS/TS注释" })
 
 map("n", "<leader>m", "<cmd>Grapple toggle_tags<CR>", { desc = "Toggle Mark" })
 map("v", "<leader>gh", ":lua require('git-log').check_log()<CR>", { desc = "当前选中内容的git log" })
