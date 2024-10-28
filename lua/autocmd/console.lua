@@ -14,7 +14,7 @@ vim.api.nvim_create_autocmd("FileType", {
       local file_path = vim.fn.expand "%:p"
       local relative_path = vim.fn.fnamemodify(file_path, ":~:.")
       local icon = "🚀"
-      local tag = "[Somnus9527 Log]"
+      local tag = "[Generated Log]"
 
       -- 获取当前的 Tree-sitter 节点
       local node = ts_utils.get_node_at_cursor()
