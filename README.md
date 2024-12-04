@@ -1,9 +1,45 @@
-**This repo is supposed to used as config by NvChad users!**
+### Somnus9527's Neovim Editor
 
-- The main nvchad repo (NvChad/NvChad) is used as a plugin by this repo.
-- So you just import its modules , like `require "nvchad.options" , require "nvchad.mappings"`
-- So you can delete the .git from this repo ( when you clone it locally ) or fork it :)
+> 基于NvChad配置
 
-# Credits
+#### 备注
 
-1) Lazyvim starter https://github.com/LazyVim/starter as nvchad's starter was inspired by Lazyvim's . It made a lot of things easier!
+##### .tmux.conf文件示例
+```.tmux.conf
+# 设置前缀
+set -g prefix C-q
+# 取消原前缀
+unbind C-b
+# 启用鼠标交互
+set-option -g mouse on
+
+set -g focus-events on
+
+# 使用vi风格的按键绑定
+setw -g mode-keys vi
+
+# 进入复制模式时启动vi风格
+bind-key -T copy-mode-vi 'v' send -X begin-selection
+bind-key -T copy-mode-vi 'y' send -X copy-selection-and-cancel \; run "tmux save-buffer - | pbcopy"
+
+# 行尾
+bind-key -T copy-mode-vi '$' send -X end-of-line
+
+# 行首
+bind-key -T copy-mode-vi '0' send -X start-of-line
+
+# 向后一个单词
+bind-key -T copy-mode-vi 'w' send -X next-word
+
+# 向前一个单词
+bind-key -T copy-mode-vi 'b' send -X previous-word
+
+# 到下一个单词末尾
+bind-key -T copy-mode-vi 'e' send -X next-word-end
+
+# 向上翻页
+bind-key -T copy-mode-vi 'C-u' send -X page-up
+
+# 向下翻页
+bind-key -T copy-mode-vi 'C-d' send -X page-down
+```
