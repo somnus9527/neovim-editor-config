@@ -1,23 +1,19 @@
 return {
-  'akinsho/bufferline.nvim',
-  event = { 'BufNewFile', 'BufReadPre' },
-  dependencies = {
-    'nvim-tree/nvim-web-devicons',
+  "akinsho/bufferline.nvim",
+  keys = {
+    { "<S-h>", false },
+    { "<S-l>", false },
+    { "[b", false },
+    { "]b", false },
+    { "[B", false },
+    { "]B", false },
+    { "<leader>bp", false },
+    { "<leader>bP", false },
+    { "<leader>br", false },
+    { "<leader>br", false },
+    { "]B", false },
+    { "<leader>fp", false },
+    { "<leader>-", "<Cmd>BufferLineCloseLeft<CR>", desc = "删除左侧所有Buffers" },
+    { "<leader>+", "<Cmd>BufferLineCloseRight<CR>", desc = "删除右侧所有Buffers" },
   },
-  config = function()
-    local icons = require "tools.icons"
-    require('bufferline').setup {
-      options = {
-        numbers = 'ordinal',
-        separator_style = "thick",
-        offsets = {
-          {
-            filetype = 'neo-tree',
-            text = icons.Other.Workspace .. ' File Explorer',
-            text_align = 'left',
-          },
-        },
-      },
-    }
-  end,
 }
