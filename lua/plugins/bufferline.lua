@@ -14,6 +14,6 @@ return {
     { "]B", false },
     { "<leader>fp", false },
     { "<leader>-", "<Cmd>BufferLineCloseLeft<CR>", desc = "删除左侧所有Buffers" },
-    { "<leader>+", "<Cmd>BufferLineCloseRight<CR>", desc = "删除右侧所有Buffers" },
+    { "<leader>=", "<Cmd>BufferLineCloseRight<CR>", desc = "删除右侧所有Buffers" },
   },
 }
