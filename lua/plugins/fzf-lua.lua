@@ -150,6 +150,8 @@ return {
     { "<leader>sb", false },
     { "<leader>s", false },
     { "<leader>fr", false },
+    { "<leader>ff", false },
+    { "<leader>fF", false },
     { "<leader>uC", false },
     {
       "<leader>b",
