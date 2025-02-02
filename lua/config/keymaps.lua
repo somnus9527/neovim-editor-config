@@ -45,7 +45,7 @@ map({ "n", "v" }, "<A-p>", '"+p', { desc = "普通/visual模式粘贴系统剪�
 map({ "n", "v" }, "<A-0>", '""p', { desc = "普通/visual模式粘贴默认register中内容" })
 map("v", "p", '"_dP', { desc = "避免visual模式下粘贴影响正常yank的register" })
 map("n", "x", '"_x', { desc = "避免x删除的内容影响默认register" })
-map("v", "<C-c>", '"+y', { desc = "复制选中内容到系统剪切板" })
+map("v", "<A-c>", '"+y', { desc = "复制选中内容到系统剪切板" })
 map("n", "<leader>\\", "<C-w>v", { desc = "Split Window Right", remap = true })
 map("n", "<C-x>", "<C-w>q", { desc = "关闭Window" })
 map("n", "sh", "<C-w>h", { desc = "聚焦到左侧窗口" })
