@@ -4,6 +4,7 @@
 
 local o = vim.o
 local opt = vim.opt
+local g = vim.g
 
 o.number = true
 o.relativenumber = true
@@ -31,3 +32,5 @@ o.sessionoptions = "buffers,curdir,folds,help,tabpages,winsize,winpos,localoptio
 opt.shortmess = opt.shortmess + "c"
 -- 不使用系统粘贴板
 opt.clipboard = ""
+
+g.autoformat = false
