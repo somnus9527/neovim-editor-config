@@ -34,3 +34,4 @@ opt.shortmess = opt.shortmess + "c"
 opt.clipboard = ""
 
 g.autoformat = false
+g.root_spec = { "lsp", "cwd", { ".git", "lua" } }
