@@ -10,7 +10,7 @@ return {
       ["<A-n>"] = { "select_next", "fallback" },
       ["<A->>"] = { "scroll_documentation_down", "fallback" },
       ["<A-<>"] = { "scroll_documentation_up", "fallback" },
-      ["<A-i>"] = { "show", "show_documentation", "hide_documentation" },
+      ["<A-d>"] = { "show", "show_documentation", "hide_documentation" },
       ["<A-e>"] = { "hide", "fallback" },
     },
   },
