@@ -14,6 +14,7 @@ return {
     LazyVim.extend(opts, "servers", {
       cssls = {},
       cssmodules_ls = {},
+      html = {},
     })
     LazyVim.extend(opts, "setup", {
       -- 解决clangd offset encoding问题
