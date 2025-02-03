@@ -11,6 +11,10 @@ return {
     -- add a keymap
     -- keys[#keys + 1] = { "H", "<cmd>echo 'hello'<cr>" }
     keys[#keys + 1] = { "ge", "<cmd>lua vim.diagnostic.open_float()<CR>" }
+    LazyVim.extend(opts, "servers", {
+      cssls = {},
+      cssmodules_ls = {},
+    })
     LazyVim.extend(opts, "setup", {
       -- 解决clangd offset encoding问题
       clangd = function(_, copts)
