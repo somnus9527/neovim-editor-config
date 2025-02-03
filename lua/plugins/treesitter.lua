@@ -1,6 +1,12 @@
 return {
   "nvim-treesitter/nvim-treesitter",
   opts = {
+    ensure_installed = {
+      "html",
+      "css",
+      "jsdoc",
+      "scss",
+    },
     incremental_selection = {
       enable = true,
       keymaps = {
