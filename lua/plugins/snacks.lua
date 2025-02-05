@@ -17,4 +17,7 @@ return {
       },
     },
   },
+  keys = {
+    { "<leader>.", false },
+  }
 }
