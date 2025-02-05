@@ -9,6 +9,10 @@ return {
         }
       }
     },
+    keys = {
+      o = nil,
+      ["<cr>"] = "jump_close",
+    }
   },
   keys = {
     { "<leader>cs", false },
