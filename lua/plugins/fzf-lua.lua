@@ -159,7 +159,7 @@ return {
       desc = "切换buffer",
     },
     { "<leader>.", LazyVim.pick("live_grep"), mode = "n", desc = "字符搜索(Root Dir)" },
-    { "<leader>.", LazyVim.pick("grep_visual"), mode = "v", desc = "Selection (Root Dir)" },
+    { "<leader>.", LazyVim.pick("grep_visual"), mode = "v", desc = "字符搜索 (Root Dir)" },
     { "<leader>,", "<cmd>FzfLua resume<cr>", desc = "重新打开" },
     { "<leader>/", '<cmd>lua require("fzf-lua").grep_curbuf()<CR>', desc = "字符搜索(当前Buffer)" },
     { "<leader>'", "<cmd>FzfLua registers<cr>", desc = "Registers" },
