@@ -122,12 +122,19 @@ vim.api.nvim_create_autocmd("FileType", {
     if not vim.g.console_log_keymap_set then
       vim.api.nvim_set_keymap(
         "n",
-        "<leader>cl",
+        "<leader>ce",
         ":lua insert_console_log_with_scope()<CR>",
         { noremap = true, silent = true }
       )
       vim.g.console_log_keymap_set = true
     end
+  end,
+})
+
+vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
+  pattern = { "*.component.html", "*.container.html" },
+  callback = function()
+    vim.treesitter.start(nil, "angular")
   end,
 })
 
