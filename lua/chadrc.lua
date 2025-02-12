@@ -20,16 +20,6 @@ M.nvdash = {
   header = {
     "",
     "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
     "Somnus9527's Neovim Editor",
     "",
     "我从前单听他讲道理，也糊涂过去;",
@@ -41,7 +31,7 @@ M.nvdash = {
     "",
   },
   buttons = {
-    { txt = "", keys = "", cmd = "FzfLua files" },
+    { txt = "查询文件", keys = "f", cmd = "FzfLua files" },
   },
   load_on_startup = true,
 }
