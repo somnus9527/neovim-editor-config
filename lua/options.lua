@@ -34,6 +34,7 @@ opt.shortmess = opt.shortmess + "c"
 opt.clipboard = ""
 
 if g.neovide then
+  g.neovide_fullscreen = true
   g.neovide_input_ime = true
   g.neovide_input_macos_option_key_is_meta = "only_left"
   -- 字体
