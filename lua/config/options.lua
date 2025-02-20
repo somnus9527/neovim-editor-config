@@ -35,3 +35,10 @@ opt.clipboard = ""
 
 g.autoformat = false
 g.root_spec = { "lsp", "cwd", { ".git", "lua" } }
+
+if g.neovide then
+  -- 处理mac alt按键失效的问题
+  if not vim.loop.os_uname().version:match('Windows') then
+    g.neovide_input_macos_option_key_is_meta = 'only_left'
+  end
+end
