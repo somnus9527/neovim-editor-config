@@ -166,7 +166,7 @@ return {
     { "<leader>o", "<cmd>FzfLua oldfiles<cr>", desc = "历史文件" },
     {
       "<leader>sr",
-      "<cmd>lua require('fzf-lua').lsp_references({ jump_to_single_result = true, ignore_current_line = true, includeDeclaration = false })<CR>",
+      "<cmd>lua require('fzf-lua').lsp_references({ ignore_current_line = true, includeDeclaration = false })<CR>",
       desc = "FZF搜索Reference",
     },
     { "<leader>si", "<cmd>lua require('fzf-lua').lsp_implementations()<CR>", desc = "FZF搜索implementations" },
