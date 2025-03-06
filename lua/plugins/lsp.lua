@@ -8,9 +8,20 @@ return {
     -- disable a keymap
     keys[#keys + 1] = { "<a-n>", false }
     keys[#keys + 1] = { "<a-p>", false }
+    keys[#keys + 1] = { "K", false }
     -- add a keymap
     -- keys[#keys + 1] = { "H", "<cmd>echo 'hello'<cr>" }
     keys[#keys + 1] = { "ge", "<cmd>lua vim.diagnostic.open_float()<CR>" }
+    keys[#keys + 1] = {
+      "K",
+      function()
+        local hover = vim.lsp.buf_request_sync(0, "textDocument/hover", vim.lsp.util.make_position_params())
+        if not hover or vim.tbl_isempty(hover) then
+          return
+        end
+        vim.lsp.buf.hover()
+      end,
+    }
     LazyVim.extend(opts, "servers", {
       cssls = {},
       cssmodules_ls = {},

@@ -36,6 +36,11 @@ opt.clipboard = ""
 g.autoformat = false
 g.root_spec = { "lsp", "cwd", { ".git", "lua" } }
 
+opt.wrap = true
+o.linebreak = true
+o.breakindent = true
+o.showbreak = '↪'
+
 if g.neovide then
   -- 处理mac alt按键失效的问题
   if not vim.loop.os_uname().version:match('Windows') then
