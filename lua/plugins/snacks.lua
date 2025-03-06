@@ -19,5 +19,8 @@ return {
   },
   keys = {
     { "<leader>.", false },
+    { "<leader>/", false },
+    { "<leader><space>", false },
+    { "<leader>,", false },
   }
 }
