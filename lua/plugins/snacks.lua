@@ -16,6 +16,9 @@ return {
         },
       },
     },
+    notifier = {
+      level = vim.log.levels.WARN,
+    },
   },
   keys = {
     { "<leader>.", false },
