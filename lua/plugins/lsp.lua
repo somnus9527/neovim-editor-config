@@ -32,16 +32,16 @@ return {
       clangd = function(_, copts)
         copts.capabilities.offsetEncoding = { "utf-16" }
       end,
-      eslint = function()
-        -- 解决eslint-plugin-prettier问题
-        require("lazyvim.util").lsp.on_attach(function(client)
-          if client.name == "eslint" then
-            client.server_capabilities.documentFormattingProvider = true
-          elseif client.name == "vtsls" then
-            client.server_capabilities.documentFormattingProvider = false
-          end
-        end)
-      end,
+      -- eslint = function()
+      --   -- 解决eslint-plugin-prettier问题
+      --   require("lazyvim.util").lsp.on_attach(function(client)
+      --     if client.name == "eslint" then
+      --       client.server_capabilities.documentFormattingProvider = true
+      --     elseif client.name == "vtsls" then
+      --       client.server_capabilities.documentFormattingProvider = false
+      --     end
+      --   end)
+      -- end,
     })
   end,
 }
