@@ -65,7 +65,7 @@ vim.api.nvim_create_autocmd("FileType", {
       local file_path = vim.fn.expand("%:p")
       local relative_path = vim.fn.fnamemodify(file_path, ":~:.")
       local icon = "🚀"
-      local tag = "[Generated Log]"
+      local tag = "[Neovim AutoGR Log]"
 
       -- 获取当前的 Tree-sitter 节点
       local node = ts_utils.get_node_at_cursor()
@@ -105,7 +105,7 @@ vim.api.nvim_create_autocmd("FileType", {
 
       -- 生成 console.log 语句
       local log_statement = string.format(
-        "console.log('%s %s: path = %s, scope = %s, %s = ', %s);",
+        "console.log('%%c %s %s: path = %s, scope = %s, %s = ', 'color: orangered; font-weight: bold;', %s);",
         icon,
         tag,
         relative_path,
@@ -122,6 +122,12 @@ vim.api.nvim_create_autocmd("FileType", {
     if not vim.g.console_log_keymap_set then
       vim.api.nvim_set_keymap(
         "n",
+        "<leader>ce",
+        ":lua insert_console_log_with_scope()<CR>",
+        { noremap = true, silent = true }
+      )
+      vim.api.nvim_set_keymap(
+        "v",
         "<leader>ce",
         ":lua insert_console_log_with_scope()<CR>",
         { noremap = true, silent = true }
