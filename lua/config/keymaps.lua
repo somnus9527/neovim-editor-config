@@ -73,3 +73,17 @@ end, { desc = "删除其它Tab" })
 map({ "n", "v" }, "<leader>f", function()
   LazyVim.format({ force = true })
 end, { desc = "Format" })
+
+-- operator-pending mode
+local operator_pending_opts = { noremap = true }
+map('o', '(', 'i(', operator_pending_opts)
+map('o', ')', 'a(', operator_pending_opts)
+map('o', '[', 'i[', operator_pending_opts)
+map('o', ']', 'a[', operator_pending_opts)
+map('o', '<', 'i<', operator_pending_opts)
+map('o', '>', 'a<', operator_pending_opts)
+map('o', '{', 'i{', operator_pending_opts)
+map('o', '}', 'a}', operator_pending_opts)
+map('o', '\'', 'i\'', operator_pending_opts)
+map('o', '\"', 'i\"', operator_pending_opts)
+
