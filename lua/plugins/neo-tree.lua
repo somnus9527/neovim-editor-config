@@ -1,5 +1,9 @@
 return {
   "nvim-neo-tree/neo-tree.nvim",
+  keys = {
+    { "<leader>e", false },
+    { "<leader>e", "<leader>fE", desc = "Explorer NeoTree (cwd)", remap = true },
+  },
   opts = {
     close_if_last_window = true,
     window = {
@@ -15,6 +19,7 @@ return {
       }
     },
     filesystem = {
+      bind_to_cwd = true,
       filtered_items = {
         hide_dotfiles = false,
         hide_gitignored = false,
