@@ -19,6 +19,7 @@ return {
     notifier = {
       level = vim.log.levels.WARN,
     },
+    terminal = { enabled = false },
   },
   keys = {
     { "<leader>.", false },
