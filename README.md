@@ -6,3 +6,6 @@ Refer to the [documentation](https://lazyvim.github.io/installation) to get star
 #### 备注
 
 1. lsp中增加的css_ls和cssmodule_ls,html两个server，需要手动通过命令安装`:LspInstall css_ls cssmodule_ls,html`
+
+#### TODO
+- [ ] 需要尝试[grapple](https://github.com/cbochs/grapple.nvim)插件

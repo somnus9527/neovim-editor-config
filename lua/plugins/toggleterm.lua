@@ -45,7 +45,7 @@ return {
     -- 绑定快捷键
     vim.keymap.set({ "n", "t" }, "<A-\\>", _VTerm, { silent = true, desc = "新开一个垂直终端" })
     vim.keymap.set({ "n", "t" }, "<A-/>", _HTerm, { silent = true, desc = "新开一个水平终端" })
-    vim.keymap.set({ "n", "t" }, "<A-t>", _ToggleTerm, { silent = true, desc = "Toggle所以终端" })
-    vim.keymap.set("n", "<leader>tt", _ListTerm, { silent = true, desc = "当前所有终端列表" })
+    vim.keymap.set({ "n", "t" }, "<A-i>", _ToggleTerm, { silent = true, desc = "Toggle所以终端" })
+    vim.keymap.set({ "n", "t" }, "<A-t>", _ListTerm, { silent = true, desc = "当前所有终端列表" })
   end,
 }
