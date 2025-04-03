@@ -27,6 +27,7 @@ del("n", "<leader>bo")
 del("n", "<leader>bD")
 del("n", "<leader>ft")
 del("n", "<leader>fT")
+del("n", "<leader>l")
 del({ "n", "t" }, "<C-_>")
 del({ "n", "t" }, "<C-/>")
 

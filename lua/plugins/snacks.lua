@@ -25,5 +25,8 @@ return {
     { "<leader>.", false },
     { "<leader>/", false },
     { "<leader>,", false },
+    { "<leader><space>", false },
+    { "<leader>ff", false },
+    { "<leader>fF", false },
   }
 }

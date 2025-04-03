@@ -23,13 +23,13 @@ return {
     local Terminal = require("toggleterm.terminal").Terminal
 
     -- 创建垂直终端
-    function _VTerm()
-      Terminal:new():toggle(vim.o.columns * 0.4, "vertical")
+    function _VTerm(name)
+      Terminal:new({ display_name = name }):toggle(vim.o.columns * 0.4, "vertical")
     end
 
     -- 创建水平终端
-    function _HTerm()
-      Terminal:new():toggle(20, "horizontal")
+    function _HTerm(name)
+      Terminal:new({ display_name = name }):toggle(20, "horizontal")
     end
 
     -- Toggle所有终端
@@ -42,10 +42,32 @@ return {
       vim.api.nvim_command("TermSelect")
     end
 
+    -- 创建具名垂直终端
+    function _NamedVTerm()
+      local term_name = vim.fn.input("请输入终端名称：")
+      if term_name == "" then
+        print("终端名称不能为空!")
+        return
+      end
+      _VTerm(term_name)
+    end
+
+    -- 创建具名水平终端
+    function _NamedHTerm()
+      local term_name = vim.fn.input("请输入终端名称：")
+      if term_name == "" then
+        print("终端名称不能为空!")
+        return
+      end
+      _HTerm(term_name)
+    end
+
     -- 绑定快捷键
     vim.keymap.set({ "n", "t" }, "<A-\\>", _VTerm, { silent = true, desc = "新开一个垂直终端" })
     vim.keymap.set({ "n", "t" }, "<A-/>", _HTerm, { silent = true, desc = "新开一个水平终端" })
-    vim.keymap.set({ "n", "t" }, "<A-i>", _ToggleTerm, { silent = true, desc = "Toggle所以终端" })
+    vim.keymap.set({ "n", "t" }, "<A-]>", _NamedVTerm, { silent = true, desc = "新开一个具名垂直终端" })
+    vim.keymap.set({ "n", "t" }, "<A-[>", _NamedHTerm, { silent = true, desc = "新开一个具名水平终端" })
+    vim.keymap.set({ "n", "t" }, "<A-i>", _ToggleTerm, { silent = true, desc = "Toggle所有终端" })
     vim.keymap.set({ "n", "t" }, "<A-t>", _ListTerm, { silent = true, desc = "当前所有终端列表" })
   end,
 }
