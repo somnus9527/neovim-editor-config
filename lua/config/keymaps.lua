@@ -75,6 +75,22 @@ map({ "n", "v" }, "<leader>f", function()
   LazyVim.format({ force = true })
 end, { desc = "Format" })
 
+map("n", "mm", function()
+  local char = vim.fn.getcharstr() -- 获取用户输入的标记字符
+  if char:match("[a-z]") then
+    char = char:upper() -- 转换为大写（全局标记）
+  end
+  vim.cmd("normal! m" .. char) -- 设置标记
+end, { noremap = true, silent = true })
+
+map("n", "mn", function()
+  local char = vim.fn.getcharstr() -- 获取用户输入的标记字符
+  if char:match("[a-z]") then
+    char = char:upper() -- 转换为大写（全局标记）
+  end
+  vim.cmd("normal! `" .. char) -- 设置标记
+end, { noremap = true, silent = true })
+
 -- operator-pending mode
 local operator_pending_opts = { noremap = true }
 map('o', '(', 'i(', operator_pending_opts)
