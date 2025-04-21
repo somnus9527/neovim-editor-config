@@ -32,6 +32,31 @@ return {
       clangd = function(_, copts)
         copts.capabilities.offsetEncoding = { "utf-16" }
       end,
+      cssls = function(_, copts)
+        copts.settings = {
+          css = {
+            validate = true,
+            lint = {
+              unknownAtRules = "ignore",
+            },
+          },
+          scss = {
+            validate = true,
+            lint = {
+              unknownAtRules = "ignore",
+            },
+          },
+          less = {
+            validate = true,
+            lint = {
+              unknownAtRules = "ignore",
+            },
+          },
+        }
+        copts.on_attach = function (client)
+          client.server_capabilities.foldingRangeProvider = false
+        end
+      end,
       -- eslint = function()
       --   -- 解决eslint-plugin-prettier问题
       --   require("lazyvim.util").lsp.on_attach(function(client)
