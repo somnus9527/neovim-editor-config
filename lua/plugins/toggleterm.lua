@@ -62,6 +62,11 @@ return {
       _HTerm(term_name)
     end
 
+    -- 聚焦终端时执行删除当前终端
+    function _KillTerm()
+      vim.api.nvim_buf_delete(0, { force = true })
+    end
+
     -- 绑定快捷键
     vim.keymap.set({ "n", "t" }, "<A-\\>", _VTerm, { silent = true, desc = "新开一个垂直终端" })
     vim.keymap.set({ "n", "t" }, "<A-/>", _HTerm, { silent = true, desc = "新开一个水平终端" })
@@ -69,5 +74,6 @@ return {
     vim.keymap.set({ "n", "t" }, "<A-[>", _NamedHTerm, { silent = true, desc = "新开一个具名水平终端" })
     vim.keymap.set({ "n", "t" }, "<A-i>", _ToggleTerm, { silent = true, desc = "Toggle所有终端" })
     vim.keymap.set({ "n", "t" }, "<A-t>", _ListTerm, { silent = true, desc = "当前所有终端列表" })
+    vim.keymap.set("t", "<A-x>", _KillTerm, { silent = true, noremap = true, desc = "杀死当前终端" })
   end,
 }
