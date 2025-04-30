@@ -47,3 +47,11 @@ if g.neovide then
     g.neovide_input_macos_option_key_is_meta = 'only_left'
   end
 end
+
+vim.diagnostic.config({
+  update_in_insert = false,
+  virtual_text = {
+    severity = vim.diagnostic.severity.ERROR,
+  },
+  severity_sort = true,
+});
