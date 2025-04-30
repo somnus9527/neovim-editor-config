@@ -26,6 +26,34 @@ return {
       cssls = {},
       cssmodules_ls = {},
       html = {},
+      angularls = {
+        cmd = {
+          "node",
+          vim.fn.stdpath("data")
+            .. "/mason/packages/angular-language-server/node_modules/@angular/language-server/index.js",
+          "--ngProbeLocations",
+          vim.loop.cwd() .. "/node_modules",
+          "--tsProbeLocations",
+          vim.loop.cwd() .. "/node_modules",
+          "--includeCompletionsWithSnippetText",
+          "--includeAutomaticOptionalChainCompletions",
+        },
+        on_new_config = function(new_config, _)
+          new_config.cmd = {
+            "node",
+            vim.fn.stdpath("data")
+              .. "/mason/packages/angular-language-server/node_modules/@angular/language-server/index.js",
+            "--ngProbeLocations",
+            new_config.root_dir .. "/node_modules",
+            "--tsProbeLocations",
+            new_config.root_dir .. "/node_modules",
+            "--includeCompletionsWithSnippetText",
+            "--includeAutomaticOptionalChainCompletions",
+          }
+        end,
+        root_dir = require("lspconfig.util").root_pattern("angular.json", "project.json"),
+        filetypes = { "typescript", "html" },
+      },
     })
     LazyVim.extend(opts, "setup", {
       -- 解决clangd offset encoding问题
@@ -53,9 +81,15 @@ return {
             },
           },
         }
-        copts.on_attach = function (client)
+        copts.on_attach = function(client)
           client.server_capabilities.foldingRangeProvider = false
         end
+      end,
+      angularls = function()
+        LazyVim.lsp.on_attach(function(client)
+          -- Optional: Disable rename due to duplicated rename popup
+          client.server_capabilities.renameProvider = false
+        end, "angularls")
       end,
       -- eslint = function()
       --   -- 解决eslint-plugin-prettier问题
