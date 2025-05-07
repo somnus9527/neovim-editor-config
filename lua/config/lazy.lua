@@ -14,16 +14,26 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+local is_vscode = vim.g.vscode
+
+local spec = {
+  { "LazyVim/LazyVim", import = "lazyvim.plugins" },
+  { import = "plugins.common" },
+}
+
+-- 根据是否 VSCode 环境决定是否加载插件配置
+if is_vscode then
+  -- 暂时没有额外需要在vscode环境加载的插件
+  -- table.insert(spec, { import = "plugins.vscode" })
+else
+  table.insert(spec, { import = "plugins.native" })
+end
+
 require("lazy").setup({
   opts = {
     colorscheme = "catppuccin-frappe",
   },
-  spec = {
-    -- add LazyVim and import its plugins
-    { "LazyVim/LazyVim", import = "lazyvim.plugins" },
-    -- import/override with your plugins
-    { import = "plugins" },
-  },
+  spec = spec,
   defaults = {
     -- By default, only LazyVim plugins will be lazy-loaded. Your custom plugins will load during startup.
     -- If you know what you're doing, you can set this to `true` to have all your custom plugins lazy-loaded by default.

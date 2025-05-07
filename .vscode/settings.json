@@ -1,0 +1,7 @@
+{
+  "Lua.diagnostics.globals": [
+    "vim",
+    "LazyVim"
+  ],
+  "Lua.completion.autoRequire": false
+}
