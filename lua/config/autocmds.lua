@@ -194,4 +194,9 @@ if not vim.g.vscode then
       vim.diagnostic.disable()
     end,
   })
+else
+  -- local vscode = require("vscode")
+  -- vim.api.nvim_create_user_command("wa", function()
+  --   vscode.action("workbench.action.files.saveAll")
+  -- end, {})
 end
