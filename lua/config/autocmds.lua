@@ -200,3 +200,20 @@ else
   --   vscode.action("workbench.action.files.saveAll")
   -- end, {})
 end
+
+-- neovide需要打开标题，否则切窗口的时候不知道哪个是哪个
+if vim.g.neovide then
+  vim.o.title = true
+end
+
+-- if vim.g.neovide then
+--   vim.o.title = true
+--   vim.api.nvim_create_autocmd("VimEnter", {
+--     callback = function()
+--       local cwd = vim.fn.fnamemodify(vim.fn.getcwd(), ":t")
+--       vim.o.titlestring = "Neovide - " .. cwd
+--     end,
+--   })
+-- else
+--   vim.g.title = false
+-- end
