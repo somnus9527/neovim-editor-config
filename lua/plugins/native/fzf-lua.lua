@@ -105,7 +105,6 @@ return {
         col = 0.8,
         preview = {
           scrollchars = { "┃", "" },
-          hidden = true,
         },
         on_create = function()
           LazyVim.safe_keymap_set("t", "<A-n>", "<Down>", { desc = "下移一个选项" })
