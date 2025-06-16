@@ -91,6 +91,8 @@ else
   -- map("n", "sl", "<C-w>l", { desc = "聚焦到右侧窗口" })
   map("n", "<A-->", "<C-w>10<", { desc = "缩小窗口" })
   map("n", "<A-=>", "<C-w>10>", { desc = "放大窗口" })
+  map("n", "<A-1>", "<C-f>", { desc = "向下滚动" })
+  map("n", "<A-2>", "<C-u>", { desc = "向上滚动" })
   -- map("n", "<A-i>", function() Snacks.terminal(nil, { cwd = LazyVim.root() }) end, { desc = "终端" })
   -- map("t", "<A-i>", "<cmd>close<cr>", { desc = "隐藏终端" })
   map("n", "-", function()
