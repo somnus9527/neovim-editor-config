@@ -92,37 +92,9 @@ else
   map("n", "<A-->", "<C-w>10<", { desc = "缩小窗口" })
   map("n", "<A-=>", "<C-w>10>", { desc = "放大窗口" })
   if vim.g.neovide then
-    map("n", "<A-1>", function()
-      local mode = vim.fn.mode()
-      if mode:match("[vV\x16]") then
-        -- 1. 退出 visual 临时保存
-        vim.cmd("normal! <Esc>")
-        -- 2. 滚动一页
-        vim.cmd("normal! <C-f>")
-        -- 3. 恢复选区
-        vim.cmd("normal! gv")
-      else
-        -- 普通模式直接滚动
-        vim.cmd("normal! <C-f>")
-      end
-    end, { desc = "向下滚动" })
-    map("n", "<A-2>", function()
-      local mode = vim.fn.mode()
-      if mode:match("[vV\x16]") then
-        -- 1. 退出 visual 临时保存
-        vim.cmd("normal! <Esc>")
-        -- 2. 滚动一页
-        vim.cmd("normal! <C-b>")
-        -- 3. 恢复选区
-        vim.cmd("normal! gv")
-      else
-        -- 普通模式直接滚动
-        vim.cmd("normal! <C-f>")
-      end
-    end, { desc = "向上滚动" })
+    map({ "n", "v" }, "<A-1>", "50j", { desc = "向下滚动" })
+    map({ "n", "v" }, "<A-2>", "50k", { desc = "向上滚动" })
   end
-  -- map("n", "<A-1>", "<C-f>", { desc = "向下滚动" })
-  -- map("n", "<A-2>", "<C-b>", { desc = "向上滚动" })
   -- map("n", "<A-i>", function() Snacks.terminal(nil, { cwd = LazyVim.root() }) end, { desc = "终端" })
   -- map("t", "<A-i>", "<cmd>close<cr>", { desc = "隐藏终端" })
   map("n", "-", function()
