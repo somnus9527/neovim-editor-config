@@ -52,16 +52,16 @@ if vim.g.vscode then
   -- map("n", "gb", "<Cmd>normal! <C-o><CR>", { desc = "回到上一步" })
   -- operator-pending mode
   local operator_pending_opts = { noremap = true }
-  map('o', '(', 'i(', operator_pending_opts)
-  map('o', ')', 'a(', operator_pending_opts)
-  map('o', '[', 'i[', operator_pending_opts)
-  map('o', ']', 'a[', operator_pending_opts)
-  map('o', '<', 'i<', operator_pending_opts)
-  map('o', '>', 'a<', operator_pending_opts)
-  map('o', '{', 'i{', operator_pending_opts)
-  map('o', '}', 'a}', operator_pending_opts)
-  map('o', '\'', 'i\'', operator_pending_opts)
-  map('o', '\"', 'i\"', operator_pending_opts)
+  map("o", "(", "i(", operator_pending_opts)
+  map("o", ")", "a(", operator_pending_opts)
+  map("o", "[", "i[", operator_pending_opts)
+  map("o", "]", "a[", operator_pending_opts)
+  map("o", "<", "i<", operator_pending_opts)
+  map("o", ">", "a<", operator_pending_opts)
+  map("o", "{", "i{", operator_pending_opts)
+  map("o", "}", "a}", operator_pending_opts)
+  map("o", "'", "i'", operator_pending_opts)
+  map("o", '"', 'i"', operator_pending_opts)
 else
   map("i", "jk", "<Esc>", { desc = "退出编辑模式" })
   map("i", "<A-j>", "<Down>", { desc = "光标下移一行" })
@@ -91,8 +91,38 @@ else
   -- map("n", "sl", "<C-w>l", { desc = "聚焦到右侧窗口" })
   map("n", "<A-->", "<C-w>10<", { desc = "缩小窗口" })
   map("n", "<A-=>", "<C-w>10>", { desc = "放大窗口" })
-  map("n", "<A-1>", "<C-f>", { desc = "向下滚动" })
-  map("n", "<A-2>", "<C-b>", { desc = "向上滚动" })
+  if vim.g.neovide then
+    map("n", "<A-1>", function()
+      local mode = vim.fn.mode()
+      if mode:match("[vV\x16]") then
+        -- 1. 退出 visual 临时保存
+        vim.cmd("normal! <Esc>")
+        -- 2. 滚动一页
+        vim.cmd("normal! <C-f>")
+        -- 3. 恢复选区
+        vim.cmd("normal! gv")
+      else
+        -- 普通模式直接滚动
+        vim.cmd("normal! <C-f>")
+      end
+    end, { desc = "向下滚动" })
+    map("n", "<A-2>", function()
+      local mode = vim.fn.mode()
+      if mode:match("[vV\x16]") then
+        -- 1. 退出 visual 临时保存
+        vim.cmd("normal! <Esc>")
+        -- 2. 滚动一页
+        vim.cmd("normal! <C-b>")
+        -- 3. 恢复选区
+        vim.cmd("normal! gv")
+      else
+        -- 普通模式直接滚动
+        vim.cmd("normal! <C-f>")
+      end
+    end, { desc = "向上滚动" })
+  end
+  -- map("n", "<A-1>", "<C-f>", { desc = "向下滚动" })
+  -- map("n", "<A-2>", "<C-b>", { desc = "向上滚动" })
   -- map("n", "<A-i>", function() Snacks.terminal(nil, { cwd = LazyVim.root() }) end, { desc = "终端" })
   -- map("t", "<A-i>", "<cmd>close<cr>", { desc = "隐藏终端" })
   map("n", "-", function()
@@ -110,29 +140,29 @@ else
   map("n", "mm", function()
     local char = vim.fn.getcharstr() -- 获取用户输入的标记字符
     if char:match("[a-z]") then
-      char = char:upper()            -- 转换为大写（全局标记）
+      char = char:upper() -- 转换为大写（全局标记）
     end
-    vim.cmd("normal! m" .. char)     -- 设置标记
+    vim.cmd("normal! m" .. char) -- 设置标记
   end, { noremap = true, silent = true })
 
   map("n", "mn", function()
     local char = vim.fn.getcharstr() -- 获取用户输入的标记字符
     if char:match("[a-z]") then
-      char = char:upper()            -- 转换为大写（全局标记）
+      char = char:upper() -- 转换为大写（全局标记）
     end
-    vim.cmd("normal! `" .. char)     -- 设置标记
+    vim.cmd("normal! `" .. char) -- 设置标记
   end, { noremap = true, silent = true })
 
   -- operator-pending mode
   local operator_pending_opts = { noremap = true }
-  map('o', '(', 'i(', operator_pending_opts)
-  map('o', ')', 'a(', operator_pending_opts)
-  map('o', '[', 'i[', operator_pending_opts)
-  map('o', ']', 'a[', operator_pending_opts)
-  map('o', '<', 'i<', operator_pending_opts)
-  map('o', '>', 'a<', operator_pending_opts)
-  map('o', '{', 'i{', operator_pending_opts)
-  map('o', '}', 'a}', operator_pending_opts)
-  map('o', '\'', 'i\'', operator_pending_opts)
-  map('o', '\"', 'i\"', operator_pending_opts)
+  map("o", "(", "i(", operator_pending_opts)
+  map("o", ")", "a(", operator_pending_opts)
+  map("o", "[", "i[", operator_pending_opts)
+  map("o", "]", "a[", operator_pending_opts)
+  map("o", "<", "i<", operator_pending_opts)
+  map("o", ">", "a<", operator_pending_opts)
+  map("o", "{", "i{", operator_pending_opts)
+  map("o", "}", "a}", operator_pending_opts)
+  map("o", "'", "i'", operator_pending_opts)
+  map("o", '"', 'i"', operator_pending_opts)
 end
