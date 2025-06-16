@@ -8,7 +8,7 @@ return {
         "css-variables-language-server",
         "cssmodules-language-server",
         "html-lsp",
-        "angular-language-server",
+        -- "angular-language-server",
       })
     end
   end,
