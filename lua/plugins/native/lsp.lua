@@ -22,41 +22,34 @@ return {
         vim.lsp.buf.hover()
       end,
     }
-    LazyVim.extend(opts, "servers", {
-      cssls = {},
-      cssmodules_ls = {},
-      html = {},
-      angularls = false,
-      -- angularls = {
-      --   cmd = {
-      --     "node",
-      --     vim.fn.stdpath("data")
-      --       .. "/mason/packages/angular-language-server/node_modules/@angular/language-server/index.js",
-      --     "--ngProbeLocations",
-      --     vim.loop.cwd() .. "/node_modules",
-      --     "--tsProbeLocations",
-      --     vim.loop.cwd() .. "/node_modules",
-      --     "--includeCompletionsWithSnippetText",
-      --     "--includeAutomaticOptionalChainCompletions",
-      --   },
-      --   on_new_config = function(new_config, _)
-      --     new_config.cmd = {
-      --       "node",
-      --       vim.fn.stdpath("data")
-      --         .. "/mason/packages/angular-language-server/node_modules/@angular/language-server/index.js",
-      --       "--ngProbeLocations",
-      --       new_config.root_dir .. "/node_modules",
-      --       "--tsProbeLocations",
-      --       new_config.root_dir .. "/node_modules",
-      --       "--includeCompletionsWithSnippetText",
-      --       "--includeAutomaticOptionalChainCompletions",
-      --     }
-      --   end,
-      --   root_dir = require("lspconfig.util").root_pattern("angular.json", "project.json"),
-      --   filetypes = { "typescript", "html" },
-      -- },
-    })
-    print(opts.servers.angularls)
+    -- LazyVim.extend(opts.servers, "angularls", {
+    --   cmd = {
+    --     "ngserver",
+    --     "--ngProbeLocations",
+    --     vim.loop.cwd() .. "/node_modules",
+    --     "--tsProbeLocations",
+    --     vim.loop.cwd() .. "/node_modules",
+    --     "--includeCompletionsWithSnippetText",
+    --     "--includeAutomaticOptionalChainCompletions",
+    --   },
+    --   on_new_config = function(new_config, _)
+    --     new_config.cmd = {
+    --       "ngserver",
+    --       "--ngProbeLocations",
+    --       new_config.root_dir .. "/node_modules",
+    --       "--tsProbeLocations",
+    --       new_config.root_dir .. "/node_modules",
+    --       "--includeCompletionsWithSnippetText",
+    --       "--includeAutomaticOptionalChainCompletions",
+    --     }
+    --   end,
+    --   root_dir = require("lspconfig.util").root_pattern("angular.json", "project.json"),
+    --   filetypes = { "typescript", "html" },
+    -- })
+    LazyVim.extend(opts.servers, "cssls", {});
+    LazyVim.extend(opts.servers, "cssmodules_ls", {});
+    LazyVim.extend(opts.servers, "html", {});
+    -- print(opts.servers.angularls)
     LazyVim.extend(opts, "setup", {
       -- 解决clangd offset encoding问题
       clangd = function(_, copts)
@@ -87,10 +80,10 @@ return {
           client.server_capabilities.foldingRangeProvider = false
         end
       end,
-      angularls = function()
-        vim.notify("[angularls] forcibly disabled", vim.log.levels.WARN)
-        return true -- 返回 true 阻止 lspconfig setup 被调用
-      end,
+      -- angularls = function()
+      --   vim.notify("[angularls] forcibly disabled", vim.log.levels.WARN)
+      --   return true -- 返回 true 阻止 lspconfig setup 被调用
+      -- end,
       -- angularls = function()
       --   LazyVim.lsp.on_attach(function(client)
       --     -- Optional: Disable rename due to duplicated rename popup
