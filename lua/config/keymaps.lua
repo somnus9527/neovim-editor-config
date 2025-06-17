@@ -77,6 +77,10 @@ else
   map("v", "<C-r>", '"hy:%s/<C-r>h//gc<left><left><left>', { desc = "替换当前选择的文本(逐个确认)" })
   map("i", "<A-p>", "<C-r>+", { desc = "插入模式粘贴系统剪切板内容" })
   map("i", "<A-0>", '<C-r>"', { desc = "插入模式粘贴默认register中内容" })
+  if vim.g.neovide then
+    map("t", "<A-9>", "<C-r>+", { desc = "neovide终端模式粘贴系统剪切板内容" })
+    map("t", "<A-0>", '<C-r>"', { desc = "neovide终端模式粘贴默认register中内容" })
+  end
   map({ "n", "v" }, "<A-p>", '"+p', { desc = "普通/visual模式粘贴系统剪切板内容" })
   map({ "n", "v" }, "<A-0>", '""p', { desc = "普通/visual模式粘贴默认register中内容" })
   map("v", "p", '"_dP', { desc = "避免visual模式下粘贴影响正常yank的register" })
