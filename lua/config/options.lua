@@ -47,7 +47,7 @@ if not vim.g.vscode then
     if not vim.loop.os_uname().version:match('Windows') then
       g.neovide_input_macos_option_key_is_meta = 'only_left'
     end
-    o.guifont = 'Hack Nerd Font Mono:h18'
+    o.guifont = 'ComicShannsMono Nerd Font:h18'
   end
 
   vim.diagnostic.config({
