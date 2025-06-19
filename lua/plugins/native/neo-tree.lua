@@ -12,11 +12,29 @@ return {
       mappings = {
         ["s"] = "none",
         ["S"] = "none",
+        ["f"] = function(state)
+          local node = state.tree:get_node()
+          local path = node:get_id()
+          if node.type == "directory" then
+            require("fzf-lua").live_grep({ cwd = path })
+          else
+            require("fzf-lua").live_grep({ cwd = vim.fn.fnamemodify(path, ":h") })
+          end
+        end,
+        ["F"] = function(state)
+          local node = state.tree:get_node()
+          local path = node:get_id()
+          if node.type == "directory" then
+            require("fzf-lua").files({ cwd = path })
+          else
+            require("fzf-lua").files({ cwd = vim.fn.fnamemodify(path, ":h") })
+          end
+        end,
       },
       fuzzy_finder_mappings = {
         ["<A-n>"] = "move_cursor_down",
         ["<A-m>"] = "move_cursor_up",
-      }
+      },
     },
     filesystem = {
       bind_to_cwd = true,
@@ -24,7 +42,7 @@ return {
         hide_dotfiles = false,
         hide_gitignored = false,
         hide_hidden = false,
-      }
-    }
-  }
+      },
+    },
+  },
 }
