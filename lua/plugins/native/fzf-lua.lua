@@ -162,6 +162,7 @@ return {
     -- { "<leader>.", LazyVim.pick("live_grep"), mode = "n", desc = "字符搜索(Root Dir)" },
     { "<leader>.", "<cmd>lua require('fzf-lua').live_grep()<CR>", mode = "n", desc = "字符搜索(Root Dir)" },
     { "<leader>.", "<cmd>lua require('fzf-lua').grep_visual()<CR>", mode = "v", desc = "字符搜索 (Root Dir)" },
+    { "<leader>;", function() Snacks.picker.grep_buffers() end, mode = "n", desc = "在当前打开的Buffer中搜索" },
     {
       "<leader>,.",
       "<cmd>lua require('fzf-lua').live_grep_resume()<CR>",
@@ -199,5 +200,12 @@ return {
     { "<leader>li", "<cmd>lua require('fzf-lua').lsp_implementations()<CR>", desc = "FZF搜索implementations" },
     { "<leader>`", LazyVim.pick("colorschemes"), desc = "主题切换" },
     { "<leader>m", LazyVim.pick("marks"), desc = "mark列表" },
+    {
+      "<leader>ll",
+      function()
+        Snacks.picker.lines()
+      end,
+      desc = "搜索Buffer Lines",
+    },
   },
 }
