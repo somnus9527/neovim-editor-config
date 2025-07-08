@@ -199,7 +199,7 @@ return {
     },
     { "<leader>li", "<cmd>lua require('fzf-lua').lsp_implementations()<CR>", desc = "FZF搜索implementations" },
     { "<leader>`", LazyVim.pick("colorschemes"), desc = "主题切换" },
-    { "<leader>m", LazyVim.pick("marks"), desc = "mark列表" },
+    -- { "<leader>m", LazyVim.pick("marks"), desc = "mark列表" },
     {
       "<leader>ll",
       function()
