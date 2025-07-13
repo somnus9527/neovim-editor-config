@@ -1,0 +1,1 @@
+require('entry.common.common')
