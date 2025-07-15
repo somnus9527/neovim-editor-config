@@ -1,1 +1,1 @@
-require('entry.common.common')
+require('config.config')

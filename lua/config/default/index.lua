@@ -1,0 +1,5 @@
+require("config.default.global")
+require("config.default.opt")
+require("config.default.keymap")
+require("config.default.operator")
+require("config.default.effect")

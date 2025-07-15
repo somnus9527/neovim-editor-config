@@ -1,9 +1,9 @@
+require('tools.global_fn')
 local project_type = require('tools.tools').detect_project_type()
 
 local entry_map = {
   angular = "entry.angular",
-  vue2 = "entry.vue2",
-  vue3 = "entry.vue3",
+  vue = "entry.vue",
   web = "entry.web",
   default = "entry.default",
 }
