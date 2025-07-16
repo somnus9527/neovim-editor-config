@@ -18,7 +18,7 @@ opt.cursorcolumn = true
 -- 行号占用的列数
 opt.numberwidth = 6
 -- 命令行占用的行数
-opt.cmdheight = 2
+opt.cmdheight = 1
 -- 针对neovim的一些临时文件的配置 start
 -- 缓冲区不使用交换文件
 opt.swapfile = false

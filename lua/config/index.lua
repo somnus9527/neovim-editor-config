@@ -1,0 +1,6 @@
+require("config.global")
+require("config.opt")
+require("config.keymap")
+require("config.operator")
+require("config.effect")
+require("config.autocmd")

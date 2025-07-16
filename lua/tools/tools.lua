@@ -44,4 +44,12 @@ M.set_buf_keymap = function(keymaps)
   end
 end
 
+-- 监听lazyvim提供的VeryLazy事件，执行回调
+M.on_very_lazy = function(fn)
+  vim.api.nvim_create_autocmd("User", {
+    pattern = "VeryLazy",
+    callback = fn,
+  })
+end
+
 return M

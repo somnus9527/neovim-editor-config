@@ -1,0 +1,43 @@
+require('tools.global_fn')
+local tools = require("tools.tools")
+
+local keymaps = {
+  { { 'i', 'n', 'v' }, '<Esc>', ':lua custom_esc_behavior()<CR>', { desc = '存在高亮先取消高亮' } },
+  { 'i', 'jk', '<Esc>', { desc = '退出编辑模式' } },
+  -- { 'n', '<leader>e', '<CMD>Oil<CR>', { desc = '打开文件管理系统' } },
+  { 'n', 'U', '<C-r>', { desc = 'Redo' } },
+  { { 'v', 'o', 'n' }, '<S-h>', '^', { desc = '移动光标到行首' } },
+  { { 'v', 'o', 'n' }, '<S-l>', '$', { desc = '移动光标到行尾' } },
+  { 'i', '<A-h>', '<Left>', { desc = '光标左移一位' } },
+  { 'i', '<A-l>', '<Right>', { desc = '光标右移一位' } },
+  { 'i', '<A-j>', '<Down>', { desc = '光标下移一位' } },
+  { 'i', '<A-k>', '<Left>', { desc = '光标上移一位' } },
+  { 'v', '<A-c>', '"+y', { desc = '复制选中内容到系统粘贴板' } },
+  { 'n', 'gb', '<C-o>', { desc = '返回上一步' } },
+  { 'i', '<A-p>', '<C-r>+', { desc = '插入模式粘贴系统剪切板内容' } },
+  { 'i', '<A-0>', '<C-r>"', { desc = '插入模式粘贴默认register中内容' } },
+  { { 'n', 'v' }, '<A-p>', '"+p', { desc = '普通/visual模式粘贴系统剪切板内容' } },
+  { { 'n', 'v' }, '<A-0>', '""p', { desc = '普通/visual模式粘贴默认register中内容' } },
+  { "v", "p", '"_dP', { desc = "避免visual模式下粘贴影响正常yank的register" } },
+  { "n", "x", '"_x', { desc = "避免x删除的内容影响默认register" } },
+  { "n", "<A-TAB>", "<cmd>bprevious<cr>", { desc = "上一个Tab" } },
+  { "n", "<TAB>", "<cmd>bnext<cr>", { desc = "下一个Tab" } },
+  { "v", "<C-r>", '"hy:%s/<C-r>h//gc<left><left><left>', { desc = "替换当前选择的文本(逐个确认)" } },
+  { "n", "\\", "<C-w>v", { desc = "右侧分屏", remap = true } },
+  { "n", "|", "<C-w>s", { desc = "底部分屏", remap = true } },
+  { "n", "<A-x>", "<CMD>q<CR>", { desc = "关闭Window" } },
+  { "n", "<A-->", "<C-w>10<", { desc = "缩小窗口" } },
+  { "n", "<A-=>", "<C-w>10>", { desc = "放大窗口" } },
+  { "v", "<", "<gv", { desc = "避免visual模式下处理缩进之后，选区丢失" } },
+  { "v", ">", ">gv", { desc = "避免visual模式下处理缩进之后，选区丢失" } },
+  { "n", "<C-h>", "<C-w>h", { desc = "切换到左侧窗口" } },
+  { "n", "<C-j>", "<C-w>j", { desc = "切换到下方窗口" } },
+  { "n", "<C-k>", "<C-w>k", { desc = "切换到上方窗口" } },
+  { "n", "<C-l>", "<C-w>l", { desc = "切换到右侧窗口" } },
+  { "n", "<A-j>", "ddp", { desc = "整行下移" } },
+  { "n", "<A-k>", "dd2kp", { desc = "整行上移" } },
+  { "n", "<A-1>", "15j", { desc = "下移15行" } },
+  { "n", "<A-2>", "15k", { desc = "上移15行" } },
+}
+
+tools.set_keymap(keymaps)
