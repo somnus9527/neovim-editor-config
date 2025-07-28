@@ -8,13 +8,20 @@ M.default_keymap_opt = {
 
 -- 项目类型分类
 M.project_markers = {
-  { name = "angular.json",   type = "angular" },
-  { name = "vue.config.js",  type = "vue" },
-  { name = "vite.config.js", type = "vue" },
-  { name = "package.json",   type = "web" },
-  -- { name = "Cargo.toml",     type = "rust" },
-  -- { name = "pyproject.toml", type = "python" },
-  -- { name = "pubspec.yaml",   type = "flutter" },
+  angular = {
+    "angular.json",
+  },
+  vue = {
+    "vue.config.js",
+    "vite.config.js",
+    "vite.config.ts",
+  },
+  web = {
+    "package.json",
+  },
+  -- rust = { "Cargo.toml" },
+  -- python = { "pyproject.toml" },
+  -- flutter = { "pubspec.yaml" },
 }
 
 -- 是否windows环境

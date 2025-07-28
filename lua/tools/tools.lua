@@ -2,12 +2,34 @@ local const = require('tools.const')
 
 local M = {}
 
+--- 是否存在 marker（支持字符串或 Lua 模式）
+local function marker_exists(marker)
+  local cwd = vim.fn.getcwd()
+  local path = cwd .. "/" .. marker
+
+  -- 先直接判断文件或目录是否存在
+  if vim.fn.filereadable(path) == 1 or vim.fn.isdirectory(path) == 1 then
+    return true
+  end
+
+  -- 支持模式匹配（pattern）
+  local files = vim.fn.readdir(cwd)
+  for _, file in ipairs(files) do
+    if file:match(marker) then
+      return true
+    end
+  end
+
+  return false
+end
+
 -- 获取当前cwd的项目类型
 function M.detect_project_type()
-  local cwd = vim.fn.getcwd()
-  for _, marker in ipairs(const.project_markers) do
-    if vim.fn.filereadable(cwd .. "/" .. marker.name) == 1 or vim.fn.isdirectory(cwd .. "/" .. marker.name) == 1 then
-      return marker.type
+  for project_type, markers in pairs(const.project_markers) do
+    for _, marker in ipairs(markers) do
+      if marker_exists(marker) then
+        return project_type
+      end
     end
   end
   return "default"

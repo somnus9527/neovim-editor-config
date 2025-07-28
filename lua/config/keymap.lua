@@ -2,7 +2,13 @@ require('tools.global_fn')
 local tools = require("tools.tools")
 
 local keymaps = {
-  { { 'i', 'n', 'v' }, '<Esc>', ':lua custom_esc_behavior()<CR>', { desc = '存在高亮先取消高亮' } },
+  { { 'n', 'v' }, '<Esc>', ':lua custom_esc_behavior()<CR>', { desc = '存在高亮先取消高亮' } },
+  { 'i', '<Esc>', function()
+    -- 先退出插入模式
+    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Esc>', true, false, true), 'n', false)
+    -- 再执行你的自定义逻辑（在普通模式下运行）
+    vim.schedule(custom_esc_behavior)
+  end, { desc = '存在高亮先取消高亮' } },
   { 'i', 'jk', '<Esc>', { desc = '退出编辑模式' } },
   -- { 'n', '<leader>e', '<CMD>Oil<CR>', { desc = '打开文件管理系统' } },
   { 'n', 'U', '<C-r>', { desc = 'Redo' } },
