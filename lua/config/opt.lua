@@ -26,8 +26,8 @@ opt.swapfile = false
 opt.backup = false
 opt.writebackup = false
 -- 启用 undo 文件，设置保存目录
-vim.opt.undofile = true
-vim.opt.undodir = vim.fn.stdpath("data") .. "/undo"
+opt.undofile = true
+opt.undodir = vim.fn.stdpath("data") .. "/undo"
 -- end
 -- 针对缩进，自动缩进的所有配置 start
 -- 设置文件里Tab代表的空格数 2
@@ -42,3 +42,15 @@ opt.expandtab = true
 opt.autoindent = true
 opt.smartindent = true
 -- end
+-- 使用 Treesitter 的折叠表达式
+opt.foldmethod = "expr"
+opt.foldexpr = "nvim_treesitter#foldexpr()"
+-- 自动打开文件时不折叠
+opt.foldlevelstart = 99
+-- session应该缓存的内容
+opt.sessionoptions = "buffers,curdir,folds,help,tabpages,winsize,winpos,localoptions"
+-- 自动折行
+opt.wrap = true
+opt.linebreak = true
+opt.breakindent = true
+opt.showbreak = "↪"

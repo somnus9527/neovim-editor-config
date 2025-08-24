@@ -2,7 +2,7 @@ return {
   "ibhagwan/fzf-lua",
   cmd = "FzfLua",
   dependencies = { "nvim-tree/nvim-web-devicons" },
-  opts = function(_, opts)
+  opts = function(_)
     local fzf = require("fzf-lua")
     local tools = require("tools.tools")
     local config = fzf.config
@@ -84,6 +84,7 @@ return {
             -- height is number of items minus 15 lines for the preview, with a max of 80% screen height
             height = math.floor(math.min(vim.o.lines * 0.8 - 16, #items + 2) + 0.5) + 16,
             width = 0.8,
+            -- TODO: Lazyvim这个方法待实现
             preview = not vim.tbl_isempty(LazyVim.lsp.get_clients({ bufnr = 0, name = "vtsls" })) and {
               layout = "vertical",
               vertical = "down:15,border-top",
@@ -187,8 +188,9 @@ return {
     { "<leader>.", "<cmd>lua require('fzf-lua').live_grep()<cr>", mode = "n", desc = "字符搜索(Root Dir)" },
     { "<leader>.", "<cmd>lua require('fzf-lua').grep_visual()<CR>", mode = "v", desc = "字符搜索 (Root Dir)" },
     { "<leader>,", "<cmd>lua require('fzf-lua').resume()<CR>", mode = "n", desc = "重打开" },
-    { "<leader>b", "<cmd>lua require('fzf-lua').buffers()<CR>", mode = "n", desc = "打开Buffers" },
-    { "<leader>l", "<cmd>lua require('fzf-lua').blines()<CR>", mode = "n", desc = "打开当前Buffer的行搜索" },
+    { "<A-b>", "<cmd>lua require('fzf-lua').buffers()<CR>", mode = "n", desc = "打开Buffers" },
+    -- 几乎不用
+    -- { "<leader>l", "<cmd>lua require('fzf-lua').blines()<CR>", mode = "n", desc = "打开当前Buffer的行搜索" },
     { "<leader>/", "<cmd>lua require('fzf-lua').lgrep_curbuf()<CR>", mode = "n", desc = "字符搜索(当前Buffer)" },
     { "<leader>w", "<cmd>lua require('fzf-lua').grep_cword()<CR>", mode = "n", desc = "WORD搜索(CWD)" },
     { "<leader>gc", "<cmd>lua require('fzf-lua').git_bcommits()<CR>", mode = "n", desc = "Git Buffer Commits" },

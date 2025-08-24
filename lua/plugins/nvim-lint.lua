@@ -1,0 +1,42 @@
+return {
+	"mfussenegger/nvim-lint",
+	event = { "BufReadPost", "BufWritePost", "InsertLeave" },
+	config = function()
+		local lint = require("lint")
+
+		-- 检查项目里是否存在 eslint 配置文件
+		local function has_eslint_config()
+			local config_files = {
+				".eslintrc",
+				".eslintrc.js",
+				".eslintrc.cjs",
+				".eslintrc.json",
+				".eslintrc.yaml",
+				".eslintrc.yml",
+				"eslint.config.js",
+			}
+			for _, f in ipairs(config_files) do
+				if vim.fn.filereadable(vim.fn.getcwd() .. "/" .. f) == 1 then
+					return true
+				end
+			end
+			return false
+		end
+
+		lint.linters_by_ft = {
+			javascript = has_eslint_config() and { "eslint_d" } or {},
+			typescript = has_eslint_config() and { "eslint_d" } or {},
+			javascriptreact = has_eslint_config() and { "eslint_d" } or {},
+			typescriptreact = has_eslint_config() and { "eslint_d" } or {},
+			vue = has_eslint_config() and { "eslint_d" } or {},
+			json = { "jsonlint" },
+			lua = { "luacheck" },
+		}
+
+		vim.api.nvim_create_autocmd({ "BufWritePost", "BufReadPost", "InsertLeave", "TextChanged" }, {
+			callback = function()
+				lint.try_lint()
+			end,
+		})
+	end,
+}
