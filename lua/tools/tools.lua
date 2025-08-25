@@ -134,4 +134,47 @@ M.git_log_fzf = function()
   })
 end
 
+-- 获取root dir
+M.root_dir = function()
+  local lsp_util = require("lspconfig.util")
+  local bufnr = vim.api.nvim_get_current_buf()
+  local fname = vim.api.nvim_buf_get_name(bufnr)
+
+  if fname == "" then
+    return vim.loop.cwd()
+  end
+
+  local root_files = { "package.json", ".git", "angular.json", "vue.config.js" }
+  local root = lsp_util.root_pattern(unpack(root_files))(fname)
+  return root or vim.loop.cwd()
+end
+
+-- 获取相对路径
+M.pretty_path = function()
+  local root = M.root_dir()
+  local file = vim.api.nvim_buf_get_name(0)
+  if file:sub(1, #root) == root then
+    file = "." .. file:sub(#root + 1)
+  end
+  return file
+end
+
+M.hex_to_rgb = function(hex)
+  hex = hex:gsub("#","")
+  local r = tonumber(hex:sub(1,2),16)
+  local g = tonumber(hex:sub(3,4),16)
+  local b = tonumber(hex:sub(5,6),16)
+  return {r, g, b}
+end
+
+-- 获取颜色
+M.color = function(group)
+  local ok, hl = pcall(vim.api.nvim_get_hl_by_name, group, true)
+  if not ok then return nil end
+  if hl.foreground then
+    return string.format("#%06x", hl.foreground)
+  end
+  return nil
+end
+
 return M
