@@ -69,6 +69,12 @@ local servers = {
 			},
 		},
 	},
+  bashls = {},
+  css_variables = {},
+  cssmodules_ls = {},
+  html = {},
+  tailwindcss = {},
+  vue_ls = {},
 }
 
 for server, config in pairs(servers) do

@@ -15,8 +15,17 @@ vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
 vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
 	pattern = { "*.component.html", "*.container.html" },
 	callback = function()
-		vim.treesitter.start(nil, "angular")
+		vim.schedule(function()
+			local ok = pcall(vim.treesitter.start, nil, "angular")
+			if not ok then
+				vim.treesitter.start(nil, "html")
+			end
+		end)
 	end,
+})
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+	pattern = { "*.component.html", "*.container.html" },
+	command = "setfiletype html",
 })
 
 -- 自动关闭No Name Tab (只在多Tab时处理)
@@ -145,4 +154,12 @@ vim.api.nvim_create_autocmd("FileType", {
 			vim.g.console_log_keymap_set = true
 		end
 	end,
+})
+
+-- quickfix q关闭
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "qf",
+  callback = function(event)
+    vim.keymap.set("n", "q", "<cmd>q<cr>", { buffer = event.buf, silent = true })
+  end,
 })

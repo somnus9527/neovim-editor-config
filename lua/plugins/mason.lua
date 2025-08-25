@@ -12,6 +12,13 @@ return {
         "lua_ls",
         "vtsls",
         "cssls",
+        "bashls",
+        "css_variables",
+        "cssmodules_ls",
+        "html",
+        "tailwindcss",
+        -- 目前mason-lspconfig中还是叫volar,但是实际lspconfig已经改名vue_ls了，等这边同步再改，先自己安装
+        -- "volar",
       },
       automatic_installation = true,
     },

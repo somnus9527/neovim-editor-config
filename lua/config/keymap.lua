@@ -45,6 +45,20 @@ local keymaps = {
 	{ "n", "<A-j>", "ddp", { desc = "整行下移" } },
 	{ "n", "<A-k>", "dd2kp", { desc = "整行上移" } },
 
+	{ "n", "<leader>ww", "<cmd>lua require('spectre').toggle()<CR>", { desc = "显示/隐藏Spectre" } },
+	{
+		"n",
+		"<leader>wc",
+		"<cmd>lua require('spectre').open_visual({select_word=true})<CR>",
+		{ desc = "搜索当前单词(spectre)" },
+	},
+	{
+		"n",
+		"<leader>wb",
+		"<cmd>lua require('spectre').open_file_search({select_word=true})<CR>",
+		{ desc = "只在当前Buffer搜索" },
+	},
+
 	-- operation pending 配置
 	{ "o", "(", "i(" },
 	{ "o", ")", "a(" },

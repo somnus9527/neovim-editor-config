@@ -21,6 +21,7 @@ return {
       "typescript",
       "tsx",
       "html",
+      "angular",
       "css",
       "scss",
       "svelte",

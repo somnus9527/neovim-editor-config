@@ -48,7 +48,7 @@ opt.foldexpr = "nvim_treesitter#foldexpr()"
 -- 自动打开文件时不折叠
 opt.foldlevelstart = 99
 -- session应该缓存的内容
-opt.sessionoptions = "buffers,curdir,folds,help,tabpages,winsize,winpos,localoptions"
+opt.sessionoptions = "buffers,curdir,folds,tabpages,winsize,winpos,localoptions"
 -- 自动折行
 opt.wrap = true
 opt.linebreak = true

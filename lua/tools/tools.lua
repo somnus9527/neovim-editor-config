@@ -92,4 +92,46 @@ M.angular_file_filter = function(filename)
 	return filename:match("%.component%.ts$") or filename:match("%.component%.html$")
 end
 
+-- 获取光标或选中范围的行号
+M.get_line_range = function()
+  local mode = vim.fn.mode()
+  if mode:find("[vV]") then
+    local start_line = vim.fn.getpos("v")[2]
+    local end_line   = vim.fn.getpos(".")[2]
+    if start_line > end_line then
+      start_line, end_line = end_line, start_line
+    end
+    return start_line, end_line
+  else
+    local line = vim.fn.line(".")
+    return line, line
+  end
+end
+
+-- 构造 git log 命令
+M.git_log_range = function()
+  local start_line, end_line = M.get_line_range()
+  local file = vim.fn.expand("%")
+  return string.format("git log -L %d,%d:%s", start_line, end_line, file)
+end
+
+-- 打开 fzf-lua 查看 git log
+M.git_log_fzf = function()
+  local fzf = require("fzf-lua")
+  local cmd = M.git_log_range()
+
+  fzf.fzf_exec(cmd, {
+    prompt = "GitLog> ",
+    previewer = "git show --color=always {+1}",
+    actions = {
+      ["default"] = function(selected)
+        local commit = selected[1]:match("^(%x+)")
+        if commit then
+          vim.cmd("tabnew | read !git show --color=always " .. commit)
+        end
+      end,
+    },
+  })
+end
+
 return M
