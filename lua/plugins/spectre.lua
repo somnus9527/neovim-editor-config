@@ -21,8 +21,13 @@ return {
           cmd = "<cmd>lua require('spectre.actions').select_entry()<CR>",
           desc = '打开文件',
         },
-        ['run_replace'] = {
+        ['run_current_replace'] = {
           map = '<C-y>',
+          cmd = "<cmd>lua require('spectre.actions').run_current_replace()<CR>",
+          desc = '替换当前行',
+        },
+        ['run_replace'] = {
+          map = '<C-Y>',
           cmd = "<cmd>lua require('spectre.actions').run_replace()<CR>",
           desc = '全部替换',
         },
