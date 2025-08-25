@@ -58,7 +58,7 @@ return {
       mappings = {
         ["s"] = "none",
         ["S"] = "none",
-        ["F"] = function(state)
+        ["f"] = function(state)
           local node = state.tree:get_node()
           local path = node:get_id()
           if node.type == "directory" then
@@ -67,7 +67,7 @@ return {
             require("fzf-lua").live_grep({ cwd = vim.fn.fnamemodify(path, ":h") })
           end
         end,
-        ["f"] = function(state)
+        ["F"] = function(state)
           local node = state.tree:get_node()
           local path = node:get_id()
           if node.type == "directory" then
