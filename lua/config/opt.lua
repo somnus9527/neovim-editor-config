@@ -54,3 +54,7 @@ opt.wrap = true
 opt.linebreak = true
 opt.breakindent = true
 opt.showbreak = "↪"
+
+local g = vim.g
+-- 禁用codeium默认快捷键
+g.codeium_disable_bindings = 1

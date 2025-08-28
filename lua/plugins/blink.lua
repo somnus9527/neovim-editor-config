@@ -34,6 +34,12 @@ return {
 			nerd_font_variant = "mono",
 		},
 		completion = {
+			list = {
+				selection = {
+					preselect = true, -- 自动预选
+					auto_insert = false, -- 是否自动把预选的内容写入 buffer（一般设 false，防止光标一动就插进去）
+				},
+			},
 			accept = {
 				auto_brackets = {
 					enabled = true,
