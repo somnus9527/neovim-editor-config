@@ -16,23 +16,24 @@ return {
 	},
 	{
 		"rose-pine/neovim",
-		lazy = true,
-		-- lazy = false,
-		-- priority = 1000,
+		-- lazy = true,
+		lazy = false,
+		priority = 1000,
 		name = "rose-pine",
-		-- config = function()
-		-- 	vim.cmd.colorscheme("rose-pine")
-		-- end,
+		config = function()
+			vim.cmd.colorscheme("rose-pine")
+		end,
 	},
 	{
 		"zenbones-theme/zenbones.nvim",
 		dependencies = "rktjmp/lush.nvim",
-		lazy = false,
-		priority = 1000,
-		config = function()
-			vim.g.zenbones_darken_comments = 45
-			vim.cmd.colorscheme("zenbones")
-		end,
+    lazy = true,
+		-- lazy = false,
+		-- priority = 1000,
+		-- config = function()
+		-- 	vim.g.zenbones_darken_comments = 45
+		-- 	vim.cmd.colorscheme("zenbones")
+		-- end,
 	},
 	{
 		"catppuccin/nvim",
