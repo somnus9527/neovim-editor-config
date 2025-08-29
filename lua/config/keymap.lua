@@ -31,11 +31,21 @@ local keymaps = {
 	{ "v", "p", '"_dP', { desc = "避免visual模式下粘贴影响正常yank的register" } },
 	{ "n", "x", '"_x', { desc = "避免x删除的内容影响默认register" } },
 	{ "v", "<C-r>", '"hy:%s/<C-r>h//gc<left><left><left>', { desc = "替换当前选择的文本(逐个确认)" } },
-	{ "n", "\\", "<C-w>v", { desc = "右侧分屏", remap = true } },
+	{ "n", "<leader>\\", "<C-w>v", { desc = "右侧分屏", remap = true } },
 	{ "n", "|", "<C-w>s", { desc = "底部分屏", remap = true } },
 	{ "n", "<A-x>", "<CMD>q<CR>", { desc = "关闭Window" } },
-	{ "n", "<A-->", "<C-w>10<", { desc = "缩小窗口" } },
-	{ "n", "<A-=>", "<C-w>10>", { desc = "放大窗口" } },
+	{ "n", "<A-->", function ()
+    vim.cmd("vertical resize -10")
+	end, { desc = "缩小窗口" } },
+	{ "n", "<A-=>", function ()
+    vim.cmd("vertical resize +10")
+	end, { desc = "放大窗口" } },
+	{ "n", "<leader>-", function ()
+    vim.cmd("resize -10")
+	end, { desc = "纵向缩小窗口" } },
+	{ "n", "<leader>=", function ()
+    vim.cmd("resize +10")
+	end, { desc = "纵向放大窗口" } },
 	{ "v", "<", "<gv", { desc = "避免visual模式下处理缩进之后，选区丢失" } },
 	{ "v", ">", ">gv", { desc = "避免visual模式下处理缩进之后，选区丢失" } },
 	{ "n", "<C-h>", "<C-w>h", { desc = "切换到左侧窗口" } },
