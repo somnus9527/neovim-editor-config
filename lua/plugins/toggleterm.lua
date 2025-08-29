@@ -73,7 +73,7 @@ return {
 		vim.keymap.set({ "n", "t" }, "<A-]>", _NamedVTerm, { silent = true, desc = "新开一个具名垂直终端" })
 		vim.keymap.set({ "n", "t" }, "<A-[>", _NamedHTerm, { silent = true, desc = "新开一个具名水平终端" })
 		vim.keymap.set({ "n", "t" }, "<A-i>", _ToggleTerm, { silent = true, desc = "Toggle所有终端" })
-		vim.keymap.set({ "n", "t" }, "<A-t>", _ListTerm, { silent = true, desc = "当前所有终端列表" })
+		vim.keymap.set({ "n", "t" }, "<A-l>", _ListTerm, { silent = true, desc = "当前所有终端列表" })
 		vim.keymap.set("t", "<A-x>", _KillTerm, { silent = true, noremap = true, desc = "杀死当前终端" })
 	end,
 }
