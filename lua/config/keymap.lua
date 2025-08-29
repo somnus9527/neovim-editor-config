@@ -58,6 +58,41 @@ local keymaps = {
 		"<cmd>lua require('spectre').open_file_search({select_word=true})<CR>",
 		{ desc = "只在当前Buffer搜索" },
 	},
+	{
+		"n",
+		"<leader>gg",
+		function()
+			local buf = vim.api.nvim_create_buf(false, true)
+
+			-- 创建全屏浮窗
+			local win = vim.api.nvim_open_win(buf, true, {
+				relative = "editor",
+				width = vim.o.columns,
+				height = vim.o.lines,
+				row = 0,
+				col = 0,
+				style = "minimal",
+				border = "none",
+			})
+
+			-- 打开 lazygit
+			vim.fn.termopen("lazygit", {
+				on_exit = function()
+					-- 退出 lazygit 时自动关闭浮窗和 buffer
+					if vim.api.nvim_win_is_valid(win) then
+						vim.api.nvim_win_close(win, true)
+					end
+					if vim.api.nvim_buf_is_valid(buf) then
+						vim.api.nvim_buf_delete(buf, { force = true })
+					end
+				end,
+			})
+
+			-- 自动进入插入模式，直接可用
+			vim.cmd("startinsert")
+		end,
+		{ desc = "打开LazyGit" },
+	},
 
 	-- operation pending 配置
 	{ "o", "(", "i(" },
