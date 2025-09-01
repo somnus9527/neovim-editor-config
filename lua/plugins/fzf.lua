@@ -198,7 +198,7 @@ return {
 			mode = "n",
 			desc = "字符搜索(当前Buffer)",
 		},
-		{ "<leader>w", "<cmd>lua require('fzf-lua').grep_cword()<CR>", mode = "n", desc = "WORD搜索(CWD)" },
+		{ "<leader>wf", "<cmd>lua require('fzf-lua').grep_cword()<CR>", mode = "n", desc = "WORD搜索(CWD)" },
 		{ "<leader>gc", "<cmd>lua require('fzf-lua').git_bcommits()<CR>", mode = "n", desc = "Git Buffer Commits" },
 		{ "<leader>gh", "<cmd>lua require('fzf-lua').git_commits()<CR>", mode = "n", desc = "Git Commits" },
 		{
@@ -231,6 +231,15 @@ return {
 			"<cmd>lua require('fzf-lua').lsp_outgoing_calls()<CR>",
 			mode = "n",
 			desc = "Lsp Outgoing Calls",
+		},
+		{
+			"<leader>st",
+			function ()
+        local tools = require("tools.tools")
+        tools.switch_filetypes()
+			end,
+			mode = "n",
+			desc = "切换文件类型",
 		},
 		{ "<leader>`", "<cmd>lua require('fzf-lua').colorschemes()<CR>", mode = "n", desc = "Colorschemes" },
 	},

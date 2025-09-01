@@ -94,87 +94,110 @@ end
 
 -- 获取光标或选中范围的行号
 M.get_line_range = function()
-  local mode = vim.fn.mode()
-  if mode:find("[vV]") then
-    local start_line = vim.fn.getpos("v")[2]
-    local end_line   = vim.fn.getpos(".")[2]
-    if start_line > end_line then
-      start_line, end_line = end_line, start_line
-    end
-    return start_line, end_line
-  else
-    local line = vim.fn.line(".")
-    return line, line
-  end
+	local mode = vim.fn.mode()
+	if mode:find("[vV]") then
+		local start_line = vim.fn.getpos("v")[2]
+		local end_line = vim.fn.getpos(".")[2]
+		if start_line > end_line then
+			start_line, end_line = end_line, start_line
+		end
+		return start_line, end_line
+	else
+		local line = vim.fn.line(".")
+		return line, line
+	end
 end
 
 -- 构造 git log 命令
 M.git_log_range = function()
-  local start_line, end_line = M.get_line_range()
-  local file = vim.fn.expand("%")
-  return string.format("git log -L %d,%d:%s", start_line, end_line, file)
+	local start_line, end_line = M.get_line_range()
+	local file = vim.fn.expand("%")
+	return string.format("git log -L %d,%d:%s", start_line, end_line, file)
 end
 
 -- 打开 fzf-lua 查看 git log
 M.git_log_fzf = function()
-  local fzf = require("fzf-lua")
-  local cmd = M.git_log_range()
+	local fzf = require("fzf-lua")
+	local cmd = M.git_log_range()
 
-  fzf.fzf_exec(cmd, {
-    prompt = "GitLog> ",
-    previewer = "git show --color=always {+1}",
-    actions = {
-      ["default"] = function(selected)
-        local commit = selected[1]:match("^(%x+)")
-        if commit then
-          vim.cmd("tabnew | read !git show --color=always " .. commit)
-        end
-      end,
-    },
-  })
+	fzf.fzf_exec(cmd, {
+		prompt = "GitLog> ",
+		previewer = "git show --color=always {+1}",
+		actions = {
+			["default"] = function(selected)
+				local commit = selected[1]:match("^(%x+)")
+				if commit then
+					vim.cmd("tabnew | read !git show --color=always " .. commit)
+				end
+			end,
+		},
+	})
 end
 
 -- 获取root dir
 M.root_dir = function()
-  local lsp_util = require("lspconfig.util")
-  local bufnr = vim.api.nvim_get_current_buf()
-  local fname = vim.api.nvim_buf_get_name(bufnr)
+	local lsp_util = require("lspconfig.util")
+	local bufnr = vim.api.nvim_get_current_buf()
+	local fname = vim.api.nvim_buf_get_name(bufnr)
 
-  if fname == "" then
-    return vim.loop.cwd()
-  end
+	if fname == "" then
+		return vim.loop.cwd()
+	end
 
-  local root_files = { "package.json", ".git", "angular.json", "vue.config.js" }
-  local root = lsp_util.root_pattern(unpack(root_files))(fname)
-  return root or vim.loop.cwd()
+	local root_files = { "package.json", ".git", "angular.json", "vue.config.js" }
+	local root = lsp_util.root_pattern(unpack(root_files))(fname)
+	return root or vim.loop.cwd()
 end
 
 -- 获取相对路径
 M.pretty_path = function()
-  local root = M.root_dir()
-  local file = vim.api.nvim_buf_get_name(0)
-  if file:sub(1, #root) == root then
-    file = "." .. file:sub(#root + 1)
-  end
-  return file
+	local root = M.root_dir()
+	local file = vim.api.nvim_buf_get_name(0)
+	if file:sub(1, #root) == root then
+		file = "." .. file:sub(#root + 1)
+	end
+	return file
 end
 
 M.hex_to_rgb = function(hex)
-  hex = hex:gsub("#","")
-  local r = tonumber(hex:sub(1,2),16)
-  local g = tonumber(hex:sub(3,4),16)
-  local b = tonumber(hex:sub(5,6),16)
-  return {r, g, b}
+	hex = hex:gsub("#", "")
+	local r = tonumber(hex:sub(1, 2), 16)
+	local g = tonumber(hex:sub(3, 4), 16)
+	local b = tonumber(hex:sub(5, 6), 16)
+	return { r, g, b }
 end
 
 -- 获取颜色
 M.color = function(group)
-  local ok, hl = pcall(vim.api.nvim_get_hl_by_name, group, true)
-  if not ok then return nil end
-  if hl.foreground then
-    return string.format("#%06x", hl.foreground)
-  end
-  return nil
+	local ok, hl = pcall(vim.api.nvim_get_hl_by_name, group, true)
+	if not ok then
+		return nil
+	end
+	if hl.foreground then
+		return string.format("#%06x", hl.foreground)
+	end
+	return nil
+end
+
+M.switch_filetypes = function()
+	local ok, fzf = pcall(require, "fzf-lua")
+  local const = require('tools.const')
+	if not ok then
+		vim.notify("fzf-lua not found!", vim.log.levels.WARN)
+		return
+	end
+	fzf.fzf_exec(const.switch_filetypes, {
+		prompt = "Switch Filetype> ",
+		actions = {
+			["default"] = function(selected)
+				if #selected > 0 then
+					local ft = selected[1]
+					vim.bo.filetype = ft
+					vim.notify("Switched filetype to: " .. ft, vim.log.levels.INFO)
+				end
+			end,
+		},
+	})
 end
 
 return M
