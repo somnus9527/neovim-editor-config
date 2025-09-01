@@ -75,6 +75,7 @@ local servers = {
   html = {},
   tailwindcss = {},
   vue_ls = {},
+  jsonls = {},
 }
 
 for server, config in pairs(servers) do

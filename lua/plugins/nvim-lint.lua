@@ -29,7 +29,8 @@ return {
 			javascriptreact = has_eslint_config() and { "eslint_d" } or {},
 			typescriptreact = has_eslint_config() and { "eslint_d" } or {},
 			vue = has_eslint_config() and { "eslint_d" } or {},
-			json = { "jsonlint" },
+      -- 效果不好，还是使用lsp中的jsonls
+			-- json = { "jsonlint" },
 			lua = { "luacheck" },
 		}
 

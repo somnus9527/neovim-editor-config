@@ -6,7 +6,7 @@ return {
   },
 	keys = {
 		{ "<leader>bp", "<Cmd>BufferLineTogglePin<CR>", desc = "切换Buffer固定" },
-		{ "<leader>bx", "<Cmd>BufferLineGroupClose ungrouped<CR>", desc = "删除所有未固定的Buffer" },
+		{ "<leader>bx", "<Cmd>BufferLineCloseOthers<CR>", desc = "删除其它Buffer" },
 		{ "<leader>br", "<Cmd>BufferLineCloseRight<CR>", desc = "删除右侧所有Buffer" },
 		{ "<leader>bl", "<Cmd>BufferLineCloseLeft<CR>", desc = "删除左侧所有Buffer" },
 		{ "<A-TAB>", "<cmd>BufferLineCyclePrev<cr>", desc = "上一个Buffer" },
