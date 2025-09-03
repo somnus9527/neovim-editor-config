@@ -210,7 +210,7 @@ return {
 			mode = { "n", "v" },
 			desc = "当前行或选中行日志",
 		},
-		{ "<leader>ca", "<cmd>lua require('fzf-lua').lsp_code_actions()<CR>", mode = "n", desc = "Lsp Code Actions" },
+		{ "<leader>ca", "<cmd>lua require('fzf-lua').lsp_code_actions()<CR>", mode = { "n", "v" }, desc = "Lsp Code Actions" },
 		{ "<leader>lr", "<cmd>lua require('fzf-lua').lsp_references()<CR>", mode = "n", desc = "Lsp References" },
 		{ "<leader>ld", "<cmd>lua require('fzf-lua').lsp_definitions()<CR>", mode = "n", desc = "Lsp Definitions" },
 		{

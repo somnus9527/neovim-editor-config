@@ -33,6 +33,7 @@ return {
       "yaml",
       "markdown",
       "toml",
+      "http",
     },
     highlight = {
       enable = true,
