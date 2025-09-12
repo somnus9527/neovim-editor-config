@@ -20,6 +20,7 @@ return {
         "jsonls",
         -- 目前mason-lspconfig中还是叫volar,但是实际lspconfig已经改名vue_ls了，等这边同步再改，先自己安装
         -- "volar",
+        "svelte",
       },
       automatic_installation = true,
     },

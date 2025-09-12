@@ -20,6 +20,9 @@ return {
 			javascriptreact = { "eslint_d", "prettier", stop_after_first = true },
 			typescriptreact = { "eslint_d", "prettier", stop_after_first = true },
 
+      -- svelte
+      -- svelte = { "eslint_d", "prettier", stop_after_first = true },
+
 			-- CSS / SCSS / Less
 			css = { "prettier" },
 			scss = { "prettier" },
