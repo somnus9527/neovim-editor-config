@@ -167,18 +167,7 @@ return {
 	init = function()
 		local tools = require("tools.tools")
 		tools.on_very_lazy(function()
-			-- print('开始注册ui.select')
-			local selecting = false
-			vim.ui.select = function(...)
-				if selecting then
-					return
-				end
-				selecting = true
-				require("lazy").load({ plugins = { "fzf-lua" } })
-				require("fzf-lua").register_ui_select()
-				selecting = false
-				return vim.ui.select(...)
-			end
+      require("fzf-lua").register_ui_select({ silent = true })
 		end)
 	end,
 	keys = {

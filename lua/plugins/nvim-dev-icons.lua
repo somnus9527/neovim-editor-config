@@ -11,6 +11,26 @@ return {
 				color = "#563d7c",
 				name = "Css",
 			},
+			["pnpm-workspace.yaml"] = {
+				icon = "",
+				color = "#f69220",
+				name = "PnpmWorkspace",
+			},
+			["pnpm-lock.yaml"] = {
+				icon = "",
+				color = "#F69220",
+				name = "PnpmLock",
+			},
+			["vite.config.ts"] = {
+				icon = "⚡", -- Vite 可以用闪电
+				color = "#646CFF", -- Vite 官方紫色
+				name = "ViteConfig",
+			},
+			["vite.config.js"] = {
+				icon = "⚡",
+				color = "#646CFF",
+				name = "ViteConfig",
+			},
 		})
 	end,
 }
