@@ -117,6 +117,20 @@ else
     LazyVim.format({ force = true })
   end, { desc = "Format" })
 
+  map("n", "<leader>ww", "<cmd>lua require('spectre').toggle()<CR>", { desc = "显示/隐藏Spectre" })
+  map(
+    "n",
+    "<leader>wc",
+    "<cmd>lua require('spectre').open_visual({select_word=true})<CR>",
+    { desc = "显示/隐藏Spectre" }
+  )
+  map(
+    "n",
+    "<leader>wb",
+    "<cmd>lua require('spectre').open_file_search({select_word=true})<CR>",
+    { desc = "显示/隐藏Spectre" }
+  )
+
   -- map("n", "mm", function()
   --   local char = vim.fn.getcharstr() -- 获取用户输入的标记字符
   --   if char:match("[a-z]") then

@@ -46,9 +46,9 @@ return {
     --   root_dir = require("lspconfig.util").root_pattern("angular.json", "project.json"),
     --   filetypes = { "typescript", "html" },
     -- })
-    LazyVim.extend(opts.servers, "cssls", {});
-    LazyVim.extend(opts.servers, "cssmodules_ls", {});
-    LazyVim.extend(opts.servers, "html", {});
+    LazyVim.extend(opts.servers, "cssls", {})
+    LazyVim.extend(opts.servers, "cssmodules_ls", {})
+    LazyVim.extend(opts.servers, "html", {})
     -- print(opts.servers.angularls)
     LazyVim.extend(opts, "setup", {
       -- 解决clangd offset encoding问题

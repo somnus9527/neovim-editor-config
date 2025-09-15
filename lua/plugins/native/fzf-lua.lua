@@ -154,7 +154,7 @@ return {
     { "<leader>fF", false },
     { "<leader>uC", false },
     {
-      "<leader>b",
+      "<A-b>",
       "<cmd>FzfLua buffers sort_mru=true sort_lastused=true<cr>",
       desc = "切换buffer",
     },
@@ -182,7 +182,7 @@ return {
       desc = "FZF搜索Reference",
     },
     { "<leader>li", "<cmd>lua require('fzf-lua').lsp_implementations()<CR>", desc = "FZF搜索implementations" },
-    { "<leader>`", LazyVim.pick("colorschemes"), desc = "主题切换" },
+    { "<leader>`", "<cmd>lua require('fzf-lua').colorschemes()<CR>", desc = "主题切换" },
     -- { "<leader>m", LazyVim.pick("marks"), desc = "mark列表" },
     {
       "<leader>ll",

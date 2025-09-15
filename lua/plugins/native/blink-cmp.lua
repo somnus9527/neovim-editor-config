@@ -13,5 +13,23 @@ return {
       ["<A-d>"] = { "show", "show_documentation", "hide_documentation" },
       ["<A-e>"] = { "hide", "fallback" },
     },
+    completion = {
+      accept_incomplete = true,
+    },
+    sources = {
+      default = { "lsp", "snippets", "path", "buffer" },
+      providers = {
+        snippets = {
+          min_keyword_length = function(ctx)
+            return ctx.trigger.kind == "trigger_character" and 0 or 2
+          end,
+          override = {
+            get_trigger_characters = function(_)
+              return { "$", "#" }
+            end,
+          },
+        },
+      },
+    },
   },
 }
