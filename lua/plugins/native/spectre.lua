@@ -22,12 +22,12 @@ return {
           desc = '打开文件',
         },
         ['run_current_replace'] = {
-          map = '<C-y>',
+          map = '<C-c>',
           cmd = "<cmd>lua require('spectre.actions').run_current_replace()<CR>",
           desc = '替换当前行',
         },
         ['run_replace'] = {
-          map = '<C-Y>',
+          map = '<C-C>',
           cmd = "<cmd>lua require('spectre.actions').run_replace()<CR>",
           desc = '全部替换',
         },

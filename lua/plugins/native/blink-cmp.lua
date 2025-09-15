@@ -13,9 +13,6 @@ return {
       ["<A-d>"] = { "show", "show_documentation", "hide_documentation" },
       ["<A-e>"] = { "hide", "fallback" },
     },
-    completion = {
-      accept_incomplete = true,
-    },
     sources = {
       default = { "lsp", "snippets", "path", "buffer" },
       providers = {
