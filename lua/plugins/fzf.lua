@@ -10,14 +10,14 @@ return {
 
 		-- Quickfix
 		config.defaults.keymap.fzf["ctrl-q"] = "select-all+accept"
-		config.defaults.keymap.fzf["alt-k"] = "half-page-up"
-		config.defaults.keymap.fzf["alt-j"] = "half-page-down"
+		config.defaults.keymap.fzf["ctrl-k"] = "half-page-up"
+		config.defaults.keymap.fzf["ctrl-j"] = "half-page-down"
 		config.defaults.keymap.fzf["ctrl-x"] = "jump"
 		config.defaults.keymap.fzf["ctrl-f"] = "preview-page-down"
 		config.defaults.keymap.fzf["ctrl-b"] = "preview-page-up"
 		config.defaults.keymap.fzf["alt-e"] = "abort"
-		config.defaults.keymap.builtin["<a-j>"] = "preview-page-down"
-		config.defaults.keymap.builtin["<a-k>"] = "preview-page-up"
+		config.defaults.keymap.builtin["<c-j>"] = "preview-page-down"
+		config.defaults.keymap.builtin["<c-k>"] = "preview-page-up"
 		config.defaults.keymap.builtin["<alt-e>"] = "abort"
 
 		-- Trouble
@@ -120,13 +120,13 @@ return {
 			files = {
 				cwd_prompt = false,
 				actions = {
-					["alt-i"] = { actions.toggle_ignore },
+					["alt-g"] = { actions.toggle_ignore },
 					["alt-h"] = { actions.toggle_hidden },
 				},
 			},
 			grep = {
 				actions = {
-					["alt-i"] = { actions.toggle_ignore },
+					["alt-g"] = { actions.toggle_ignore },
 					["alt-h"] = { actions.toggle_hidden },
 				},
 			},

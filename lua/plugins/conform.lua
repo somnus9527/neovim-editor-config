@@ -15,32 +15,35 @@ return {
 	opts = {
 		formatters_by_ft = {
 			-- JavaScript/TypeScript
-			javascript = { "eslint_d", "prettier", stop_after_first = true },
-			typescript = { "eslint_d", "prettier", stop_after_first = true },
-			javascriptreact = { "eslint_d", "prettier", stop_after_first = true },
-			typescriptreact = { "eslint_d", "prettier", stop_after_first = true },
+			javascript = { "eslint", "prettier", lsp_format = "fallback", stop_after_first = true },
+			typescript = { "eslint", "prettier", lsp_format = "fallback", stop_after_first = true },
+			javascriptreact = { "eslint", "prettier", lsp_format = "fallback", stop_after_first = true },
+			typescriptreact = { "eslint", "prettier", lsp_format = "fallback", stop_after_first = true },
 
       -- svelte
       -- svelte = { "eslint_d", "prettier", stop_after_first = true },
 
 			-- CSS / SCSS / Less
-			css = { "prettier" },
-			scss = { "prettier" },
-			less = { "prettier" },
+			css = { "prettier", lsp_format = "fallback", stop_after_first = true },
+			scss = { "prettier", lsp_format = "fallback", stop_after_first = true },
+			less = { "prettier", lsp_format = "fallback", stop_after_first = true },
 
 			-- HTML
-			html = { "prettier" },
+			html = { "prettier", lsp_format = "fallback", stop_after_first = true },
 
 			-- JSON / YAML
-			json = { "prettier" },
-			jsonc = { "prettier" },
-			yaml = { "prettier" },
+			json = { "prettier", lsp_format = "fallback", stop_after_first = true },
+			jsonc = { "prettier", lsp_format = "fallback", stop_after_first = true },
+			yaml = { "prettier", lsp_format = "fallback", stop_after_first = true },
 
 			-- Markdown
-			markdown = { "prettier" },
+			markdown = { "prettier", lsp_format = "fallback", stop_after_first = true },
 
 			-- Lua
-			lua = { "stylua" },
+			lua = { "stylua", lsp_format = "fallback", stop_after_first = true },
+
+      -- 其它
+      ["_"] = { lsp_format = "fallback", "trim_whitespace", stop_after_first = true },
 		},
 
 		-- 自动保存时格式化

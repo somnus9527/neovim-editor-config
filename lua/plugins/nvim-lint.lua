@@ -23,21 +23,26 @@ return {
 			return false
 		end
 
+		-- 覆盖 eslint_d 的 cmd，强制使用项目本地 eslint_d
+		-- if has_eslint_config() then
+		-- 	lint.linters.eslint_d.cmd = vim.fn.getcwd()
+		-- end
+
 		lint.linters_by_ft = {
-			javascript = has_eslint_config() and { "eslint_d" } or {},
-			typescript = has_eslint_config() and { "eslint_d" } or {},
-			javascriptreact = has_eslint_config() and { "eslint_d" } or {},
-			typescriptreact = has_eslint_config() and { "eslint_d" } or {},
+			javascript = has_eslint_config() and { "eslint" } or {},
+			typescript = has_eslint_config() and { "eslint" } or {},
+			javascriptreact = has_eslint_config() and { "eslint" } or {},
+			typescriptreact = has_eslint_config() and { "eslint" } or {},
 			-- svelte = has_eslint_config() and { "eslint_d" } or {},
-			vue = has_eslint_config() and { "eslint_d" } or {},
-      -- 效果不好，还是使用lsp中的jsonls
+			vue = has_eslint_config() and { "eslint" } or {},
+			-- 效果不好，还是使用lsp中的jsonls
 			-- json = { "jsonlint" },
 			lua = { "luacheck" },
 		}
 
 		vim.api.nvim_create_autocmd({ "BufWritePost", "BufReadPost", "InsertLeave", "TextChanged" }, {
 			callback = function()
-				lint.try_lint()
+				require("lint").try_lint()
 			end,
 		})
 	end,
