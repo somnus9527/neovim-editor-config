@@ -55,6 +55,7 @@ local keymaps = {
 	{ "n", "<A-j>", "ddp", { desc = "整行下移" } },
 	{ "n", "<A-k>", "dd2kp", { desc = "整行上移" } },
 	{ "n", "<leader>n", "<CMD>enew<CR>", { desc = "创建一个新的空白文件" } },
+  { "n", "<A-m>", "%", { desc = "匹配括号" } },
 
 	{ "n", "<leader>ww", "<cmd>lua require('spectre').toggle()<CR>", { desc = "显示/隐藏Spectre" } },
 	{

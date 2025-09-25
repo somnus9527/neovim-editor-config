@@ -158,8 +158,13 @@ vim.api.nvim_create_autocmd("FileType", {
 
 -- quickfix q关闭
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = "qf",
-  callback = function(event)
-    vim.keymap.set("n", "q", "<cmd>q<cr>", { buffer = event.buf, silent = true })
-  end,
+	pattern = "qf",
+	callback = function(event)
+		vim.keymap.set("n", "q", "<cmd>q<cr>", { buffer = event.buf, silent = true })
+		vim.keymap.set("n", "<CR>", function()
+			local lnum = vim.fn.line(".") -- 当前 quickfix 光标所在行
+			vim.cmd("cc " .. lnum) -- 跳到对应的 quickfix 项
+			vim.cmd("cclose") -- 关闭 quickfix 窗口
+		end, { buffer = true })
+	end,
 })

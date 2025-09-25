@@ -86,7 +86,7 @@ return {
 			["<A->>"] = { "scroll_documentation_down", "fallback" },
 			["<A-<>"] = { "scroll_documentation_up", "fallback" },
 			["<A-d>"] = { "show", "show_documentation", "hide_documentation" },
-			["<A-e>"] = { "hide", "fallback" },
+			-- ["<A-e>"] = { "hide", "fallback" },
 		},
 	},
 	config = function(_, opts)
