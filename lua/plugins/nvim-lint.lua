@@ -33,7 +33,7 @@ return {
 			typescript = has_eslint_config() and { "eslint" } or {},
 			javascriptreact = has_eslint_config() and { "eslint" } or {},
 			typescriptreact = has_eslint_config() and { "eslint" } or {},
-			-- svelte = has_eslint_config() and { "eslint_d" } or {},
+			svelte = has_eslint_config() and { "eslint_d" } or {},
 			vue = has_eslint_config() and { "eslint" } or {},
 			-- 效果不好，还是使用lsp中的jsonls
 			-- json = { "jsonlint" },

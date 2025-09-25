@@ -1,3 +1,4 @@
+local tools = require("tools.tools")
 -- 配置server
 local servers = {
 	lua_ls = {
@@ -36,8 +37,11 @@ local servers = {
 		filetypes = {
 			"javascript",
 			"javascriptreact",
+			"javascript.jsx",
 			"typescript",
 			"typescriptreact",
+			"typescript.tsx",
+			"vue",
 		},
 		root_dir = function(bufnr, on_dir)
 			-- The project root is where the LSP can be started from
@@ -73,6 +77,28 @@ local servers = {
 						enableServerSideFuzzyMatch = true,
 					},
 				},
+				tsserver = {
+					globalPlugins = {
+						{
+							name = "typescript-svelte-plugin",
+							location = tools.get_pkg_path(
+								"svelte-language-server",
+								"/node_modules/typescript-svelte-plugin"
+							),
+							enableForWorkspaceTypeScriptVersions = true,
+						},
+						{
+							name = "@vue/typescript-plugin",
+							location = tools.get_pkg_path(
+								"vue-language-server",
+								"/node_modules/@vue/language-server"
+							),
+							languages = { "vue" },
+							configNamespace = "typescript",
+							enableForWorkspaceTypeScriptVersions = true,
+						},
+					},
+				},
 			},
 			typescript = {
 				updateImportsOnFileMove = { enabled = "always" },
@@ -97,7 +123,7 @@ local servers = {
 	tailwindcss = {},
 	vue_ls = {},
 	jsonls = {},
-	-- svelte = {},
+	svelte = {},
 }
 
 for server, config in pairs(servers) do

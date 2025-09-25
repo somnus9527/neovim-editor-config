@@ -34,6 +34,9 @@ return {
 			nerd_font_variant = "mono",
 		},
 		completion = {
+      trigger = {
+        show_on_keyword = true,
+      },
 			list = {
 				selection = {
 					preselect = true, -- 自动预选
@@ -64,6 +67,7 @@ return {
 			-- with blink.compat
 			compat = {},
 			default = { "lsp", "path", "snippets", "buffer" },
+      min_keyword_length = 1,
 		},
 
 		cmdline = {
@@ -73,8 +77,8 @@ return {
 		keymap = {
 			preset = "enter",
 			["<A-y>"] = { "select_and_accept" },
-			["<TAB>"] = { "snippet_forward", "fallback" },
-			["<S-TAB>"] = { "snippet_backward", "fallback" },
+			["<Tab>"] = { "snippet_forward", "fallback" },
+			["<S-Tab>"] = { "snippet_backward", "fallback" },
 			["<A-m>"] = { "select_prev", "fallback" },
 			["<A-n>"] = { "select_next", "fallback" },
 			["<A->>"] = { "scroll_documentation_down", "fallback" },

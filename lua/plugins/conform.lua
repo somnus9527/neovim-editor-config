@@ -6,7 +6,12 @@ return {
 		{
 			"<leader>f",
 			function()
-				require("conform").format({ async = true })
+				require("conform").format({ async = true, lsp_format = "fallback" }, function ()
+          local ok, lint = pcall(require, "lint")
+          if ok then
+            lint.try_lint()
+          end
+				end)
 			end,
 			mode = { "n", "v" },
 			desc = "格式化",
@@ -21,7 +26,10 @@ return {
 			typescriptreact = { "eslint", "prettier", lsp_format = "fallback", stop_after_first = true },
 
       -- svelte
-      -- svelte = { "eslint_d", "prettier", stop_after_first = true },
+      svelte = { "prettier", stop_after_first = true },
+
+      -- vue
+      vue = { "eslint", "prettier", stop_after_first = true },
 
 			-- CSS / SCSS / Less
 			css = { "prettier", lsp_format = "fallback", stop_after_first = true },

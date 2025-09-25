@@ -181,7 +181,7 @@ end
 
 M.switch_filetypes = function()
 	local ok, fzf = pcall(require, "fzf-lua")
-  local const = require('tools.const')
+	local const = require("tools.const")
 	if not ok then
 		vim.notify("fzf-lua not found!", vim.log.levels.WARN)
 		return
@@ -198,6 +198,43 @@ M.switch_filetypes = function()
 			end,
 		},
 	})
+end
+
+-- 深度扩展，没有就创建
+M.extend = function(t, key, values)
+	local keys = vim.split(key, ".", { plain = true })
+	for i = 1, #keys do
+		local k = keys[i]
+		t[k] = t[k] or {}
+		if type(t) ~= "table" then
+			return
+		end
+		t = t[k]
+	end
+	return vim.list_extend(t, values)
+end
+
+-- 获取pkg路径
+M.get_pkg_path = function(pkg, path, opts)
+	pcall(require, "mason") -- make sure Mason is loaded. Will fail when generating docs
+	local root = vim.fn.stdpath("data") .. "/mason"
+	opts = opts or {}
+	opts.warn = opts.warn == nil and true or opts.warn
+	path = path or ""
+	local ret = vim.fs.normalize(root .. "/packages/" .. pkg .. "/" .. path)
+	if opts.warn then
+		vim.schedule(function()
+			if not require("lazy.core.config").headless() and not vim.loop.fs_stat(ret) then
+				M.warn(
+					("Mason package path not found for **%s**:\n- `%s`\nYou may need to force update the package."):format(
+						pkg,
+						path
+					)
+				)
+			end
+		end)
+	end
+	return ret
 end
 
 return M
