@@ -34,9 +34,11 @@ return {
 			nerd_font_variant = "mono",
 		},
 		completion = {
-      trigger = {
-        show_on_keyword = true,
-      },
+			trigger = {
+				show_on_keyword = true,
+        show_on_trigger_character = true,
+        show_on_insert_on_trigger_character = true,
+			},
 			list = {
 				selection = {
 					preselect = true, -- 自动预选
@@ -67,7 +69,7 @@ return {
 			-- with blink.compat
 			compat = {},
 			default = { "lsp", "path", "snippets", "buffer" },
-      min_keyword_length = 1,
+			min_keyword_length = 0,
 		},
 
 		cmdline = {
