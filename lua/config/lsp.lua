@@ -89,10 +89,7 @@ local servers = {
 						},
 						{
 							name = "@vue/typescript-plugin",
-							location = tools.get_pkg_path(
-								"vue-language-server",
-								"/node_modules/@vue/language-server"
-							),
+							location = tools.get_pkg_path("vue-language-server", "/node_modules/@vue/language-server"),
 							languages = { "vue" },
 							configNamespace = "typescript",
 							enableForWorkspaceTypeScriptVersions = true,
@@ -124,6 +121,14 @@ local servers = {
 	vue_ls = {},
 	jsonls = {},
 	svelte = {},
+	emmet_ls = {
+		filetypes = {
+			"html",
+			"vue",
+			"javascriptreact",
+			"typescriptreact",
+		},
+	},
 }
 
 for server, config in pairs(servers) do
