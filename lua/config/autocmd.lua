@@ -11,6 +11,17 @@ vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
 	command = "checktime",
 })
 
+-- 在spectre替换窗口内添加q快捷键，用于快速退出窗口
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = "spectre_panel",
+	callback = function()
+		-- 只对 spectre 的窗口生效
+		vim.keymap.set("n", "q", function()
+			vim.cmd("q") -- 或者 require("spectre").close()
+		end, { buffer = true, desc = "退出 Spectre 窗口" })
+	end,
+})
+
 -- 设置angular treesitter
 vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
 	pattern = { "*.component.html", "*.container.html" },

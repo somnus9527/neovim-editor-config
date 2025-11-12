@@ -13,6 +13,9 @@ return {
 		"css",
 		"tsx",
 		"typescript",
+		"javascriptreact",
+		"typescriptreact",
+		"vie",
 	},
 	opts = {
 		filetypes = {
@@ -27,6 +30,9 @@ return {
 			"css",
 			"tsx",
 			"typescript",
+			"javascriptreact",
+			"typescriptreact",
+			"vue",
 		},
 		mode = { "n", "v" },
 		prev_outer_key = "<A-n>",

@@ -27,7 +27,7 @@ return {
           desc = '替换当前行',
         },
         ['run_replace'] = {
-          map = '<C-Y>',
+          map = '<leader>y',
           cmd = "<cmd>lua require('spectre.actions').run_replace()<CR>",
           desc = '全部替换',
         },
