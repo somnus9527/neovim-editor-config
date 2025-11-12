@@ -5,7 +5,7 @@ return {
     local splitjoin = require("mini.splitjoin")
     local opt = {
       mappings = {
-        toggle = "gs",
+        toggle = "qs",
       },
     }
     splitjoin.setup(opt)
