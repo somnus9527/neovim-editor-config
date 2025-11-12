@@ -19,6 +19,10 @@ return {
 			opts = {},
 			version = "*",
 		},
+		{
+			"mikavilpas/blink-ripgrep.nvim",
+			version = "*",
+		},
 	},
 	event = "InsertEnter",
 
@@ -36,8 +40,8 @@ return {
 		completion = {
 			trigger = {
 				show_on_keyword = true,
-        show_on_trigger_character = true,
-        show_on_insert_on_trigger_character = true,
+				show_on_trigger_character = true,
+				show_on_insert_on_trigger_character = true,
 			},
 			list = {
 				selection = {
@@ -68,8 +72,15 @@ return {
 			-- adding any nvim-cmp sources here will enable them
 			-- with blink.compat
 			compat = {},
-			default = { "lsp", "path", "snippets", "buffer" },
+			default = { "lsp", "path", "snippets", "buffer", "ripgrep" },
 			min_keyword_length = 0,
+			providers = {
+				ripgrep = {
+					module = "blink-ripgrep",
+					name = "Ripgrep",
+					opts = {},
+				},
+			},
 		},
 
 		cmdline = {
