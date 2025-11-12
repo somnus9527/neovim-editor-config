@@ -34,28 +34,48 @@ local keymaps = {
 	{ "n", "<leader>\\", "<C-w>v", { desc = "右侧分屏", remap = true } },
 	{ "n", "|", "<C-w>s", { desc = "底部分屏", remap = true } },
 	{ "n", "<A-x>", "<CMD>q<CR>", { desc = "关闭Window" } },
-	{ "n", "<A-->", function ()
-    vim.cmd("vertical resize -10")
-	end, { desc = "缩小窗口" } },
-	{ "n", "<A-=>", function ()
-    vim.cmd("vertical resize +10")
-	end, { desc = "放大窗口" } },
-	{ "n", "<leader>-", function ()
-    vim.cmd("resize -10")
-	end, { desc = "纵向缩小窗口" } },
-	{ "n", "<leader>=", function ()
-    vim.cmd("resize +10")
-	end, { desc = "纵向放大窗口" } },
+	{
+		"n",
+		"<A-->",
+		function()
+			vim.cmd("vertical resize -10")
+		end,
+		{ desc = "缩小窗口" },
+	},
+	{
+		"n",
+		"<A-=>",
+		function()
+			vim.cmd("vertical resize +10")
+		end,
+		{ desc = "放大窗口" },
+	},
+	{
+		"n",
+		"<leader>-",
+		function()
+			vim.cmd("resize -10")
+		end,
+		{ desc = "纵向缩小窗口" },
+	},
+	{
+		"n",
+		"<leader>=",
+		function()
+			vim.cmd("resize +10")
+		end,
+		{ desc = "纵向放大窗口" },
+	},
 	{ "v", "<", "<gv", { desc = "避免visual模式下处理缩进之后，选区丢失" } },
 	{ "v", ">", ">gv", { desc = "避免visual模式下处理缩进之后，选区丢失" } },
-	{ "n", "<C-h>", "<C-w>h", { desc = "切换到左侧窗口" } },
-	{ "n", "<C-j>", "<C-w>j", { desc = "切换到下方窗口" } },
-	{ "n", "<C-k>", "<C-w>k", { desc = "切换到上方窗口" } },
-	{ "n", "<C-l>", "<C-w>l", { desc = "切换到右侧窗口" } },
+	{ { "n", "t" }, "<C-h>", "<C-w>h", { desc = "切换到左侧窗口" } },
+	{ { "n", "t" }, "<C-j>", "<C-w>j", { desc = "切换到下方窗口" } },
+	{ { "n", "t" }, "<C-k>", "<C-w>k", { desc = "切换到上方窗口" } },
+	{ { "n", "t" }, "<C-l>", "<C-w>l", { desc = "切换到右侧窗口" } },
 	{ "n", "<A-j>", "ddp", { desc = "整行下移" } },
 	{ "n", "<A-k>", "dd2kp", { desc = "整行上移" } },
 	{ "n", "<leader>n", "<CMD>enew<CR>", { desc = "创建一个新的空白文件" } },
-  { "n", "<A-m>", "%", { desc = "匹配括号" } },
+	{ "n", "<A-m>", "%", { desc = "匹配括号" } },
 
 	{ "n", "<leader>ww", "<cmd>lua require('spectre').toggle()<CR>", { desc = "显示/隐藏Spectre" } },
 	{
