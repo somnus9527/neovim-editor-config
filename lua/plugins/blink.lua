@@ -19,10 +19,10 @@ return {
 			opts = {},
 			version = "*",
 		},
-		{
-			"mikavilpas/blink-ripgrep.nvim",
-			version = "*",
-		},
+		-- {
+		-- 	"mikavilpas/blink-ripgrep.nvim",
+		-- 	version = "*",
+		-- },
 	},
 	event = "InsertEnter",
 
@@ -72,15 +72,27 @@ return {
 			-- adding any nvim-cmp sources here will enable them
 			-- with blink.compat
 			compat = {},
-			default = { "lsp", "path", "snippets", "buffer", "ripgrep" },
+			-- default = { "lsp", "path", "snippets", "buffer", "ripgrep" },
+			default = { "lsp", "path", "snippets", "buffer" },
 			min_keyword_length = 0,
-			providers = {
-				ripgrep = {
-					module = "blink-ripgrep",
-					name = "Ripgrep",
-					opts = {},
-				},
-			},
+			-- providers = {
+			-- 	ripgrep = {
+			-- 		module = "blink-ripgrep",
+			-- 		name = "Ripgrep",
+			-- 		opts = {
+			--          debounce = 200,
+			-- 			args = {
+			-- 				"--glob=!.git/",
+			-- 				"--glob=!node_modules/",
+			-- 				"--glob=!dist/",
+			-- 				"--glob=!build/",
+			-- 				"--glob=!coverage/",
+			-- 				"--glob=!logs/",
+			--            "--max-filesize=1M"
+			-- 			},
+			-- 		},
+			-- 	},
+			-- },
 		},
 
 		cmdline = {
