@@ -26,6 +26,31 @@ local keymaps = {
 	{ "n", "gb", "<C-o>", { desc = "返回上一步" } },
 	{ "i", "<A-p>", "<C-r>+", { desc = "插入模式粘贴系统剪切板内容" } },
 	{ "i", "<A-0>", '<C-r>"', { desc = "插入模式粘贴默认register中内容" } },
+	{
+		"i",
+		"<TAB>",
+		function()
+			local ok, blink = pcall(require, "blink")
+			if ok and blink then
+        print('blink ok')
+				if blink.can_jump() then
+          print('can jump')
+					blink.jump(1)
+					return ""
+				end
+			end
+			local ok, expanable = pcall(vim.fn["emmet#isExpandable"])
+			if ok and expanable then
+				vim.fn["emmet#expandAbbr"](0, "")
+				-- 光标向右移动 1
+				vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Right>", true, false, true), "n", false)
+				return ""
+			end
+			tools.insert_tab()
+			return ""
+		end,
+		{ desc = "插入模式触发emmet" },
+	},
 	{ { "n", "v" }, "<A-p>", '"+p', { desc = "普通/visual模式粘贴系统剪切板内容" } },
 	{ { "n", "v" }, "<A-0>", '""p', { desc = "普通/visual模式粘贴默认register中内容" } },
 	{ "v", "p", '"_dP', { desc = "避免visual模式下粘贴影响正常yank的register" } },

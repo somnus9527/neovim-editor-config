@@ -237,4 +237,8 @@ M.get_pkg_path = function(pkg, path, opts)
 	return ret
 end
 
+M.insert_tab = function()
+	vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Tab>", true, false, true), "n", false)
+end
+
 return M

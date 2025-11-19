@@ -121,14 +121,15 @@ local servers = {
 	vue_ls = {},
 	jsonls = {},
 	svelte = {},
-	emmet_ls = {
-		filetypes = {
-			"html",
-			"vue",
-			"javascriptreact",
-			"typescriptreact",
-		},
-	},
+  -- 污染blink的补全提示，很恶心
+	-- emmet_ls = {
+	-- 	filetypes = {
+	-- 		"html",
+	-- 		"vue",
+	-- 		"javascriptreact",
+	-- 		"typescriptreact",
+	-- 	},
+	-- },
 }
 
 for server, config in pairs(servers) do
