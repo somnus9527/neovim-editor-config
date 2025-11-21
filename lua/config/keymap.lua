@@ -30,17 +30,23 @@ local keymaps = {
 		"i",
 		"<TAB>",
 		function()
-			local ok, blink = pcall(require, "blink")
-			if ok and blink then
-        print('blink ok')
-				if blink.can_jump() then
-          print('can jump')
-					blink.jump(1)
-					return ""
-				end
-			end
+			-- local ok, blink = pcall(require, "blink")
+			-- if ok and blink then
+			--      print('blink ok')
+			-- 	if blink.can_jump() then
+			--        print('can jump')
+			-- 		blink.jump(1)
+			-- 		return ""
+			-- 	end
+			-- end
+			-- 获取光标前的内容
+			local col = vim.fn.col(".") - 1
+			local line = vim.fn.getline(".")
+			local prefix = line:sub(1, col):match("(%w[%w%d%-%*]*)$") -- emmet 缩写常见结构
+
 			local ok, expanable = pcall(vim.fn["emmet#isExpandable"])
-			if ok and expanable then
+			if ok and expanable and prefix and prefix ~= "" then
+				print("expanable")
 				vim.fn["emmet#expandAbbr"](0, "")
 				-- 光标向右移动 1
 				vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Right>", true, false, true), "n", false)
