@@ -7,6 +7,7 @@ return {
 		"sources.default",
 	},
 	dependencies = {
+		"bydlw98/blink-cmp-env",
 		{
 			"L3MON4D3/LuaSnip",
 			version = "v2.*",
@@ -19,10 +20,6 @@ return {
 			opts = {},
 			version = "*",
 		},
-		-- {
-		-- 	"mikavilpas/blink-ripgrep.nvim",
-		-- 	version = "*",
-		-- },
 	},
 	event = "InsertEnter",
 
@@ -72,27 +69,20 @@ return {
 			-- adding any nvim-cmp sources here will enable them
 			-- with blink.compat
 			compat = {},
-			-- default = { "lsp", "path", "snippets", "buffer", "ripgrep" },
 			default = { "lsp", "path", "snippets", "buffer" },
-			min_keyword_length = 0,
-			-- providers = {
-			-- 	ripgrep = {
-			-- 		module = "blink-ripgrep",
-			-- 		name = "Ripgrep",
-			-- 		opts = {
-			--          debounce = 200,
-			-- 			args = {
-			-- 				"--glob=!.git/",
-			-- 				"--glob=!node_modules/",
-			-- 				"--glob=!dist/",
-			-- 				"--glob=!build/",
-			-- 				"--glob=!coverage/",
-			-- 				"--glob=!logs/",
-			--            "--max-filesize=1M"
-			-- 			},
-			-- 		},
-			-- 	},
-			-- },
+			min_keyword_length = 1,
+			providers = {
+				env = {
+					name = "Env",
+					module = "blink-cmp-env",
+          kind = "Variable",
+					opts = {
+						-- item_kind = require("blink.cmp.types").CompletionItemKind.Variable,
+						show_braces = false,
+						show_documentation_window = true,
+					},
+				},
+			},
 		},
 
 		cmdline = {
