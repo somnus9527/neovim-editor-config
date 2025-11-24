@@ -43,7 +43,8 @@ return {
       enable = true,
       disable = { "python" },
     },
-    context_commentstring = { enable = true, enable_autocmd = false },
+    -- 最新版本已经移除，改到nvim-ts-context-commentstring中自动处理
+    -- context_commentstring = { enable = true, enable_autocmd = false },
     incremental_selection = {
       enable = true,
       keymaps = {
