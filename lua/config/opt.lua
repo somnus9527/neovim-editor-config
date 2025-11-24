@@ -14,7 +14,7 @@ opt.linespace = 2
 -- 高亮当前行
 opt.cursorline = true
 -- 高亮当前列
-opt.cursorcolumn = true
+opt.cursorcolumn = false
 -- 行号占用的列数
 opt.numberwidth = 6
 -- 命令行占用的行数
