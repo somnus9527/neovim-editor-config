@@ -22,7 +22,7 @@ return {
 		"everviolet/nvim",
 		name = "evergarden",
 		priority = 1000,
-    lazy = true,
+		lazy = true,
 		-- opts = {
 		-- 	theme = {
 		-- 		variant = "fall",
@@ -57,10 +57,13 @@ return {
 	},
 	{
 		"kuri-sun/yoda.nvim",
-    -- lazy = true,
+		-- lazy = true,
 		lazy = false,
 		config = function()
 			vim.cmd.colorscheme("yoda")
+			vim.cmd([[
+        hi CursorLine guibg=#2b2b2b
+      ]])
 		end,
 	},
 	{
