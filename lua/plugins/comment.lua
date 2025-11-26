@@ -21,11 +21,11 @@ return {
 			ignore = nil, -- 忽略某些行
 			toggler = {
 				line = "gcc", -- 切换行注释
-				block = "gbc", -- 切换块注释
+				block = "gvc", -- 切换块注释
 			},
 			opleader = {
 				line = "gc", -- 操作符行注释
-				block = "gb", -- 操作符块注释
+				block = "gv", -- 操作符块注释
 			},
 			extra = {
 				above = "gcO", -- 在当前行上方添加注释
