@@ -24,6 +24,7 @@ return {
 	event = "InsertEnter",
 
 	opts = {
+    fuzzy = { implementation = "prefer_rust_with_warning" },
 		snippets = {
 			expand = function(snippet, _)
 				local luasnip = require("luasnip")
@@ -75,7 +76,7 @@ return {
 				env = {
 					name = "Env",
 					module = "blink-cmp-env",
-          kind = "Variable",
+					kind = "Variable",
 					opts = {
 						-- item_kind = require("blink.cmp.types").CompletionItemKind.Variable,
 						show_braces = false,
