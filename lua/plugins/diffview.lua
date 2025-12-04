@@ -22,7 +22,7 @@ return {
 				enhanced_diff_hl = true, -- 高亮增强
 				view = {
 					merge_tool = {
-						layout = "diff1_plain", -- 处理冲突时的布局: diff3_mixed / diff3_vertical
+						layout = "diff3_vertical", -- 处理冲突时的布局: diff3_mixed / diff3_vertical
 						disable_diagnostics = false, -- merge 时禁用诊断
 					},
 				},
