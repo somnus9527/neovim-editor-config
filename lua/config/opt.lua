@@ -58,3 +58,8 @@ opt.showbreak = "↪"
 local g = vim.g
 -- 禁用codeium默认快捷键
 g.codeium_disable_bindings = 1
+g.vim_json_syntax_conceal = 0
+g.loaded_json = 1
+g.loaded_javascript = 1
+g.loaded_typescript = 1
+g.loaded_jsx = 1

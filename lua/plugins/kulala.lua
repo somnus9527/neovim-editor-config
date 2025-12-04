@@ -22,12 +22,23 @@ return {
 		{ "<leader>re", "<cmd>lua require('kulala').set_selected_env()<cr>", desc = "Select env", ft = "http" },
 	},
 	opts = {
-    default_env = "develop",
+		default_env = "develop",
 		global_keymaps = false,
 		global_keymaps_prefix = "<leader>r",
 		kulala_keymaps_prefix = "",
-    ui = {
-      show_variable_info_text = 'float',
-    }
+		ui = {
+			show_variable_info_text = "float",
+			default_winbar_panes = { "body", "headers", "verbose" },
+			winbar_labels = {
+				body = "Body",
+				headers = "Headers",
+				headers_body = "All",
+				verbose = "Verbose",
+				script_output = "Script Output",
+				stats = "Stats",
+				report = "Report",
+				help = "Help",
+			},
+		},
 	},
 }
