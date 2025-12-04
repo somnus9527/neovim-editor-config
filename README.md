@@ -41,3 +41,15 @@ bind-key -T copy-mode-vi 'C-u' send -X page-up
 # 向下翻页
 bind-key -T copy-mode-vi 'C-d' send -X page-down
 ```
+
+### 卡顿分析
+- 通过 neovim命令输出日志分析
+```
+:profile start profile.log
+:profile func *
+:profile file *
+```
+- 一旦发现卡顿，就可以暂停记录，然后把当前目录下的profile.log文件交给GPT分析即可
+`:profile stop`
+
+
