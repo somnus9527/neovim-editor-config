@@ -21,7 +21,9 @@ return {
 			version = "*",
 		},
 	},
-	event = "InsertEnter",
+  -- 和codesnap冲突，所以需要先加载blink, 后续如果能解决codesnap的冲突，可以切回
+  event = 'VimEnter',
+	-- event = "InsertEnter",
 
 	opts = {
     fuzzy = { implementation = "prefer_rust_with_warning" },
