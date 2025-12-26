@@ -57,14 +57,14 @@ return {
 	},
 	{
 		"kuri-sun/yoda.nvim",
-		-- lazy = true,
-		lazy = false,
-		config = function()
-			vim.cmd.colorscheme("yoda")
-			vim.cmd([[
-        hi CursorLine guibg=#2b2b2b
-      ]])
-		end,
+		lazy = true,
+		-- lazy = false,
+		-- config = function()
+		-- 	vim.cmd.colorscheme("yoda")
+		-- 	vim.cmd([[
+  --       hi CursorLine guibg=#2b2b2b
+  --     ]])
+		-- end,
 	},
 	{
 		"zenbones-theme/zenbones.nvim",
@@ -79,15 +79,15 @@ return {
 	},
 	{
 		"catppuccin/nvim",
-		lazy = true,
-		-- lazy = false,
-		-- priority = 1000,
+		-- lazy = true,
+		lazy = false,
+		priority = 1000,
 		name = "catppuccin",
 		opts = {
 			integrations = { blink_cmp = true },
 		},
-		-- config = function()
-		-- 	vim.cmd.colorscheme("catppuccin")
-		-- end,
+		config = function()
+			vim.cmd.colorscheme("catppuccin")
+		end,
 	},
 }
