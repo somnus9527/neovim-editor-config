@@ -143,6 +143,29 @@ local servers = {
 	-- 		"typescriptreact",
 	-- 	},
 	-- },
+	clangd = {
+		cmd = { "clangd", "--background-index", "--compile-commands-dir=build", "--query-driver=/usr/bin/c++" },
+		filetypes = { "c", "cpp" },
+	},
+	cmake = {
+		filetypes = { "cmake" },
+		root_dir = function(fname)
+			return require("lspconfig.util").root_pattern(".git", "CMakeLists.txt")(fname) or vim.fn.getcwd()
+		end,
+	},
+	pyright = {
+		filetypes = { "python" },
+		settings = {
+			python = {
+				analysis = {
+					typeCheckingMode = "basic",
+					useLibraryCodeForTypes = true,
+					autoSearchPaths = true,
+					pythonPath = "/Users/somnuszyy9527/.venvs/nvim/bin/python",
+				},
+			},
+		},
+	},
 }
 
 for server, config in pairs(servers) do

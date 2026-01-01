@@ -6,11 +6,11 @@ return {
 		{
 			"<leader>f",
 			function()
-				require("conform").format({ async = true, lsp_format = "fallback" }, function ()
-          local ok, lint = pcall(require, "lint")
-          if ok then
-            lint.try_lint()
-          end
+				require("conform").format({ async = true, lsp_format = "fallback" }, function()
+					local ok, lint = pcall(require, "lint")
+					if ok then
+						lint.try_lint()
+					end
 				end)
 			end,
 			mode = { "n", "v" },
@@ -25,11 +25,11 @@ return {
 			javascriptreact = { "eslint", "prettier", lsp_format = "fallback", stop_after_first = true },
 			typescriptreact = { "eslint", "prettier", lsp_format = "fallback", stop_after_first = true },
 
-      -- svelte
-      svelte = { "prettier", stop_after_first = true },
+			-- svelte
+			svelte = { "prettier", stop_after_first = true },
 
-      -- vue
-      vue = { "eslint", "prettier", stop_after_first = true },
+			-- vue
+			vue = { "eslint", "prettier", stop_after_first = true },
 
 			-- CSS / SCSS / Less
 			css = { "prettier", lsp_format = "fallback", stop_after_first = true },
@@ -50,8 +50,14 @@ return {
 			-- Lua
 			lua = { "stylua", lsp_format = "fallback", stop_after_first = true },
 
-      -- 其它
-      ["_"] = { lsp_format = "fallback", "trim_whitespace", stop_after_first = true },
+			-- c,cpp
+			c = { "clang-format" },
+			cpp = { "clang-format" },
+
+			python = { "black" },
+
+			-- 其它
+			["_"] = { lsp_format = "fallback", "trim_whitespace", stop_after_first = true },
 		},
 
 		-- 自动保存时格式化

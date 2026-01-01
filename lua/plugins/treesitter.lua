@@ -9,6 +9,7 @@ return {
   opts = {
     ensure_installed = {
       "c",
+      "cpp",
       "dart",
       "dockerfile",
       "gitignore",

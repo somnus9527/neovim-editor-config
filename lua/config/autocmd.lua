@@ -179,3 +179,29 @@ vim.api.nvim_create_autocmd("FileType", {
 		end, { buffer = true })
 	end,
 })
+
+-- autocmd处理缩进，之前只有前端项目，我都是使用的2，但是现在有python，需要针对python项目改成4
+vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
+	callback = function()
+    local tools = require('tools.tools')
+		local root = tools.get_project_root()
+
+		-- 1️⃣ 如果项目有 .editorconfig，什么都不做
+		if vim.fn.filereadable(root .. "/.editorconfig") == 1 then
+			return
+		end
+
+		-- 2️⃣ 没有 editorconfig，判断是不是 Python 项目
+		if vim.fn.filereadable(root .. "/pyproject.toml") == 1 then
+			vim.bo.expandtab = true
+			vim.bo.shiftwidth = 4
+			vim.bo.tabstop = 4
+			vim.bo.softtabstop = 4
+		else
+			vim.bo.expandtab = true
+			vim.bo.shiftwidth = 2
+			vim.bo.tabstop = 2
+			vim.bo.softtabstop = 2
+		end
+	end,
+})

@@ -38,6 +38,9 @@ return {
 			-- 效果不好，还是使用lsp中的jsonls
 			-- json = { "jsonlint" },
 			lua = { "luacheck" },
+			c = { "clangtidy" },
+			cpp = { "clangtidy" },
+			python = { "ruff" },
 		}
 
 		vim.api.nvim_create_autocmd({ "BufWritePost", "BufReadPost", "InsertLeave", "TextChanged" }, {

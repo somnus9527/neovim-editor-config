@@ -241,4 +241,12 @@ M.insert_tab = function()
 	vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Tab>", true, false, true), "n", false)
 end
 
+M.get_project_root = function()
+	local git_root = vim.fn.finddir(".git", ".;")
+	if git_root ~= "" then
+		return vim.fn.fnamemodify(git_root, ":h")
+	end
+	return vim.fn.getcwd()
+end
+
 return M
