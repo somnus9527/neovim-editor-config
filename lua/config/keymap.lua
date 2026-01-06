@@ -23,22 +23,29 @@ local keymaps = {
 	{ "i", "<A-j>", "<Down>", { desc = "光标下移一位" } },
 	{ "i", "<A-k>", "<Up>", { desc = "光标上移一位" } },
 	{ "v", "<A-c>", '"+y', { desc = "复制选中内容到系统粘贴板" } },
+	{
+		{ "i", "s" },
+		"<A-s>",
+		function()
+			local ok, luasnip = pcall(require, "luasnip")
+			if ok and luasnip and luasnip.choice_active then
+				luasnip.change_choice(1)
+			end
+		end,
+		{ desc = "luasnip的choice node切换" },
+	},
 	{ "n", "gb", "<C-o>", { desc = "返回上一步" } },
 	{ "i", "<A-p>", "<C-r>+", { desc = "插入模式粘贴系统剪切板内容" } },
 	{ "i", "<A-0>", '<C-r>"', { desc = "插入模式粘贴默认register中内容" } },
 	{
-		"i",
+		{ "i", "s" },
 		"<TAB>",
 		function()
-			-- local ok, blink = pcall(require, "blink")
-			-- if ok and blink then
-			--      print('blink ok')
-			-- 	if blink.can_jump() then
-			--        print('can jump')
-			-- 		blink.jump(1)
-			-- 		return ""
-			-- 	end
-			-- end
+			local ok, luasnip = pcall(require, "luasnip")
+			if ok and luasnip and luasnip.jumpable and luasnip.jumpable(1) then
+				luasnip.jump(1)
+				return
+			end
 			-- 获取光标前的内容
 			local col = vim.fn.col(".") - 1
 			local line = vim.fn.getline(".")

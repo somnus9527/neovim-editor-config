@@ -12,6 +12,17 @@ return {
 			"L3MON4D3/LuaSnip",
 			version = "v2.*",
 			build = "make install_jsregexp",
+			config = function()
+				require("luasnip.loaders.from_lua").lazy_load({
+					paths = { vim.fn.stdpath("config") .. "/lua/snippets" },
+				})
+				local ls = require("luasnip")
+				ls.filetype_extend("typescript", { "web_shared", "ts_shared" })
+				ls.filetype_extend("typescriptreact", { "web_shared", "ts_shared" })
+				ls.filetype_extend("javascript", { "web_shared" })
+				ls.filetype_extend("javascriptreact", { "web_shared" })
+				ls.filetype_extend("vue", { "web_shared" })
+			end,
 		},
 		"rafamadriz/friendly-snippets",
 		{
@@ -21,13 +32,14 @@ return {
 			version = "*",
 		},
 	},
-  -- 和codesnap冲突，所以需要先加载blink, 后续如果能解决codesnap的冲突，可以切回
-  event = 'VimEnter',
+	-- 和codesnap冲突，所以需要先加载blink, 后续如果能解决codesnap的冲突，可以切回
+	event = "VimEnter",
 	-- event = "InsertEnter",
 
 	opts = {
-    fuzzy = { implementation = "prefer_rust_with_warning" },
+		fuzzy = { implementation = "prefer_rust_with_warning" },
 		snippets = {
+			preset = "luasnip",
 			expand = function(snippet, _)
 				local luasnip = require("luasnip")
 				return luasnip.lsp_expand(snippet)
@@ -89,20 +101,22 @@ return {
 		},
 
 		cmdline = {
-			enabled = false,
+			enabled = true,
 		},
 
 		keymap = {
 			preset = "enter",
 			["<A-y>"] = { "select_and_accept" },
-			["<Tab>"] = { "snippet_forward", "fallback" },
-			["<S-Tab>"] = { "snippet_backward", "fallback" },
+			-- INFO: 这边注释的原因是，目前nvim-lint 配置luasnip，tab的跳转有问题，简单理解就是snippet用的是luasnip进行expand,所以blink内部没有是否在snippet中的状态
+			-- 所以这两个快捷键永远不会生效，所以直接注释，通过keymap的手动定义，判断luasnip状态来进行跳转
+			-- ["<Tab>"] = { "snippet_forward", "fallback" },
+			-- ["<S-Tab>"] = { "snippet_backward", "fallback" },
 			["<A-m>"] = { "select_prev", "fallback" },
 			["<A-n>"] = { "select_next", "fallback" },
-			["<A->>"] = { "scroll_documentation_down", "fallback" },
-			["<A-<>"] = { "scroll_documentation_up", "fallback" },
-			["<A-d>"] = { "show", "show_documentation", "hide_documentation" },
-			-- ["<A-e>"] = { "hide", "fallback" },
+			["<A-]>"] = { "scroll_documentation_down", "fallback" },
+			["<A-[>"] = { "scroll_documentation_up", "fallback" },
+			-- ["<A-d>"] = { "show", "show_documentation", "hide_documentation" },
+			-- ["<A-h>"] = { "hide", "fallback" },
 		},
 	},
 	config = function(_, opts)
