@@ -54,7 +54,13 @@ return {
 			c = { "clang-format" },
 			cpp = { "clang-format" },
 
-			python = { "black" },
+			python = function(bufnr)
+				if require("conform").get_formatter_info("ruff_format", bufnr).available then
+					return { "ruff_format" }
+				else
+					return { "isort", "black" }
+				end
+			end,
 
 			-- 其它
 			["_"] = { lsp_format = "fallback", "trim_whitespace", stop_after_first = true },

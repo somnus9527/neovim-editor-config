@@ -3,7 +3,7 @@ return {
 	event = { "BufReadPost", "BufWritePost", "InsertLeave" },
 	config = function()
 		local lint = require("lint")
-    local parser = require("lint.parser")
+		local parser = require("lint.parser")
 
 		-- 检查项目里是否存在 eslint 配置文件
 		local function has_eslint_config()
@@ -29,15 +29,6 @@ return {
 		-- 	lint.linters.eslint_d.cmd = vim.fn.getcwd()
 		-- end
 
-		-- 定义自定义 linter
-		lint.linters.ruff_poetry = {
-			cmd = "poetry",
-			args = { "run", "ruff", "check", "--stdin-filename", "%" },
-			stdin = true,
-			stream = "stdout",
-			parser = parser.from_errorformat("%f:%l:%c: %m", { source = "ruff" }),
-		}
-
 		lint.linters_by_ft = {
 			javascript = has_eslint_config() and { "eslint" } or {},
 			typescript = has_eslint_config() and { "eslint" } or {},
@@ -50,7 +41,8 @@ return {
 			lua = { "luacheck" },
 			c = { "clangtidy" },
 			cpp = { "clangtidy" },
-			python = { "ruff_poetry" },
+      -- 直接使用ruff lsp
+			-- python = { "ruff" },
 		}
 
 		vim.api.nvim_create_autocmd({ "BufWritePost", "BufReadPost", "InsertLeave", "TextChanged" }, {

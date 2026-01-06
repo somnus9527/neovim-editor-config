@@ -26,6 +26,7 @@ return {
 				"clangd",
 				"cmake",
 				"pyright",
+				"ruff",
 			},
 			automatic_installation = true,
 		},

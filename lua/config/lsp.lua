@@ -1,4 +1,5 @@
 local tools = require("tools.tools")
+local lsp_tools = require("tools.lsp")
 -- 配置server
 local servers = {
 	lua_ls = {
@@ -155,13 +156,38 @@ local servers = {
 	},
 	pyright = {
 		filetypes = { "python" },
+		on_attach = lsp_tools.on_attach_pyright,
+		capabilities = (function()
+			local capabilities = vim.lsp.protocol.make_client_capabilities()
+			capabilities.textDocument.publishDiagnostics.tagSupport.valueSet = { 2 }
+			return capabilities
+		end)(),
 		settings = {
 			python = {
 				analysis = {
-					typeCheckingMode = "basic",
 					useLibraryCodeForTypes = true,
-					autoSearchPaths = true,
-					pythonPath = "/Users/somnuszyy9527/.venvs/nvim/bin/python",
+					diagnosticSeverityOverrides = {
+						reportUnusedVariable = "warning",
+					},
+					typeCheckingMode = "off", -- Set type-checking mode to off
+					diagnosticMode = "off", -- Disable diagnostics entirely
+				},
+			},
+		},
+	},
+	ruff = {
+		on_attach = lsp_tools.on_attach_ruff,
+		init_options = {
+			settings = {
+				args = {
+					"--ignore",
+					"F821",
+					"--ignore",
+					"E402",
+					"--ignore",
+					"E722",
+					"--ignore",
+					"E712",
 				},
 			},
 		},
