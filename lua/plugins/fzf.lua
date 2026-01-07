@@ -16,9 +16,9 @@ return {
 		config.defaults.keymap.fzf["ctrl-j"] = "preview-page-down"
 		config.defaults.keymap.fzf["ctrl-k"] = "preview-page-up"
 		config.defaults.keymap.fzf["alt-e"] = "abort"
-		config.defaults.keymap.builtin["<c-j>"] = "preview-page-down"
-		config.defaults.keymap.builtin["<c-k>"] = "preview-page-up"
-		config.defaults.keymap.builtin["<alt-e>"] = "abort"
+		config.defaults.keymap.builtin["<C-j>"] = "preview-page-down"
+		config.defaults.keymap.builtin["<C-k>"] = "preview-page-up"
+		config.defaults.keymap.builtin["<A-e>"] = "abort"
 
 		-- Trouble
 		-- if LazyVim.has("trouble.nvim") then
@@ -55,11 +55,26 @@ return {
 				["--no-scrollbar"] = true,
 			},
 			defaults = {
-				-- formatter = "path.filename_first",
-				formatter = "path.dirname_first",
+				formatter = "path.filename_first",
+				-- formatter = "path.dirname_first",
 			},
 			previewers = {
 				builtin = {
+					syntax = true, -- preview syntax highlight?
+					syntax_limit_l = 3000, -- syntax limit (lines), 0=nolimit
+					syntax_limit_b = 1024 * 1024, -- syntax limit (bytes), 0=nolimit
+					limit_b = 1024 * 1024 * 10, -- preview limit (bytes), 0=nolimit
+					-- previewer treesitter options:
+					-- enable specific filetypes with: `{ enabled = { "lua" } }
+					-- exclude specific filetypes with: `{ disabled = { "lua" } }
+					-- disable `nvim-treesitter-context` with `context = false`
+					-- disable fully with: `treesitter = false` or `{ enabled = false }`
+					treesitter = {
+						enabled = true,
+						disabled = {},
+						-- nvim-treesitter-context config options
+						context = { max_lines = 1, trim_scope = "inner" },
+					},
 					extensions = {
 						["png"] = img_previewer,
 						["jpg"] = img_previewer,
@@ -83,7 +98,7 @@ return {
 						layout = "vertical",
 						-- height is number of items minus 15 lines for the preview, with a max of 80% screen height
 						height = math.floor(math.min(vim.o.lines * 0.8 - 16, #items + 2) + 0.5) + 16,
-						width = 0.8,
+						width = 0.9,
 						preview = not vim.tbl_isempty(vim.lsp.get_clients({ bufnr = 0, name = "vtsls" })) and {
 							layout = "vertical",
 							vertical = "down:15,border-top",
@@ -95,7 +110,7 @@ return {
 					},
 				} or {
 					winopts = {
-						width = 0.8,
+						width = 0.9,
 						-- height is number of items, with a max of 80% screen height
 						height = math.floor(math.min(vim.o.lines * 0.8, #items + 2) + 0.5),
 					},
@@ -103,9 +118,9 @@ return {
 			end,
 			winopts = {
 				width = 0.9,
-				height = 0.8,
-				row = 0.8,
-				col = 0.8,
+				height = 0.9,
+				row = 0.35,
+				col = 0.5,
 				preview = {
 					scrollchars = { "┃", "" },
 				},
@@ -119,12 +134,43 @@ return {
 			},
 			files = {
 				cwd_prompt = false,
+				fd_opts = table.concat({
+					"--type",
+					"f",
+					"--hidden",
+					"--follow",
+
+					-- gitignore 存在时自动生效（fd 默认行为）
+					"--exclude",
+					"node_modules",
+					"--exclude",
+					".git",
+					"--exclude",
+					"dist",
+					"--exclude",
+					"build",
+				}, " "),
 				actions = {
 					["alt-g"] = { actions.toggle_ignore },
 					["alt-h"] = { actions.toggle_hidden },
 				},
 			},
 			grep = {
+				rg_opts = table.concat({
+					"--column",
+					"--line-number",
+					"--no-heading",
+					"--color=always",
+					"--smart-case",
+					"--max-columns=4096",
+					"-e",
+
+					-- 正确排除目录
+					-- "--glob '!node_modules/'",
+					-- "--glob '!dist/'",
+					-- "--glob '!build/'",
+					-- "--glob '!.git'",
+				}, " "),
 				actions = {
 					["alt-g"] = { actions.toggle_ignore },
 					["alt-h"] = { actions.toggle_hidden },
@@ -167,7 +213,7 @@ return {
 	init = function()
 		local tools = require("tools.tools")
 		tools.on_very_lazy(function()
-      require("fzf-lua").register_ui_select({ silent = true })
+			require("fzf-lua").register_ui_select({ silent = true })
 		end)
 	end,
 	keys = {
@@ -199,7 +245,12 @@ return {
 			mode = { "n", "v" },
 			desc = "当前行或选中行日志",
 		},
-		{ "<leader>ca", "<cmd>lua require('fzf-lua').lsp_code_actions()<CR>", mode = { "n", "v" }, desc = "Lsp Code Actions" },
+		{
+			"<leader>ca",
+			"<cmd>lua require('fzf-lua').lsp_code_actions()<CR>",
+			mode = { "n", "v" },
+			desc = "Lsp Code Actions",
+		},
 		{ "<leader>lr", "<cmd>lua require('fzf-lua').lsp_references()<CR>", mode = "n", desc = "Lsp References" },
 		{ "<leader>ld", "<cmd>lua require('fzf-lua').lsp_definitions()<CR>", mode = "n", desc = "Lsp Definitions" },
 		{
@@ -223,9 +274,9 @@ return {
 		},
 		{
 			"<leader>st",
-			function ()
-        local tools = require("tools.tools")
-        tools.switch_filetypes()
+			function()
+				local tools = require("tools.tools")
+				tools.switch_filetypes()
 			end,
 			mode = "n",
 			desc = "切换文件类型",
