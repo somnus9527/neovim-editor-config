@@ -28,7 +28,7 @@ return {
 			linehl = false,
 			word_diff = false,
 			watch_gitdir = {
-        enable = false,
+        enable = true,
 				interval = 1000,
 				follow_files = true,
 			},

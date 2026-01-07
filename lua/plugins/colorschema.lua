@@ -69,25 +69,25 @@ return {
 	{
 		"zenbones-theme/zenbones.nvim",
 		dependencies = "rktjmp/lush.nvim",
-		lazy = true,
-		-- lazy = false,
-		-- priority = 1000,
-		-- config = function()
-		-- 	vim.g.zenbones_darken_comments = 45
-		-- 	vim.cmd.colorscheme("zenbones")
-		-- end,
-	},
-	{
-		"catppuccin/nvim",
 		-- lazy = true,
 		lazy = false,
 		priority = 1000,
-		name = "catppuccin",
-		opts = {
-			integrations = { blink_cmp = true },
-		},
 		config = function()
-			vim.cmd.colorscheme("catppuccin")
+			vim.g.zenbones_darken_comments = 45
+			vim.cmd.colorscheme("kanagawabones")
 		end,
+	},
+	{
+		"catppuccin/nvim",
+		name = "catppuccin",
+		lazy = true,
+		-- lazy = false,
+		-- priority = 1000,
+		-- opts = {
+		-- 	integrations = { blink_cmp = true },
+		-- },
+		-- config = function()
+		-- 	vim.cmd.colorscheme("catppuccin")
+		-- end,
 	},
 }
