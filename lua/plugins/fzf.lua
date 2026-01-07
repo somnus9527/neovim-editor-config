@@ -178,7 +178,7 @@ return {
 		{ "<leader>.", "<cmd>lua require('fzf-lua').live_grep()<cr>", mode = "n", desc = "字符搜索(Root Dir)" },
 		{ "<leader>.", "<cmd>lua require('fzf-lua').grep_visual()<CR>", mode = "v", desc = "字符搜索 (Root Dir)" },
 		{ "<leader>,", "<cmd>lua require('fzf-lua').resume()<CR>", mode = "n", desc = "重打开" },
-		{ "<A-b>", "<cmd>lua require('fzf-lua').buffers()<CR>", mode = "n", desc = "打开Buffers" },
+		{ "<leader>bb", "<cmd>lua require('fzf-lua').buffers()<CR>", mode = "n", desc = "打开Buffers" },
 		-- 几乎不用
 		-- { "<leader>l", "<cmd>lua require('fzf-lua').blines()<CR>", mode = "n", desc = "打开当前Buffer的行搜索" },
 		{
