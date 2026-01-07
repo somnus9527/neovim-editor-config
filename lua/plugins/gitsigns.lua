@@ -19,8 +19,8 @@ return {
 				virt_text = true,
 				virt_text_pos = "eol",
 				delay = 200,
-        use_focus = true,
-        relative_time = false,
+				use_focus = true,
+				relative_time = false,
 			},
 			current_line_blame_formatter = "<author>, <author_mail>, <author_time:%Y-%m-%d %H:%M:%S> - <summary>",
 			signcolumn = true,
@@ -28,14 +28,14 @@ return {
 			linehl = false,
 			word_diff = false,
 			watch_gitdir = {
-        enable = true,
+				enable = true,
 				interval = 1000,
 				follow_files = true,
 			},
-      diff_opts = { internal = false },
-      max_file_length = 20000,
+			diff_opts = { internal = false },
+			max_file_length = 20000,
 			attach_to_untracked = false,
-      update_debounce = 200,
+			update_debounce = 200,
 			on_attach = function(bufnr)
 				local gs = require("gitsigns")
 				local map = vim.keymap.set
@@ -50,19 +50,22 @@ return {
 				)
 
 				-- 快速跳转修改
+				-- Navigation
 				map("n", "]]", function()
 					if vim.wo.diff then
-						return "]c"
+						vim.cmd.normal({ "]c", bang = true })
+					else
+						gitsigns.nav_hunk("next")
 					end
-					vim.schedule(gs.next_hunk)
-				end, { expr = true, buffer = bufnr, desc = "下一 Git 修改" })
+				end)
 
 				map("n", "[[", function()
 					if vim.wo.diff then
-						return "[c"
+						vim.cmd.normal({ "[c", bang = true })
+					else
+						gitsigns.nav_hunk("prev")
 					end
-					vim.schedule(gs.prev_hunk)
-				end, { expr = true, buffer = bufnr, desc = "上一 Git 修改" })
+				end)
 			end,
 		})
 	end,
