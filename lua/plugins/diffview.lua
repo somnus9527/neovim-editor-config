@@ -21,10 +21,10 @@ return {
 				enhanced_diff_hl = true, -- 高亮增强
 				view = {
 					default = {
-						layout = "diff3_hotizontal",
+						layout = "diff2_horizontal",
 					},
 					merge_tool = {
-						layout = "diff3_hotizontal", -- 处理冲突时的布局: diff3_mixed / diff3_vertical
+						layout = "diff3_horizontal", -- 处理冲突时的布局: diff3_mixed / diff3_vertical
 						disable_diagnostics = false, -- merge 时禁用诊断
 					},
 					file_history = {
