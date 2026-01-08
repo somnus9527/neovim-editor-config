@@ -148,21 +148,6 @@ ins_left({
 })
 
 ins_left({
-	"location",
-	cond = function()
-		return not is_side_buffer()
-	end,
-})
-
-ins_left({
-	"progress",
-	color = { fg = colors.fg, gui = "bold" },
-	cond = function()
-		return not is_side_buffer()
-	end,
-})
-
-ins_left({
 	"diagnostics",
 	sources = { "nvim_diagnostic" },
 	symbols = { error = icons.diagnostics.Error, warn = icons.diagnostics.Warn, info = icons.diagnostics.Info },
@@ -187,12 +172,6 @@ ins_left({
 	end,
 })
 
-ins_right({
-	-- filesize component
-	"filesize",
-  cond = function() return not is_side_buffer() and conditions.buffer_not_empty() end,
-})
-
 ins_left({
 	-- Lsp server name .
 	-- function()
@@ -214,7 +193,9 @@ ins_left({
 	"datetime",
 	style = "%Y-%m-%d %H:%M:%S",
 	color = { fg = colors.red, gui = "bold" },
-  cond = function() return not is_side_buffer() end,
+	cond = function()
+		return not is_side_buffer()
+	end,
 })
 
 ins_left({
@@ -224,7 +205,32 @@ ins_left({
 	separator = "",
 	padding = { left = 0, right = 0 },
 	color = { fg = colors.red, gui = "bold" },
-  -- cond = function() return not is_side_buffer() end,
+	-- cond = function() return not is_side_buffer() end,
+})
+
+ins_right({
+	"location",
+	padding = { left = 0, right = 1 },
+	cond = function()
+		return not is_side_buffer()
+	end,
+})
+
+ins_right({
+	"progress",
+	padding = { left = 0, right = 1 },
+	color = { fg = colors.fg, gui = "bold" },
+	cond = function()
+		return not is_side_buffer()
+	end,
+})
+
+ins_right({
+	-- filesize component
+	"filesize",
+	cond = function()
+		return not is_side_buffer() and conditions.buffer_not_empty()
+	end,
 })
 
 -- ins_right({
@@ -250,7 +256,9 @@ ins_right({
 	"o:encoding", -- option component same as &encoding in viml
 	fmt = string.upper, -- I'm not sure why it's upper case either ;)
 	color = { fg = colors.green, gui = "bold" },
-  cond = function() return not is_side_buffer() and conditions.hide_in_width() end,
+	cond = function()
+		return not is_side_buffer() and conditions.hide_in_width()
+	end,
 })
 
 ins_right({
@@ -263,7 +271,9 @@ ins_right({
 	fmt = string.upper,
 	icons_enabled = false, -- I think icons are cool but Eviline doesn't have them. sigh
 	color = { fg = colors.green, gui = "bold" },
-  cond = function() return not is_side_buffer() end,
+	cond = function()
+		return not is_side_buffer()
+	end,
 })
 
 ins_right({
@@ -275,7 +285,9 @@ ins_right({
 		modified = { fg = colors.orange },
 		removed = { fg = colors.red },
 	},
-  cond = function() return not is_side_buffer() and conditions.hide_in_width() end,
+	cond = function()
+		return not is_side_buffer() and conditions.hide_in_width()
+	end,
 })
 
 ins_right({
