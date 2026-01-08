@@ -10,6 +10,7 @@
   "catppuccin": { "branch": "main", "commit": "f19cab18ec4dc86d415512c7a572863b2adbcc18" },
   "cmdline.nvim": { "branch": "main", "commit": "6ef6b895900a1fd78b8217db4165cc79e3b9a78d" },
   "codesnap.nvim": { "branch": "main", "commit": "207907f3eea4c9d695d48a6baf906e530e09972d" },
+  "colorful-winsep.nvim": { "branch": "main", "commit": "e555611c8f39918e30d033a97ea1a5af457ce75e" },
   "conform.nvim": { "branch": "master", "commit": "b4aab989db276993ea5dcb78872be494ce546521" },
   "convert.nvim": { "branch": "main", "commit": "aa8ca7baf7386768c51f5fedf80399e055912ce3" },
   "copy_with_context.nvim": { "branch": "master", "commit": "410ff9a2f472a85eea68475384f385c7274f971e" },
