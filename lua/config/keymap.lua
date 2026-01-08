@@ -73,7 +73,7 @@ local keymaps = {
 	{ "n", "|", "<C-w>s", { desc = "底部分屏", remap = true } },
 	{ "n", "<A-x>", "<CMD>q<CR>", { desc = "关闭Window" } },
 	{
-		"n",
+		{ "n", "t" },
 		"<A-->",
 		function()
 			vim.cmd("vertical resize -10")
@@ -81,7 +81,7 @@ local keymaps = {
 		{ desc = "缩小窗口" },
 	},
 	{
-		"n",
+		{ "n", "t" },
 		"<A-=>",
 		function()
 			vim.cmd("vertical resize +10")
