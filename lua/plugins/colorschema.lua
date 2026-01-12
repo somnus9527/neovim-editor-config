@@ -1,13 +1,13 @@
 return {
 	{
 		"ellisonleao/gruvbox.nvim",
-		lazy = true,
+		-- lazy = true,
 		name = "gruvbox",
-		-- lazy = false,
-		-- priority = 1000,
-		-- config = function()
-		--   vim.cmd.colorscheme("gruvbox")
-		-- end
+		lazy = false,
+		priority = 1000,
+		config = function()
+		  vim.cmd.colorscheme("gruvbox")
+		end
 	},
 	{
 		"folke/tokyonight.nvim",
@@ -69,13 +69,13 @@ return {
 	{
 		"zenbones-theme/zenbones.nvim",
 		dependencies = "rktjmp/lush.nvim",
-		-- lazy = true,
-		lazy = false,
-		priority = 1000,
-		config = function()
-			vim.g.zenbones_darken_comments = 45
-			vim.cmd.colorscheme("kanagawabones")
-		end,
+		lazy = true,
+		-- lazy = false,
+		-- priority = 1000,
+		-- config = function()
+		-- 	vim.g.zenbones_darken_comments = 45
+		-- 	vim.cmd.colorscheme("kanagawabones")
+		-- end,
 	},
 	{
 		"catppuccin/nvim",

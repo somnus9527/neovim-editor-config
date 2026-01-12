@@ -57,6 +57,7 @@ return {
       width = 80,
       mappings = {
         ["s"] = "none",
+        ["z"] = "none",
         ["S"] = "none",
         ["f"] = function(state)
           local node = state.tree:get_node()
