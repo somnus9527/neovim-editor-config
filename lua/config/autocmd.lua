@@ -183,7 +183,7 @@ vim.api.nvim_create_autocmd("FileType", {
 -- autocmd处理缩进，之前只有前端项目，我都是使用的2，但是现在有python，需要针对python项目改成4
 vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
 	callback = function()
-    local tools = require('tools.tools')
+		local tools = require("tools.tools")
 		local root = tools.get_project_root()
 
 		-- 1️⃣ 如果项目有 .editorconfig，什么都不做
@@ -202,6 +202,24 @@ vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
 			vim.bo.shiftwidth = 2
 			vim.bo.tabstop = 2
 			vim.bo.softtabstop = 2
+		end
+	end,
+})
+
+vim.api.nvim_create_autocmd({
+	"WinScrolled", -- or WinResized on NVIM-v0.9 and higher
+	"BufWinEnter",
+	"CursorHold",
+	"InsertLeave",
+
+	-- include this if you have set `show_modified` to `true`
+	"BufModifiedSet",
+}, {
+	group = vim.api.nvim_create_augroup("barbecue.updater", {}),
+	callback = function()
+		local ok, barbecue_ui = pcall(require, "barbecue.ui")
+		if ok then
+			barbecue_ui.update()
 		end
 	end,
 })
