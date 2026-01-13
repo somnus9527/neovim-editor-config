@@ -28,14 +28,14 @@ return {
 			linehl = false,
 			word_diff = false,
 			watch_gitdir = {
-				enable = true,
+				enable = false,
 				interval = 1000,
 				follow_files = true,
 			},
 			diff_opts = { internal = false },
-			max_file_length = 20000,
+			max_file_length = 4000,
 			attach_to_untracked = false,
-			update_debounce = 200,
+			update_debounce = 2000,
 			on_attach = function(bufnr)
 				local gs = require("gitsigns")
 				local map = vim.keymap.set

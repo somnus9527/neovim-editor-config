@@ -4,6 +4,7 @@ return {
 	opts = {
     lazy_load = true,
 		user_default_options = {
+      names = false,
 			rgb_fn = true,
 			hsl_fn = true,
 			css = true,

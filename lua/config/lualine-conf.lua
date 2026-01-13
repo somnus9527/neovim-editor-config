@@ -140,10 +140,9 @@ ins_left({
 
 ins_left({
 	"filename",
-	cond = conditions.buffer_not_empty,
 	color = { fg = colors.magenta, gui = "bold" },
 	cond = function()
-		return not is_side_buffer()
+		return not is_side_buffer() and conditions.buffer_not_empty
 	end,
 })
 
