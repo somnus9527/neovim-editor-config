@@ -28,6 +28,7 @@ return {
 			linehl = false,
 			word_diff = false,
 			watch_gitdir = {
+        -- WARN: 不要开，开了时间一长会占用大量文件句柄
 				enable = false,
 				interval = 1000,
 				follow_files = true,
