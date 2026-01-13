@@ -275,19 +275,19 @@ ins_right({
 	end,
 })
 
-ins_right({
-	"diff",
-	-- Is it me or the symbol for modified us really weird
-	symbols = { added = icons.git.added, modified = icons.git.modified, removed = icons.git.removed },
-	diff_color = {
-		added = { fg = colors.green },
-		modified = { fg = colors.orange },
-		removed = { fg = colors.red },
-	},
-	cond = function()
-		return not is_side_buffer() and conditions.hide_in_width()
-	end,
-})
+-- ins_right({
+-- 	"diff",
+-- 	-- Is it me or the symbol for modified us really weird
+-- 	symbols = { added = icons.git.added, modified = icons.git.modified, removed = icons.git.removed },
+-- 	diff_color = {
+-- 		added = { fg = colors.green },
+-- 		modified = { fg = colors.orange },
+-- 		removed = { fg = colors.red },
+-- 	},
+-- 	cond = function()
+-- 		return not is_side_buffer() and conditions.hide_in_width()
+-- 	end,
+-- })
 
 ins_right({
 	function()
