@@ -199,7 +199,7 @@ ins_left({
 
 ins_left({
 	function()
-		return "CTMD 爷真的累了"
+		return "冯唐易老 李广难封"
 	end,
 	separator = "",
 	padding = { left = 0, right = 0 },

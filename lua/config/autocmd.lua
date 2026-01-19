@@ -223,3 +223,10 @@ vim.api.nvim_create_autocmd({
 		end
 	end,
 })
+
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = { "javascript", "typescript", "javascriptreact", "typescriptreact", "vue" },
+	callback = function()
+		vim.keymap.set("n", "<leader>gd", "<Plug>(jsdoc)", { buffer = true })
+	end,
+})

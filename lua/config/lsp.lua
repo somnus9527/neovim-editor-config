@@ -169,7 +169,7 @@ local servers = {
 					diagnosticSeverityOverrides = {
 						reportUnusedVariable = "warning",
 					},
-					typeCheckingMode = "off", -- Set type-checking mode to off
+					typeCheckingMode = "basic", -- Set type-checking mode to off
 					diagnosticMode = "off", -- Disable diagnostics entirely
 				},
 			},
