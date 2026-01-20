@@ -29,6 +29,7 @@
   "json-to-types.nvim": { "branch": "main", "commit": "e8dcc6ac710c59fcac354255a835f72916171ba8" },
   "jsx-element.nvim": { "branch": "main", "commit": "e10e40fca52f2fbd6726078615d44815f84ab6e2" },
   "kulala.nvim": { "branch": "main", "commit": "ab3effad17d5dbb4d5d34b6289fa4dc97155045c" },
+  "lastplace.nvim": { "branch": "main", "commit": "d1f1ec30fc639864bd71dd7c28a2164bc423ef40" },
   "lazy.nvim": { "branch": "main", "commit": "6c3bda4aca61a13a9c63f1c1d1b16b9d3be90d7a" },
   "lualine.nvim": { "branch": "master", "commit": "b8c23159c0161f4b89196f74ee3a6d02cdc3a955" },
   "lush.nvim": { "branch": "main", "commit": "9c60ec2279d62487d942ce095e49006af28eed6e" },
