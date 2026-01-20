@@ -1,13 +1,13 @@
 return {
 	{
 		"ellisonleao/gruvbox.nvim",
-		-- lazy = true,
+		lazy = true,
 		name = "gruvbox",
-		lazy = false,
-		priority = 1000,
-		config = function()
-		  vim.cmd.colorscheme("gruvbox")
-		end
+		-- lazy = false,
+		-- priority = 1000,
+		-- config = function()
+		--   vim.cmd.colorscheme("gruvbox")
+		-- end
 	},
 	{
 		"folke/tokyonight.nvim",
@@ -15,7 +15,7 @@ return {
 		opts = { style = "moon" },
 		-- lazy = false,
 		-- config = function()
-		-- 	vim.cmd.colorscheme("tokyonight")
+		-- 	vim.cmd.colorscheme("tokyonight-day")
 		-- end,
 	},
 	{
@@ -80,14 +80,14 @@ return {
 	{
 		"catppuccin/nvim",
 		name = "catppuccin",
-		lazy = true,
-		-- lazy = false,
-		-- priority = 1000,
-		-- opts = {
-		-- 	integrations = { blink_cmp = true },
-		-- },
-		-- config = function()
-		-- 	vim.cmd.colorscheme("catppuccin")
-		-- end,
+		-- lazy = true,
+		lazy = false,
+		priority = 1000,
+		opts = {
+			integrations = { blink_cmp = true },
+		},
+		config = function()
+			vim.cmd.colorscheme("catppuccin")
+		end,
 	},
 }

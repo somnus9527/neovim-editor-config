@@ -249,4 +249,16 @@ M.get_project_root = function()
 	return vim.fn.getcwd()
 end
 
+M.get_poetry_python = function()
+	local handle = io.popen("poetry env info -p 2>/dev/null")
+	if handle then
+		local result = handle:read("*a")
+		handle:close()
+		result = result:gsub("%s+", "")
+		if result ~= "" then
+			return result .. "/bin/python"
+		end
+	end
+end
+
 return M

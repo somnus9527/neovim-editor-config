@@ -162,6 +162,14 @@ local servers = {
 			capabilities.textDocument.publishDiagnostics.tagSupport.valueSet = { 2 }
 			return capabilities
 		end)(),
+		before_init = function(_, config)
+			local python = tools.get_poetry_python()
+			if python then
+				config.settings = config.settings or {}
+				config.settings.python = config.settings.python or {}
+				config.settings.python.pythonPath = python
+			end
+		end,
 		settings = {
 			python = {
 				analysis = {
