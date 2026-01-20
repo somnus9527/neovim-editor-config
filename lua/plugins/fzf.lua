@@ -236,15 +236,15 @@ return {
 		{ "<leader>wf", "<cmd>lua require('fzf-lua').grep_cword()<CR>", mode = "n", desc = "WORD搜索(CWD)" },
 		{ "<leader>gc", "<cmd>lua require('fzf-lua').git_bcommits()<CR>", mode = "n", desc = "Git Buffer Commits" },
 		{ "<leader>gh", "<cmd>lua require('fzf-lua').git_commits()<CR>", mode = "n", desc = "Git Commits" },
-		{
-			"<leader>gl",
-			function()
-				local tools = require("tools.tools")
-				tools.git_log_fzf()
-			end,
-			mode = { "n", "v" },
-			desc = "当前行或选中行日志",
-		},
+		-- {
+		-- 	"<leader>gl",
+		-- 	function()
+		-- 		local tools = require("tools.tools")
+		-- 		tools.git_log_fzf()
+		-- 	end,
+		-- 	mode = { "n", "v" },
+		-- 	desc = "当前行或选中行日志",
+		-- },
 		{
 			"<leader>ca",
 			"<cmd>lua require('fzf-lua').lsp_code_actions()<CR>",

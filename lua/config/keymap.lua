@@ -167,6 +167,7 @@ local keymaps = {
 		end,
 		{ desc = "打开LazyGit" },
 	},
+	{ "n", "<leader>bc", "<CMD>BlameColumnToggle<CR>", { desc = "toggle blame column" } },
 }
 
 tools.set_keymap(keymaps)
