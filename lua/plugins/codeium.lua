@@ -2,6 +2,7 @@ return {
 	"Exafunction/windsurf.vim",
 	event = "BufEnter",
 	config = function()
+    vim.g.codeium_idle_delay = 500
 		local tools = require("tools.tools")
 		local keymaps = {
 			{
