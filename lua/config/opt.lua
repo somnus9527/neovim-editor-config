@@ -64,3 +64,6 @@ g.loaded_javascript = 1
 g.loaded_typescript = 1
 g.loaded_jsx = 1
 g.python3_host_prog = os.getenv("HOME") .. "/.venvs/nvim/bin/python"
+
+-- Expand 'cc' into 'CodeCompanion' in the command line
+vim.cmd([[cab cc CodeCompanion]])

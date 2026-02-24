@@ -261,4 +261,8 @@ M.get_poetry_python = function()
 	end
 end
 
+M.read_os_env = function(name)
+	return os.getenv(name)
+end
+
 return M
