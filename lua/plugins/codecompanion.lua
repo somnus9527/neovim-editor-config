@@ -41,6 +41,9 @@ return {
 		interactions = {
 			chat = {
 				adapter = "kimi_cli",
+        roles = {
+          user = "SomnusZyy9527",
+        },
 				auto_scroll = true,
 				opts = {
 					completion_provider = "blink", -- blink|cmp|coc|default
@@ -96,6 +99,7 @@ return {
 		-- NOTE: The log_level is in `opts.opts`
 		opts = {
 			log_level = "DEBUG",
+      language = "Chinese"
 		},
 	},
 	keys = {
