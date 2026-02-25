@@ -1,8 +1,10 @@
 --- 官网配置文档地址: https://codecompanion.olimorris.dev/
 return {
 	"olimorris/codecompanion.nvim",
+  cmd = { "CodeCompanion", "CodeCompanionChat", "CodeCompanionActions", "CodeCompanionCmd" },
 	dependencies = {
 		"nvim-lua/plenary.nvim",
+    "nvim-treesitter/nvim-treesitter",
 	},
 	opts = {
 		display = {
@@ -15,9 +17,30 @@ return {
 				},
 			},
 		},
+		adapters = {
+			http = {
+				kimi_http = function()
+					return require("codecompanion.adapters").extend("openai_compatible", {
+						name = "kimi_http",
+
+						schema = {
+							model = {
+								default = "kimi-k2.5", -- 改成你实际模型
+							},
+						},
+
+						env = {
+							url = "https://api.moonshot.cn",
+							chat_url = "/v1/chat/completions",
+							api_key = os.getenv("KIMI_API_KEY"),
+						},
+					})
+				end,
+			},
+		},
 		interactions = {
 			chat = {
-				adapter = { name = "openai", model = "gpt-5.2-codex" },
+				adapter = "kimi_cli",
 				auto_scroll = true,
 				opts = {
 					completion_provider = "blink", -- blink|cmp|coc|default
@@ -50,7 +73,7 @@ return {
 				},
 			},
 			inline = {
-				adapter = "codex",
+				adapter = "kimi_http",
 				keymaps = {
 					accept_change = {
 						modes = { n = "ga" }, -- Remember this as DiffAccept
@@ -64,26 +87,10 @@ return {
 				},
 			},
 			cmd = {
-				adapter = "codex",
+				adapter = "kimi_cli",
 			},
 			background = {
-				adapter = "codex",
-			},
-		},
-		adapter = {
-			http = {
-				openai = function()
-					return require("codecompanion.adapters").extend("openai", {
-						schema = {
-							model = {
-								default = "gpt-5.2-codex", -- 👈 指定 OpenAI 的 GPT-5.2-Codex
-							},
-						},
-						env = {
-							api_key = vim.env.OPENAI_API_KEY,
-						},
-					})
-				end,
+				adapter = "kimi_cli",
 			},
 		},
 		-- NOTE: The log_level is in `opts.opts`

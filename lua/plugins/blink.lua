@@ -89,6 +89,9 @@ return {
 			compat = {},
 			default = { "lsp", "path", "snippets", "buffer" },
 			min_keyword_length = 1,
+			per_filetype = {
+				codecompanion = { "codecompanion" }, -- 直接加就行
+			},
 			providers = {
 				env = {
 					name = "Env",
