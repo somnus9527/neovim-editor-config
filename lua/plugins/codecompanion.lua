@@ -112,12 +112,6 @@ return {
 			desc = "AI: Chat Toggle",
 		},
 		{
-			"<C-,>",
-			"<CMD>CodeCompanionChat Toggle<CR>",
-			mode = { "i" },
-			desc = "AI: Chat Toggle",
-		},
-		{
 			"<localLeader>a",
 			"<CMD>CodeCompanionChat Add<CR>",
 			mode = { "v" },
