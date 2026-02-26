@@ -1,10 +1,10 @@
 --- 官网配置文档地址: https://codecompanion.olimorris.dev/
 return {
 	"olimorris/codecompanion.nvim",
-  cmd = { "CodeCompanion", "CodeCompanionChat", "CodeCompanionActions", "CodeCompanionCmd" },
+	cmd = { "CodeCompanion", "CodeCompanionChat", "CodeCompanionActions", "CodeCompanionCmd" },
 	dependencies = {
 		"nvim-lua/plenary.nvim",
-    "nvim-treesitter/nvim-treesitter",
+		"nvim-treesitter/nvim-treesitter",
 	},
 	opts = {
 		display = {
@@ -41,12 +41,20 @@ return {
 		interactions = {
 			chat = {
 				adapter = "kimi_cli",
-        roles = {
-          user = "SomnusZyy9527",
-        },
+				roles = {
+					user = "SomnusZyy9527",
+				},
 				auto_scroll = true,
 				opts = {
 					completion_provider = "blink", -- blink|cmp|coc|default
+					---Decorate the user message before it's sent to the LLM
+					---@param message string
+					---@param adapter CodeCompanion.Adapter
+					---@param context table
+					---@return string
+					prompt_decorator = function(message, adapter, context)
+						return string.format([[<prompt>%s</prompt>]], message)
+					end,
 				},
 				slash_commands = {
 					["file"] = {
@@ -99,7 +107,7 @@ return {
 		-- NOTE: The log_level is in `opts.opts`
 		opts = {
 			log_level = "DEBUG",
-      language = "Chinese"
+			language = "Chinese",
 		},
 	},
 	keys = {
