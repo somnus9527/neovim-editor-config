@@ -86,10 +86,8 @@ return {
 					completion_provider = "blink", -- blink|cmp|coc|default
 					---Decorate the user message before it's sent to the LLM
 					---@param message string
-					---@param adapter CodeCompanion.Adapter
-					---@param context table
 					---@return string
-					prompt_decorator = function(message, adapter, context)
+					prompt_decorator = function(message)
 						return string.format([[<prompt>%s</prompt>]], message)
 					end,
 				},
@@ -140,7 +138,7 @@ return {
 							require("fzf-lua").fzf_exec(displays, {
 								prompt = "选择 npm script> ",
 								actions = {
-									["default"] = function(selected, opts)
+									["default"] = function(selected)
 										if not selected or #selected == 0 then
 											return
 										end
@@ -158,7 +156,7 @@ return {
 
 												local run_cmd = string.format("%s run %s", pkg_manager, script.name)
 												local message = string.format(
-													"请帮我执行这个命令并分析结果: `%s` (script: %s, command: %s)",
+													"请帮我执行这个命令: `%s` (script: %s, command: %s)",
 													run_cmd,
 													script.name,
 													script.cmd
@@ -194,7 +192,6 @@ return {
 				},
 				tools = {
 					["grep_search"] = {
-						---@param adapter CodeCompanion.HTTPAdapter
 						---@return boolean
 						enabled = function()
 							return vim.fn.executable("rg") == 1
@@ -254,6 +251,9 @@ return {
 					},
 					always_accept = {
 						modes = { n = "gy" }, -- Remember this as DiffYolo
+					},
+					goto_file_under_cursor = {
+						modes = { n = "gd" },
 					},
 				},
 			},

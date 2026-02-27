@@ -1,109 +1,63 @@
--- noice.nvim: 美化命令行、消息、弹窗UI，解决确认提示被忽略导致卡住的问题
--- 文档: https://github.com/folke/noice.nvim
+-- noice.nvim: 美化命令行、消息、弹窗UI
+-- 已优化：仅保留错误/警告通知，减少干扰
 return {
   "folke/noice.nvim",
-  -- 尽早加载，确保能接管所有UI消息
   event = "VeryLazy",
   dependencies = {
-    -- 依赖 nui.nvim 作为UI组件库
     "MunifTanjim/nui.nvim",
-    -- 可选: nvim-notify 用于通知消息
+    -- notify 变为可选依赖，按需加载
     "rcarriga/nvim-notify",
   },
   opts = {
-    -- 命令行配置
     cmdline = {
       enabled = true,
       view = "cmdline_popup",
-      opts = {},
       format = {
-        -- 命令行类型配置
         cmdline = { pattern = "^:", icon = "", lang = "vim" },
         search_down = { kind = "search", pattern = "^/", icon = " ", lang = "regex" },
         search_up = { kind = "search", pattern = "^%?", icon = " ", lang = "regex" },
         filter = { pattern = "^:%s*!", icon = "$", lang = "bash" },
         lua = { pattern = "^:%s*lua%s+", icon = "", lang = "lua" },
         help = { pattern = "^:%s*he?l?p?%s+", icon = "" },
-        input = {},
       },
     },
-    -- 消息配置
+    -- 关键修改：普通消息不再走 notify，仅错误/警告走 notify
     messages = {
       enabled = true,
-      view = "notify",
-      view_error = "notify",
-      view_warn = "notify",
+      view = "mini",           -- 普通消息用 mini 视图（右下角短暂显示）
+      view_error = "notify",   -- 错误用通知
+      view_warn = "mini",    -- 警告用通知
       view_history = "messages",
-      view_search = "virtualtext",
+      view_search = false,     -- 禁用搜索计数通知
     },
-    -- 弹窗配置
     popupmenu = {
       enabled = true,
       backend = "nui",
-      kind_icons = {},
     },
-    -- 通知配置
+    -- 禁用 redirect 到 popup
     redirect = {
-      view = "popup",
+      view = "mini",
       filter = { event = "msg_show" },
     },
-    -- 命令执行提示
-    commands = {
-      history = {
-        view = "split",
-        opts = { enter = true, format = "details" },
-        filter = {
-          any = {
-            { event = "notify" },
-            { error = true },
-            { warning = true },
-            { event = "msg_show", kind = { "" } },
-            { event = "lsp", kind = "message" },
-          },
-        },
-      },
-      last = {
-        view = "popup",
-        opts = { enter = true, format = "details" },
-        filter = {
-          any = {
-            { event = "notify" },
-            { error = true },
-            { warning = true },
-            { event = "msg_show", kind = { "" } },
-            { event = "lsp", kind = "message" },
-          },
-        },
-        filter_opts = { count = 1 },
-      },
-      errors = {
-        view = "popup",
-        opts = { enter = true, format = "details" },
-        filter = { error = true },
-        filter_opts = { reverse = true },
-      },
-    },
-    -- 确认提示配置 - 这是解决卡住问题的关键
+    -- 确认提示配置
     confirm = {
       enabled = true,
       view = "confirm",
     },
-    -- 通知窗口配置
     notify = {
       enabled = true,
       view = "notify",
     },
-    -- LSP进度消息
+    -- LSP 配置优化
     lsp = {
       progress = {
         enabled = true,
         format = "lsp_progress",
         format_done = "lsp_progress_done",
         throttle = 1000 / 30,
-        view = "mini",
+        view = "mini",         -- LSP 进度用 mini 视图
       },
       override = {
-        -- 覆盖内置的 LSP 消息处理
         ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
         ["vim.lsp.util.stylize_markdown"] = true,
         ["cmp.entry.get_documentation"] = true,
@@ -122,11 +76,11 @@ return {
           throttle = 50,
         },
         view = nil,
-        opts = {},
       },
+      -- 关键修改：LSP 消息不再走 notify
       message = {
         enabled = true,
-        view = "notify",
+        view = "mini",         -- LSP 消息用 mini 视图
         opts = {},
       },
       documentation = {
@@ -140,56 +94,72 @@ return {
         },
       },
     },
-    -- Markdown 渲染
-    markdown = {
-      hover = {
-        ["|(%S-)|"] = vim.cmd.help,
-        ["%[.-%]%((%S-)%)"] = function(url) require("noice.util").open(url) end,
+    -- 添加路由规则，过滤掉不必要的消息
+    routes = {
+      -- 忽略 "written" 文件保存消息
+      {
+        filter = {
+          event = "msg_show",
+          kind = "",
+          find = "written",
+        },
+        opts = { skip = true },
       },
-      highlights = {
-        ["|%S-|"] = "@text.reference",
-        ["@%S+"] = "@parameter",
-        ["^%s*(Parameters:)"] = "@text.title",
-        ["^%s*(Return:)"] = "@text.title",
-        ["^%s*(See also:)"] = "@text.title",
-        ["{%S-}"] = "@parameter",
+      -- 忽略 "已写入" 中文保存消息
+      {
+        filter = {
+          event = "msg_show",
+          kind = "",
+          find = "已写入",
+        },
+        opts = { skip = true },
+      },
+      -- 忽略行数显示（如 "10 lines yanked"）
+      {
+        filter = {
+          event = "msg_show",
+          find = "lines? yanked",
+        },
+        view = "mini",
+      },
+      -- 忽略 undo/redo 消息
+      {
+        filter = {
+          event = "msg_show",
+          find = "^%d+ changes?;",
+        },
+        opts = { skip = true },
+      },
+      -- 忽略搜索命中数（如果你不需要）
+      {
+        filter = {
+          event = "msg_show",
+          kind = "search_count",
+        },
+        opts = { skip = true },
       },
     },
-    -- 健康检查
-    health = {
-      checker = true,
-    },
-    -- 智能搜索
-    smart_move = {
-      enabled = true,
-      excluded_filetypes = { "cmp_menu", "cmp_docs", "notify" },
-    },
-    -- 预设配置
     presets = {
-      -- 使用底部命令行
       bottom_search = false,
-      -- 使用命令行弹窗
       command_palette = true,
-      -- 长消息自动滚动
       long_message_to_split = true,
-      -- 智能包裹
       inc_rename = false,
-      -- LSP 文档边框
       lsp_doc_border = true,
     },
-    -- 缩略图配置
     throttle = 1000 / 30,
-    views = {},
-    routes = {},
-    -- 状态栏组件
-    status = {},
-    -- 格式配置
-    format = {},
+    views = {
+      -- mini 视图配置（右下角小浮窗，不干扰）
+      mini = {
+        win_options = {
+          winblend = 0,
+        },
+      },
+    },
   },
   config = function(_, opts)
     require("noice").setup(opts)
 
-    -- 配置 nvim-notify
+    -- 配置 nvim-notify，减少干扰
     require("notify").setup({
       background_colour = "#000000",
       fps = 60,
@@ -200,23 +170,18 @@ return {
         TRACE = "✎",
         WARN = "",
       },
-      level = 2,
-      minimum_width = 50,
-      render = "default",
-      stages = "fade_in_slide_out",
+      level = vim.log.levels.WARN,  -- 提高级别：只显示警告及以上
+      minimum_width = 30,
+      render = "compact",            -- 紧凑渲染
+      stages = "slide",              -- 简单动画
       timeout = 3000,
-      top_down = true,
+      top_down = false,              -- 从底部弹出，不遮挡编辑区域
     })
   end,
-  -- 按键映射
   keys = {
-    -- 显示消息历史
     { "<leader>nh", "<cmd>Noice history<cr>", desc = "显示消息历史 (Noice)" },
-    -- 显示最后一条消息
     { "<leader>nl", "<cmd>Noice last<cr>", desc = "显示最后消息 (Noice)" },
-    -- 关闭所有通知
     { "<leader>nd", "<cmd>Noice dismiss<cr>", desc = "关闭通知 (Noice)" },
-    -- 显示错误
     { "<leader>ne", "<cmd>Noice errors<cr>", desc = "显示错误 (Noice)" },
   },
 }
