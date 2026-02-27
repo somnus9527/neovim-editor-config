@@ -23,7 +23,7 @@ return {
 				files = {
 					-- 全局规则目录
 					{
-						path = "~/.config/rules",
+						path = "~/.config/agents/rules",
 						files = "*.md",
 					},
 					-- Mix with literal file paths
@@ -37,7 +37,7 @@ return {
 				files = {
 					-- 当前项目下的 .codecompanion/rules/*.md
 					{
-						path = vim.fn.getcwd() .. "/.codecompanion/rules",
+						path = vim.fn.getcwd() .. "/.config/agents/rules",
 						files = "*.md",
 					},
 				},
