@@ -17,6 +17,32 @@ return {
 				},
 			},
 		},
+		rules = {
+			global_rules = {
+				description = "Rules files for global.",
+				files = {
+					-- 全局规则目录
+					{
+						path = "~/.config/rules",
+						files = "*.md",
+					},
+					-- Mix with literal file paths
+					"~/.claude/CLAUDE.md",
+					"CLAUDE.md",
+					"CLAUDE.local.md",
+				},
+			},
+			project_rules = {
+				description = "Rule files for current project",
+				files = {
+					-- 当前项目下的 .codecompanion/rules/*.md
+					{
+						path = vim.fn.getcwd() .. "/.codecompanion/rules",
+						files = "*.md",
+					},
+				},
+			},
+		},
 		adapters = {
 			http = {
 				kimi_http = function()
@@ -61,6 +87,98 @@ return {
 						opts = {
 							provider = "fzf_lua", -- Can be "default", "telescope", "fzf_lua", "mini_pick" or "snacks"
 						},
+					},
+					-- 添加 npm scripts 命令选择
+					["command"] = {
+						description = "运行 npm/yarn/pnpm 脚本",
+						callback = function(chat)
+							local package_json = vim.fn.getcwd() .. "/package.json"
+							if vim.fn.filereadable(package_json) == 0 then
+								vim.notify("未找到 package.json", vim.log.levels.WARN)
+								return
+							end
+
+							local content = vim.fn.readfile(package_json)
+							local ok, json = pcall(vim.json.decode, table.concat(content, "\n"))
+							if not ok or not json.scripts then
+								vim.notify("package.json 中没有 scripts", vim.log.levels.WARN)
+								return
+							end
+
+							-- 构建脚本列表
+							local scripts = {}
+							for name, cmd in pairs(json.scripts) do
+								table.insert(scripts, {
+									name = name,
+									cmd = cmd,
+									display = string.format("%-20s %s", name, cmd),
+								})
+							end
+
+							-- 按名称排序
+							table.sort(scripts, function(a, b)
+								return a.name < b.name
+							end)
+
+							-- 提取显示文本用于 fzf
+							local displays = vim.tbl_map(function(s)
+								return s.display
+							end, scripts)
+
+							-- 使用 fzf-lua 选择
+							require("fzf-lua").fzf_exec(displays, {
+								prompt = "选择 npm script> ",
+								actions = {
+									["default"] = function(selected, opts)
+										if not selected or #selected == 0 then
+											return
+										end
+										local selected_display = selected[1]
+										-- 找到选中的脚本
+										for _, script in ipairs(scripts) do
+											if script.display == selected_display then
+												-- 检测包管理器
+												local pkg_manager = "npm"
+												if vim.fn.filereadable(vim.fn.getcwd() .. "/pnpm-lock.yaml") == 1 then
+													pkg_manager = "pnpm"
+												elseif vim.fn.filereadable(vim.fn.getcwd() .. "/yarn.lock") == 1 then
+													pkg_manager = "yarn"
+												end
+
+												local run_cmd = string.format("%s run %s", pkg_manager, script.name)
+												local message = string.format(
+													"请帮我执行这个命令并分析结果: `%s` (script: %s, command: %s)",
+													run_cmd,
+													script.name,
+													script.cmd
+												)
+
+												-- 使用 vim.schedule 确保在 fzf 关闭后执行
+												vim.schedule(function()
+													local ok2, err = pcall(function()
+														chat:add_message({
+															role = "user",
+															content = message,
+														}, { visible = true })
+														-- 提交消息触发 AI 响应
+														if chat.submit then
+															chat:submit()
+														end
+													end)
+													if not ok2 then
+														vim.notify(
+															"添加消息失败: " .. tostring(err),
+															vim.log.levels.ERROR
+														)
+													end
+												end)
+												break
+											end
+										end
+									end,
+								},
+							})
+						end,
 					},
 				},
 				tools = {
