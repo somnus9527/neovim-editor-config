@@ -179,10 +179,11 @@ return {
     })
   end,
   keys = {
-    { "<leader>nh", "<cmd>Noice history<cr>", desc = "显示消息历史 (Noice)" },
-    { "<leader>nl", "<cmd>Noice last<cr>", desc = "显示最后消息 (Noice)" },
-    { "<leader>nd", "<cmd>Noice dismiss<cr>", desc = "关闭通知 (Noice)" },
-    { "<leader>ne", "<cmd>Noice errors<cr>", desc = "显示错误 (Noice)" },
+    { "<localleader>nh", "<cmd>Noice history<cr>", desc = "显示消息历史 (Noice)" },
+    { "<localleader>nl", "<cmd>Noice last<cr>", desc = "显示最后消息 (Noice)" },
+    { "<localleader>nd", "<cmd>Noice dismiss<cr>", desc = "关闭通知 (Noice)" },
+    { "<localleader>ne", "<cmd>Noice errors<cr>", desc = "显示错误 (Noice)" },
   },
 }
+
 
