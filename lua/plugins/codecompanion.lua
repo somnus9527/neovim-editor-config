@@ -1,13 +1,24 @@
 --- 官网配置文档地址: https://codecompanion.olimorris.dev/
 return {
 	"olimorris/codecompanion.nvim",
-	cmd = { "CodeCompanion", "CodeCompanionChat", "CodeCompanionActions", "CodeCompanionCmd" },
+	cmd = { "CodeCompanion", "CodeCompanionChat", "CodeCompanionActions", "CodeCompanionCmd", "CodeCompanionHistory" },
 	dependencies = {
 		"nvim-lua/plenary.nvim",
 		"nvim-treesitter/nvim-treesitter",
+		-- Chat 历史会话保存扩展
+		{
+			"ravitemer/codecompanion-history.nvim",
+			dependencies = {
+				"nvim-lua/plenary.nvim",
+			},
+		},
 	},
 	opts = {
 		display = {
+			chat = {
+				-- 随机选择经典诗句作为欢迎语
+				intro_message = "路漫漫其修远兮，吾将上下而求索 ✨: ",
+			},
 			action_palette = {
 				provider = "fzf_lua",
 				opts = {
@@ -265,8 +276,29 @@ return {
 		},
 		-- NOTE: The log_level is in `opts.opts`
 		opts = {
-			log_level = "DEBUG",
+			log_level = "ERROR",
 			language = "Chinese",
+		},
+		extensions = {
+			history = {
+				enabled = true,
+				opts = {
+					-- 在 chat buffer 中打开历史的快捷键 (默认: gh)
+					keymap = "gh",
+					-- 自动为新 chat 生成标题
+					auto_generate_title = false,
+					-- 退出并重新进入 neovim 时，打开 chat 自动加载上次会话
+					continue_last_chat = false,
+					-- 使用 `gx` 清除 chat 时是否从历史中删除
+					delete_on_clearing_chat = false,
+					-- 选择器界面 ("telescope", "fzf_lua" 或 "default")
+					picker = "fzf_lua",
+					-- 启用详细日志
+					enable_logging = false,
+					-- 保存 chat 的目录
+					dir_to_save = vim.fn.stdpath("data") .. "/codecompanion-history",
+				},
+			},
 		},
 	},
 	keys = {
@@ -283,6 +315,12 @@ return {
 			desc = "AI: Chat Toggle",
 		},
 		{
+			"<localLeader>.",
+			"<CMD>CodeCompanionHistory<CR>",
+			mode = { "n" },
+			desc = "AI: Chat History",
+		},
+		{
 			"<localLeader>a",
 			"<CMD>CodeCompanionChat Add<CR>",
 			mode = { "v" },
@@ -290,3 +328,4 @@ return {
 		},
 	},
 }
+
