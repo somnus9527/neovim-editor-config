@@ -1,5 +1,7 @@
+-- 已禁用: 与 noice.nvim 冲突，noice.nvim 提供更完整的UI美化解决方案
 return {
 	"vzze/cmdline.nvim",
+	enabled = false,
 	event = { "CmdlineEnter", "CmdlineChanged" },
 	opts = {
 		cmdtype = ":", -- you can also add / and ? by using ":/?"
