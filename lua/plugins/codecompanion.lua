@@ -253,6 +253,16 @@ return {
 				adapter = "kimi_cli",
 			},
 		},
+		prompt_library = {
+			markdown = {
+				dirs = {
+					{
+						path = "~/.config/agents/prompt_templates",
+						files = "*.md",
+					},
+				},
+			},
+		},
 		-- NOTE: The log_level is in `opts.opts`
 		opts = {
 			log_level = "DEBUG",
@@ -280,4 +290,3 @@ return {
 		},
 	},
 }
-
