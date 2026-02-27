@@ -93,6 +93,11 @@ return {
 				codecompanion = { "codecompanion" }, -- 直接加就行
 			},
 			providers = {
+				codecompanion = {
+					name = "CodeCompanion",
+					module = "codecompanion.providers.completion.blink",
+					enabled = true,
+				},
 				env = {
 					name = "Env",
 					module = "blink-cmp-env",

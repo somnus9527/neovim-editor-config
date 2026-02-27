@@ -189,6 +189,37 @@ return {
 							return vim.fn.executable("rg") == 1
 						end,
 					},
+					-- 自定义 Skill 示例
+					["skill_creator"] = {
+						-- 加载 skill 创建器的帮助文档
+						callback = function()
+							local skill_path = vim.fn.expand("~/.config/agents/skills/skill-creator/SKILL.md")
+							if vim.fn.filereadable(skill_path) == 1 then
+								local content = vim.fn.readfile(skill_path)
+								return table.concat(content, "\n")
+							end
+							return "Skill creator 文档未找到"
+						end,
+						description = "加载 skill-creator 的帮助文档",
+						opts = {
+							require_approval_before = false,
+						},
+					},
+					-- 加载指定 skill 的通用工具
+					["load_skill"] = {
+						callback = function(skill_name)
+							local skill_file = vim.fn.expand("~/.config/agents/skills/" .. skill_name .. "/SKILL.md")
+							if vim.fn.filereadable(skill_file) == 0 then
+								return "Skill not found: " .. skill_name
+							end
+							local content = vim.fn.readfile(skill_file)
+							return table.concat(content, "\n")
+						end,
+						description = "加载指定 skill 的文档内容，参数: skill_name",
+						opts = {
+							require_approval_before = false,
+						},
+					},
 				},
 				keymaps = {
 					send = {
@@ -249,3 +280,4 @@ return {
 		},
 	},
 }
+
