@@ -17,7 +17,7 @@ return {
 		display = {
 			chat = {
 				-- 随机选择经典诗句作为欢迎语
-				intro_message = "路漫漫其修远兮，吾将上下而求索 ✨: ",
+				intro_message = "Fuck!!!! ✨: ",
 			},
 			action_palette = {
 				provider = "fzf_lua",
@@ -328,4 +328,3 @@ return {
 		},
 	},
 }
-
