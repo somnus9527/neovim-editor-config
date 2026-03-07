@@ -249,6 +249,22 @@ M.get_project_root = function()
 	return vim.fn.getcwd()
 end
 
+M.get_git_root_agents_rule_files = function()
+	local cwd = vim.fs.normalize(vim.fn.getcwd())
+	local git_root = vim.fs.normalize(M.get_project_root())
+
+	if git_root == "" or git_root == cwd then
+		return {}
+	end
+
+	local agents_file = git_root .. "/AGENTS.md"
+	if vim.fn.filereadable(agents_file) == 1 then
+		return { agents_file }
+	end
+
+	return {}
+end
+
 M.get_poetry_python = function()
 	local handle = io.popen("poetry env info -p 2>/dev/null")
 	if handle then
@@ -535,6 +551,64 @@ M.codecompanion_select_npm_script = function(chat)
 						break
 					end
 				end
+			end,
+		},
+	})
+end
+
+M.codecompanion_select_rules = function(chat)
+	local ok_helpers, helpers = pcall(require, "codecompanion.interactions.chat.rules.helpers")
+	local ok_rules, rules = pcall(require, "codecompanion.interactions.chat.rules")
+	if not ok_helpers or not ok_rules then
+		vim.notify("加载 CodeCompanion rules 模块失败", vim.log.levels.ERROR)
+		return
+	end
+
+	local rule_items = helpers.list(chat)
+	if not rule_items or vim.tbl_isempty(rule_items) then
+		vim.notify("当前没有可用 rules", vim.log.levels.WARN)
+		return
+	end
+
+	local displays = {}
+	for index, item in ipairs(rule_items) do
+		local display = string.format("%d. %s", index, item.name)
+		if item.description and item.description ~= "" then
+			display = string.format("%s — %s", display, item.description)
+		end
+		table.insert(displays, display)
+	end
+
+	require("fzf-lua").fzf_exec(displays, {
+		prompt = "选择 rules> ",
+		actions = {
+			["default"] = function(selected)
+				if not selected or #selected == 0 then
+					return
+				end
+
+				local selected_index = tonumber((selected[1] or ""):match("^%s*(%d+)%."))
+				if not selected_index or not rule_items[selected_index] then
+					vim.notify("无法解析选中的 rule", vim.log.levels.ERROR)
+					return
+				end
+
+				local chosen_rule = rule_items[selected_index]
+				vim.schedule(function()
+					local ok, err = pcall(function()
+						rules
+							.new({
+								name = chosen_rule.name,
+								files = chosen_rule.files,
+								opts = chosen_rule.opts,
+								parser = chosen_rule.parser,
+							})
+							:make({ chat = chat, force = true })
+					end)
+					if not ok then
+						vim.notify("加载 rule 失败: " .. tostring(err), vim.log.levels.ERROR)
+					end
+				end)
 			end,
 		},
 	})

@@ -42,7 +42,7 @@ local keymaps = {
 		"<TAB>",
 		function()
 			local ok, luasnip = pcall(require, "luasnip")
-			if ok and luasnip and luasnip.jumpable and luasnip.jumpable(1) then
+			if ok and luasnip and luasnip.locally_jumpable and luasnip.locally_jumpable(1) then
 				luasnip.jump(1)
 				return
 			end

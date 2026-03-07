@@ -14,12 +14,26 @@ return {
 			build = "make install_jsregexp",
 			opts = {
 				history = false,
+				region_check_events = "CursorMoved,CursorMovedI,InsertEnter",
+				delete_check_events = "TextChanged,TextChangedI",
 			},
-			config = function()
+			config = function(_, opts)
+				local ls = require("luasnip")
+				ls.setup(opts)
+
+				local group = vim.api.nvim_create_augroup("LuaSnipExitOnInsertLeave", { clear = true })
+				vim.api.nvim_create_autocmd("InsertLeave", {
+					group = group,
+					callback = function()
+						if ls.session and ls.session.current_nodes[vim.api.nvim_get_current_buf()] then
+							ls.unlink_current()
+						end
+					end,
+				})
+
 				require("luasnip.loaders.from_lua").lazy_load({
 					paths = { vim.fn.stdpath("config") .. "/lua/snippets" },
 				})
-				local ls = require("luasnip")
 				ls.filetype_extend("typescript", { "web_shared", "ts_shared" })
 				ls.filetype_extend("typescriptreact", { "web_shared", "ts_shared" })
 				ls.filetype_extend("javascript", { "web_shared" })

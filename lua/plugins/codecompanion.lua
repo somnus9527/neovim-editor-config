@@ -68,6 +68,16 @@ return {
 					},
 				},
 			},
+			-- monorepo 场景下，补充加载 git 仓库根目录的 AGENTS.md
+			git_root_agents = {
+				description = "AGENTS.md from git repository root",
+				files = tools.get_git_root_agents_rule_files(),
+			},
+			opts = {
+				chat = {
+					autoload = { "default", "git_root_agents" },
+				},
+			},
 		},
 		adapters = {
 			http = {
@@ -197,6 +207,10 @@ return {
 					-- end,
 				},
 				slash_commands = {
+					["rules"] = {
+						description = "使用 fzf-lua 选择并加载 rules",
+						callback = tools.codecompanion_select_rules,
+					},
 					["file"] = {
 						opts = {
 							provider = "fzf_lua", -- Can be "default", "telescope", "fzf_lua", "mini_pick" or "snacks"
