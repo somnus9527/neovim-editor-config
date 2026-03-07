@@ -3,6 +3,7 @@
 return {
 	"vzze/cmdline.nvim",
 	event = { "CmdlineEnter", "CmdlineChanged" },
+  enabled = false,
 	opts = {
 		cmdtype = ":", -- you can also add / and ? by using ":/?"
 		-- as a string

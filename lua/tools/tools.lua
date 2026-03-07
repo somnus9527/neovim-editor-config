@@ -265,4 +265,317 @@ M.read_os_env = function(name)
 	return os.getenv(name)
 end
 
+local function trim_slash(value)
+	return (value or ""):gsub("/+$", "")
+end
+
+local function map_codex_auth_method(value)
+	if value == "chatgpt" then
+		return "chatgpt"
+	end
+	if value == "codex-api-key" or value == "codex_api_key" then
+		return "codex-api-key"
+	end
+	return "openai-api-key"
+end
+
+M.read_codex_settings = function()
+	local config_path = vim.fn.expand("~/.codex/config.toml")
+	local auth_path = vim.fn.expand("~/.codex/auth.json")
+
+	local settings = {
+		model = "gpt-5-codex",
+		reasoning_effort = "high",
+		store = false,
+		auth_method = "openai-api-key",
+		base_url = "https://api.openai.com",
+		wire_api = "responses",
+		api_key = nil,
+	}
+
+	if vim.fn.filereadable(config_path) == 1 then
+		local lines = vim.fn.readfile(config_path)
+		local provider_name
+		local current_provider
+		for _, line in ipairs(lines) do
+			local line_content = vim.trim(line)
+			if line_content ~= "" and not line_content:match("^#") then
+				local section = line_content:match("^%[model_providers%.([%w_%-]+)%]$")
+				if section then
+					current_provider = section
+				else
+					local key, value = line_content:match('^([%w_]+)%s*=%s*"(.-)"$')
+					if key and value then
+						if key == "model_provider" then
+							provider_name = value
+						elseif key == "model" then
+							settings.model = value
+						elseif key == "model_reasoning_effort" then
+							settings.reasoning_effort = value
+						elseif key == "preferred_auth_method" then
+							settings.auth_method = map_codex_auth_method(value)
+						elseif key == "base_url" and provider_name and current_provider == provider_name then
+							settings.base_url = value
+						elseif key == "wire_api" and provider_name and current_provider == provider_name then
+							settings.wire_api = value
+						end
+					else
+						local bool_key, bool_value = line_content:match("^([%w_]+)%s*=%s*(true|false)$")
+						if bool_key == "disable_response_storage" and bool_value then
+							settings.store = (bool_value ~= "true")
+						end
+					end
+				end
+			end
+		end
+	end
+
+	if vim.fn.filereadable(auth_path) == 1 then
+		local ok, auth = pcall(vim.json.decode, table.concat(vim.fn.readfile(auth_path), "\n"))
+		if ok and type(auth) == "table" then
+			settings.api_key = auth.OPENAI_API_KEY
+		end
+	end
+
+	return settings
+end
+
+M.build_codex_http_url = function(base_url, wire_api)
+	-- 规范化 base_url：优先使用传入值，默认 OpenAI 官方地址，并去掉末尾斜杠
+	local codex_http_url = trim_slash(base_url or "https://api.openai.com")
+
+	-- 如果已经是完整的 /responses 路径，直接返回，避免重复拼接
+	if codex_http_url:match("/responses$") then
+		return codex_http_url
+	end
+
+	-- 有些网关使用 /openai/responses（不带 /v1），OpenAI 官方使用 /v1/responses
+	-- 当 wire_api 指定为 responses 且 base_url 以 /openai 结尾时，走网关兼容路径
+	if wire_api == "responses" and codex_http_url:match("/openai$") then
+		return codex_http_url .. "/responses"
+	end
+
+	-- 如果 base_url 已经包含 /v1，只需补上 /responses
+	if codex_http_url:match("/v1$") then
+		return codex_http_url .. "/responses"
+	end
+
+	-- 默认情况：补齐 /v1/responses
+	return codex_http_url .. "/v1/responses"
+end
+
+local function extract_output_text_from_response(json)
+	if type(json) ~= "table" or type(json.output) ~= "table" then
+		return nil
+	end
+
+	for _, item in ipairs(json.output) do
+		if item.type == "message" and type(item.content) == "table" then
+			for _, block in ipairs(item.content) do
+				if block.type == "output_text" and type(block.text) == "string" then
+					return block.text
+				end
+			end
+		end
+	end
+	return nil
+end
+
+local function parse_sse_response_text(body)
+	local deltas = {}
+	local completed_text
+
+	for line in tostring(body):gmatch("[^\r\n]+") do
+		local payload = line:match("^data:%s*(.+)$")
+		if payload and payload ~= "" and payload ~= "[DONE]" then
+			local ok, json = pcall(vim.json.decode, payload, { luanil = { object = true } })
+			if ok and type(json) == "table" then
+				if json.type == "response.output_text.delta" and type(json.delta) == "string" then
+					table.insert(deltas, json.delta)
+				elseif json.type == "response.completed" then
+					completed_text = extract_output_text_from_response(json.response)
+				end
+			end
+		end
+	end
+
+	if #deltas > 0 then
+		return table.concat(deltas, "")
+	end
+	return completed_text
+end
+
+M.parse_codex_inline_response = function(data)
+	if not data or data == "" then
+		return { status = "error", output = "No output from the model" }
+	end
+
+	local body = type(data) == "table" and data.body or data
+	if type(body) ~= "string" then
+		body = tostring(body)
+	end
+
+	-- 兼容网关返回标准 JSON 的情况
+	local ok, json = pcall(vim.json.decode, body, { luanil = { object = true } })
+	if ok and type(json) == "table" then
+		local text = extract_output_text_from_response(json)
+		if text and text ~= "" then
+			return { status = "success", output = text }
+		end
+	end
+
+	-- 兼容网关返回 SSE 文本流（data: ...）的情况
+	local sse_text = parse_sse_response_text(body)
+	if sse_text and sse_text ~= "" then
+		return { status = "success", output = sse_text }
+	end
+
+	return { status = "error", output = body }
+end
+
+M.sanitize_codex_response_parameters = function(params)
+	if type(params) ~= "table" then
+		return params
+	end
+
+	-- 兼容严格网关：移除常见但不被支持的参数
+	params.top_p = nil
+	params.temperature = nil
+	params.top_logprobs = nil
+	params.text = nil
+	params.include = nil
+
+	if type(params.reasoning) == "table" then
+		params.reasoning.summary = nil
+		if vim.tbl_isempty(params.reasoning) then
+			params.reasoning = nil
+		end
+	end
+
+	params.stream = true
+	return params
+end
+
+local function detect_package_manager(cwd)
+	if vim.fn.filereadable(cwd .. "/pnpm-lock.yaml") == 1 then
+		return "pnpm"
+	end
+	if vim.fn.filereadable(cwd .. "/yarn.lock") == 1 then
+		return "yarn"
+	end
+	return "npm"
+end
+
+M.codecompanion_select_npm_script = function(chat)
+	local cwd = vim.fn.getcwd()
+	local package_json = cwd .. "/package.json"
+	if vim.fn.filereadable(package_json) == 0 then
+		vim.notify("未找到 package.json", vim.log.levels.WARN)
+		return
+	end
+
+	local content = vim.fn.readfile(package_json)
+	local ok, json = pcall(vim.json.decode, table.concat(content, "\n"))
+	if not ok or not json.scripts then
+		vim.notify("package.json 中没有 scripts", vim.log.levels.WARN)
+		return
+	end
+
+	local scripts = {}
+	for name, command in pairs(json.scripts) do
+		table.insert(scripts, {
+			name = name,
+			command = command,
+			display = string.format("%-20s %s", name, command),
+		})
+	end
+
+	table.sort(scripts, function(left, right)
+		return left.name < right.name
+	end)
+
+	local displays = vim.tbl_map(function(script)
+		return script.display
+	end, scripts)
+
+	require("fzf-lua").fzf_exec(displays, {
+		prompt = "选择 npm script> ",
+		actions = {
+			["default"] = function(selected)
+				if not selected or #selected == 0 then
+					return
+				end
+
+				local selected_display = selected[1]
+				for _, script in ipairs(scripts) do
+					if script.display == selected_display then
+						local package_manager = detect_package_manager(cwd)
+						local run_cmd = string.format("%s run %s", package_manager, script.name)
+						local message = string.format(
+							"请帮我执行这个命令: `%s` (script: %s, command: %s)",
+							run_cmd,
+							script.name,
+							script.command
+						)
+
+						vim.schedule(function()
+							local add_ok, err = pcall(function()
+								chat:add_message({
+									role = "user",
+									content = message,
+								}, { visible = true })
+								if chat.submit then
+									chat:submit()
+								end
+							end)
+							if not add_ok then
+								vim.notify("添加消息失败: " .. tostring(err), vim.log.levels.ERROR)
+							end
+						end)
+						break
+					end
+				end
+			end,
+		},
+	})
+end
+
+local function read_text_file(path)
+	if vim.fn.filereadable(path) == 0 then
+		return nil
+	end
+	return table.concat(vim.fn.readfile(path), "\n")
+end
+
+M.codecompanion_skill_creator_doc = function()
+	local content = read_text_file(vim.fn.expand("~/.config/agents/skills/skill-creator/SKILL.md"))
+	if content then
+		return content
+	end
+	return "Skill creator 文档未找到"
+end
+
+-- 加载指定技能目录下的 SKILL.md 文档内容
+-- @param skill_name string|nil 技能名称，可为空
+-- @return string 文档内容；若技能不存在则返回错误提示
+M.codecompanion_load_skill_doc = function(skill_name)
+	local skill = vim.trim(skill_name or "")
+	-- 传入空名称时，直接返回未找到提示
+	if skill == "" then
+		return "Skill not found: "
+	end
+
+	-- 拼接技能文档路径：~/.config/agents/skills/<skill>/SKILL.md
+	local skill_file = vim.fn.expand("~/.config/agents/skills/" .. skill .. "/SKILL.md")
+	local content = read_text_file(skill_file)
+
+	-- 文件不存在或读取失败时返回未找到提示
+	if not content then
+		return "Skill not found: " .. skill
+	end
+
+	-- 返回技能文档内容
+	return content
+end
+
 return M

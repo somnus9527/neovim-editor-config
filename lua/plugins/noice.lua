@@ -1,61 +1,43 @@
--- noice.nvim: 美化命令行、消息、弹窗UI
--- 已优化：仅保留错误/警告通知，减少干扰
+-- noice.nvim: 安全模式（尽量不接管交互确认）
 return {
   "folke/noice.nvim",
   event = "VeryLazy",
+  enabled = true,
   dependencies = {
     "MunifTanjim/nui.nvim",
     -- notify 变为可选依赖，按需加载
     "rcarriga/nvim-notify",
   },
   opts = {
+    -- 放开命令行输入接管
     cmdline = {
-      enabled = false,
-      view = "cmdline_popup",
-      format = {
-        cmdline = { pattern = "^:", icon = "", lang = "vim" },
-        search_down = { kind = "search", pattern = "^/", icon = " ", lang = "regex" },
-        search_up = { kind = "search", pattern = "^%?", icon = " ", lang = "regex" },
-        filter = { pattern = "^:%s*!", icon = "$", lang = "bash" },
-        lua = { pattern = "^:%s*lua%s+", icon = "", lang = "lua" },
-        help = { pattern = "^:%s*he?l?p?%s+", icon = "" },
-      },
+      enabled = true,
     },
-    -- 关键修改：普通消息不再走 notify，仅错误/警告走 notify
+    -- 不接管消息事件，降低与交互确认冲突的概率
     messages = {
-      enabled = true,
-      view = "mini",           -- 普通消息用 mini 视图（右下角短暂显示）
-      view_error = "notify",   -- 错误用通知
-      view_warn = "mini",    -- 警告用通知
-      view_history = "messages",
-      view_search = false,     -- 禁用搜索计数通知
+      enabled = false,
     },
+    -- 不接管补全菜单
     popupmenu = {
-      enabled = true,
-      backend = "nui",
+      enabled = false,
     },
-    -- 禁用 redirect 到 popup
+    -- 禁用消息重定向
     redirect = {
-      view = "mini",
-      filter = { event = "msg_show" },
+      enabled = false,
     },
-    -- 确认提示配置
+    -- 不改造确认弹窗
     confirm = {
-      enabled = true,
-      view = "confirm",
+      enabled = false,
     },
+    -- 仅保留 notify 能力
     notify = {
       enabled = true,
       view = "notify",
     },
-    -- LSP 配置优化
+    -- 放开 Noice 的 LSP 相关显示能力
     lsp = {
       progress = {
         enabled = true,
-        format = "lsp_progress",
-        format_done = "lsp_progress_done",
-        throttle = 1000 / 30,
-        view = "mini",         -- LSP 进度用 mini 视图
       },
       override = {
         ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
@@ -64,97 +46,25 @@ return {
       },
       hover = {
         enabled = true,
-        silent = false,
-        view = nil,
       },
       signature = {
         enabled = true,
-        auto_open = {
-          enabled = true,
-          trigger = true,
-          luasnip = true,
-          throttle = 50,
-        },
-        view = nil,
       },
-      -- 关键修改：LSP 消息不再走 notify
       message = {
         enabled = true,
-        view = "mini",         -- LSP 消息用 mini 视图
-        opts = {},
-      },
-      documentation = {
-        view = "hover",
-        opts = {
-          lang = "markdown",
-          replace = true,
-          render = "plain",
-          format = { "{message}" },
-          win_options = { concealcursor = "n", conceallevel = 3 },
-        },
       },
     },
-    -- 添加路由规则，过滤掉不必要的消息
-    routes = {
-      -- 忽略 "written" 文件保存消息
-      {
-        filter = {
-          event = "msg_show",
-          kind = "",
-          find = "written",
-        },
-        opts = { skip = true },
-      },
-      -- 忽略 "已写入" 中文保存消息
-      {
-        filter = {
-          event = "msg_show",
-          kind = "",
-          find = "已写入",
-        },
-        opts = { skip = true },
-      },
-      -- 忽略行数显示（如 "10 lines yanked"）
-      {
-        filter = {
-          event = "msg_show",
-          find = "lines? yanked",
-        },
-        view = "mini",
-      },
-      -- 忽略 undo/redo 消息
-      {
-        filter = {
-          event = "msg_show",
-          find = "^%d+ changes?;",
-        },
-        opts = { skip = true },
-      },
-      -- 忽略搜索命中数（如果你不需要）
-      {
-        filter = {
-          event = "msg_show",
-          kind = "search_count",
-        },
-        opts = { skip = true },
-      },
-    },
+    -- 关闭路由规则，避免额外的事件接管
+    routes = {},
     presets = {
       bottom_search = false,
-      command_palette = true,
-      long_message_to_split = true,
+      command_palette = false,
+      long_message_to_split = false,
       inc_rename = false,
       lsp_doc_border = true,
     },
     throttle = 1000 / 30,
-    views = {
-      -- mini 视图配置（右下角小浮窗，不干扰）
-      mini = {
-        win_options = {
-          winblend = 0,
-        },
-      },
-    },
+    views = {},
   },
   config = function(_, opts)
     require("noice").setup(opts)
@@ -185,5 +95,3 @@ return {
     { "<localleader>ne", "<cmd>Noice errors<cr>", desc = "显示错误 (Noice)" },
   },
 }
-
-
