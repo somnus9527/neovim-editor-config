@@ -306,6 +306,7 @@ M.read_codex_settings = function()
 		auth_method = "openai-api-key",
 		base_url = "https://api.openai.com",
 		wire_api = "responses",
+		submit_when_normal_retries = 3,
 		api_key = nil,
 	}
 
@@ -336,8 +337,11 @@ M.read_codex_settings = function()
 							settings.wire_api = value
 						end
 					else
+						local num_key, num_value = line_content:match("^([%w_]+)%s*=%s*(%d+)$")
 						local bool_key, bool_value = line_content:match("^([%w_]+)%s*=%s*(true|false)$")
-						if bool_key == "disable_response_storage" and bool_value then
+						if num_key == "submit_when_normal_retries" and num_value then
+							settings.submit_when_normal_retries = tonumber(num_value)
+						elseif bool_key == "disable_response_storage" and bool_value then
 							settings.store = (bool_value ~= "true")
 						end
 					end

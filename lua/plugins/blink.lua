@@ -104,13 +104,33 @@ return {
 			default = { "lsp", "path", "snippets", "buffer" },
 			min_keyword_length = 1,
 			per_filetype = {
-				codecompanion = { "codecompanion" }, -- 直接加就行
+				codecompanion = { "codecompanion", "skills" }, -- chat buffer 增加 $skill 补全
 			},
 			providers = {
 				codecompanion = {
 					name = "CodeCompanion",
 					module = "codecompanion.providers.completion.blink",
 					enabled = true,
+				},
+				skills = {
+					name = "Skills",
+					module = "tools.blink-skill-source",
+					enabled = true,
+					async = true,
+					timeout_ms = 80,
+					min_keyword_length = 0,
+					score_offset = 12,
+					opts = {
+						skill_roots = {
+							"~/.codex/skills",
+							"~/.config/agents/skills",
+						},
+						allowed_filetypes = { "codecompanion" },
+						include_system_skills = true,
+						cache_ttl_ms = 30000,
+						max_scan_depth = 3,
+						max_items = 80,
+					},
 				},
 				env = {
 					name = "Env",

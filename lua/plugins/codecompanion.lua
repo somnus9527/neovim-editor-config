@@ -3,6 +3,7 @@ local tools = require("tools.tools")
 local codex_settings = tools.read_codex_settings()
 local codex_http_base_url = (codex_settings.base_url or "https://api.openai.com"):gsub("/+$", "")
 local codex_responses_url = tools.build_codex_http_url(codex_http_base_url, codex_settings.wire_api)
+local submit_when_normal_retries = math.max(0, math.floor(tonumber(codex_settings.submit_when_normal_retries) or 3))
 
 return {
 	"olimorris/codecompanion.nvim",
@@ -43,23 +44,93 @@ return {
 				},
 			},
 		},
-		rules = {
-			global_rules = {
-				description = "Rules files for global.",
+			rules = {
+				core_global = {
+					description = "个人全局协作与工程规则",
+					parser = "codecompanion",
 				files = {
-					-- 全局规则目录
 					{
-						path = "~/.config/agents/rules",
+						path = "~/.config/agents/rules/core",
 						files = "*.md",
 					},
-					-- Mix with literal file paths
 					"~/.claude/CLAUDE.md",
 					"CLAUDE.md",
 					"CLAUDE.local.md",
 				},
 			},
-			project_rules = {
-				description = "Rule files for current project",
+				frontend_architecture = {
+					description = "前端架构与工程化规则",
+					parser = "codecompanion",
+				files = {
+					{
+						path = "~/.config/agents/rules/frontend",
+						files = "architecture*.md",
+					},
+				},
+			},
+				frontend_react = {
+					description = "React/TypeScript 开发规则",
+					parser = "codecompanion",
+				files = {
+					{
+						path = "~/.config/agents/rules/frontend",
+						files = "react*.md",
+					},
+				},
+			},
+				node_service = {
+					description = "Node.js 业务服务开发规则",
+					parser = "codecompanion",
+				files = {
+					{
+						path = "~/.config/agents/rules/node",
+						files = "*.md",
+					},
+				},
+			},
+				python_tools = {
+					description = "Python 工具脚本开发规则",
+					parser = "codecompanion",
+				files = {
+					{
+						path = "~/.config/agents/rules/python",
+						files = "*.md",
+					},
+				},
+			},
+				flutter_app = {
+					description = "Flutter App 开发规则",
+					parser = "codecompanion",
+				files = {
+					{
+						path = "~/.config/agents/rules/flutter",
+						files = "*.md",
+					},
+				},
+			},
+				electron_client = {
+					description = "Electron 桌面客户端规则",
+					parser = "codecompanion",
+				files = {
+					{
+						path = "~/.config/agents/rules/electron",
+						files = "*.md",
+					},
+				},
+			},
+				infra_delivery = {
+					description = "Docker/Compose/Nginx 与发布规则",
+					parser = "codecompanion",
+				files = {
+					{
+						path = "~/.config/agents/rules/infra",
+						files = "*.md",
+					},
+				},
+			},
+				project_rules = {
+					description = "Rule files for current project",
+					parser = "codecompanion",
 				files = {
 					-- 当前项目下的 .codecompanion/rules/*.md
 					{
@@ -75,7 +146,7 @@ return {
 			},
 			opts = {
 				chat = {
-					autoload = { "default", "git_root_agents" },
+					autoload = { "default", "frontend_react", "git_root_agents" },
 				},
 			},
 		},
@@ -221,6 +292,98 @@ return {
 						description = "运行 npm/yarn/pnpm 脚本",
 						callback = tools.codecompanion_select_npm_script,
 					},
+					["quickfix"] = {
+						description = "选择 buffer 并同步其诊断到 quickfix 后插入",
+						callback = function(chat)
+							local selectable_buffers = {}
+							for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
+								if vim.api.nvim_buf_is_valid(bufnr) and vim.api.nvim_buf_is_loaded(bufnr) and vim.bo[bufnr].buftype == "" then
+									local name = vim.api.nvim_buf_get_name(bufnr)
+									if name ~= "" then
+										table.insert(selectable_buffers, {
+											bufnr = bufnr,
+											name = vim.fn.fnamemodify(name, ":~:."),
+										})
+									end
+								end
+							end
+
+							if #selectable_buffers == 0 then
+								vim.notify("没有可选的文件 buffer", vim.log.levels.WARN, {
+									title = "CodeCompanion",
+								})
+								return
+							end
+
+							table.sort(selectable_buffers, function(a, b)
+								return a.bufnr < b.bufnr
+							end)
+
+							local function sync_buffer_diagnostics_to_quickfix(item)
+								if not item then
+									return false
+								end
+
+								local diagnostics = vim.diagnostic.get(item.bufnr)
+								if #diagnostics == 0 then
+									vim.notify("该 buffer 没有可用诊断", vim.log.levels.WARN, {
+										title = "CodeCompanion",
+									})
+									return false
+								end
+
+								vim.fn.setqflist({}, " ", {
+									title = "Diagnostics: " .. item.name,
+									items = vim.diagnostic.toqflist(diagnostics),
+								})
+
+								local ok, quickfix = pcall(
+									require,
+									"codecompanion.interactions.chat.slash_commands.builtin.quickfix"
+								)
+								if not ok then
+									vim.notify("加载 CodeCompanion quickfix slash command 失败", vim.log.levels.ERROR, {
+										title = "CodeCompanion",
+									})
+									return false
+								end
+
+								quickfix
+									.new({
+										Chat = chat,
+										config = { opts = { contains_code = true } },
+									})
+									:execute()
+
+								return true
+							end
+
+							local current_bufnr = vim.api.nvim_get_current_buf()
+							local current_item = nil
+							for _, item in ipairs(selectable_buffers) do
+								if item.bufnr == current_bufnr then
+									current_item = item
+									break
+								end
+							end
+
+							if current_item and sync_buffer_diagnostics_to_quickfix(current_item) then
+								return
+							end
+
+							if #selectable_buffers == 1 then
+								sync_buffer_diagnostics_to_quickfix(selectable_buffers[1])
+								return
+							end
+
+							vim.ui.select(selectable_buffers, {
+								prompt = "选择要同步诊断的 buffer:",
+								format_item = function(item)
+									return string.format("[%d] %s", item.bufnr, item.name)
+								end,
+							}, sync_buffer_diagnostics_to_quickfix)
+						end,
+					},
 				},
 				tools = {
 					["grep_search"] = {
@@ -250,6 +413,44 @@ return {
 				keymaps = {
 					send = {
 						modes = { n = "<C-s>", i = "<C-s>" },
+						callback = function(chat)
+							local function submit_when_normal(retries)
+								retries = retries or submit_when_normal_retries
+								if vim.api.nvim_get_mode().mode:sub(1, 1) ~= "i" then
+									chat:submit()
+									return
+								end
+
+								if retries <= 0 then
+									chat:submit()
+									return
+								end
+
+								vim.defer_fn(function()
+									submit_when_normal(retries - 1)
+								end, 10)
+							end
+
+							if chat and chat.adapter and chat.adapter.type == "acp" then
+								local connection = chat.acp_connection
+								local is_connected = connection and connection.is_connected and connection:is_connected()
+								if not is_connected then
+									vim.notify("CodeCompanion 连接初始化中，请稍后重试", vim.log.levels.WARN, {
+										title = "CodeCompanion",
+									})
+									return
+								end
+							end
+
+							if vim.api.nvim_get_mode().mode:sub(1, 1) == "i" then
+								local esc = vim.api.nvim_replace_termcodes("<Esc>", true, false, true)
+								vim.api.nvim_feedkeys(esc, "n", false)
+								submit_when_normal()
+								return
+							end
+
+							chat:submit()
+						end,
 						opts = {},
 					},
 					close = {
@@ -282,16 +483,19 @@ return {
 				adapter = "codex_responses",
 			},
 		},
-		-- prompt_library = {
-		-- 	markdown = {
-		-- 		dirs = {
-		-- 			{
-		-- 				path = "~/.config/agents/prompt_templates",
-		-- 				files = "*.md",
-		-- 			},
-		-- 		},
-		-- 	},
-		-- },
+		prompt_library = {
+			markdown = {
+				dirs = {
+					"~/.config/agents/prompt_templates/cross",
+					"~/.config/agents/prompt_templates/frontend",
+					"~/.config/agents/prompt_templates/node",
+					"~/.config/agents/prompt_templates/python",
+					"~/.config/agents/prompt_templates/flutter",
+					"~/.config/agents/prompt_templates/electron",
+					"~/.config/agents/prompt_templates/infra",
+				},
+			},
+		},
 		-- NOTE: The log_level is in `opts.opts`
 		opts = {
 			log_level = "DEBUG",
@@ -340,7 +544,28 @@ return {
 		-- },
 		{
 			"<localLeader>a",
-			"<CMD>CodeCompanionChat Add<CR>",
+			function()
+				vim.cmd("CodeCompanionChat Add")
+
+				local mode = vim.api.nvim_get_mode().mode
+				if mode == "v" or mode == "V" or mode == "\22" then
+					local esc = vim.api.nvim_replace_termcodes("<Esc>", true, false, true)
+					vim.api.nvim_feedkeys(esc, "n", false)
+				end
+
+				-- vim.schedule(function()
+				-- 	local ok, codecompanion = pcall(require, "codecompanion")
+				-- 	if ok and codecompanion then
+				-- 		local chat = codecompanion.last_chat()
+				-- 		if chat and chat.bufnr then
+				-- 			codecompanion.restore(chat.bufnr)
+				-- 			return
+				-- 		end
+				-- 	end
+				--
+				-- 	vim.cmd("CodeCompanionChat")
+				-- end)
+			end,
 			mode = { "v" },
 			desc = "AI: Add Selected Text to Chat",
 		},
