@@ -8,6 +8,7 @@ return {
 		"nvim-tree/nvim-web-devicons",
 	},
 	opts = {
+		attach_navic = false,
 		exclude_filetypes = {
 			"neo-tree",
 			"toggleterm",

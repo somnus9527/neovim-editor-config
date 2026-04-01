@@ -1,5 +1,42 @@
 local tools = require("tools.tools")
 local lsp_tools = require("tools.lsp")
+
+local function attach_navic(client, bufnr)
+	local ok, navic = pcall(require, "nvim-navic")
+	if not ok or not client.server_capabilities.documentSymbolProvider then
+		return
+	end
+
+	local current = vim.b[bufnr].navic_client_name
+	if current == client.name then
+		return
+	end
+
+	local function navic_priority(name)
+		if vim.bo[bufnr].filetype == "vue" then
+			if name == "vue_ls" then
+				return 2
+			end
+			if name == "vtsls" then
+				return 1
+			end
+		end
+
+		return 0
+	end
+
+	if current and navic_priority(client.name) <= navic_priority(current) then
+		return
+	end
+
+	if current then
+		vim.b[bufnr].navic_client_id = nil
+		vim.b[bufnr].navic_client_name = nil
+	end
+
+	navic.attach(client, bufnr)
+end
+
 -- 配置server
 local servers = {
 	lua_ls = {
@@ -235,6 +272,12 @@ vim.api.nvim_create_autocmd("LspAttach", {
 	group = vim.api.nvim_create_augroup("UserLspConfig", { clear = true }),
 	callback = function(ev)
 		local client = vim.lsp.get_client_by_id(ev.data.client_id)
+		if not client then
+			return
+		end
+
+		attach_navic(client, ev.buf)
+
 		local opts = { buffer = ev.buf }
 		local extend = function(opt)
 			local re_opt = {}
