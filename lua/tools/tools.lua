@@ -300,7 +300,7 @@ M.read_codex_settings = function()
 	local auth_path = vim.fn.expand("~/.codex/auth.json")
 
 	local settings = {
-		model = "gpt-5-codex",
+		model = "gpt-5.4-codex",
 		reasoning_effort = "high",
 		store = false,
 		auth_method = "openai-api-key",
