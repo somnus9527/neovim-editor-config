@@ -47,13 +47,13 @@ return {
 	},
 	{
 		"rose-pine/neovim",
-		lazy = true,
-		-- lazy = false,
+		-- lazy = true,
+		lazy = false,
 		priority = 1000,
 		name = "rose-pine",
-		-- config = function()
-		-- 	vim.cmd.colorscheme("rose-pine")
-		-- end,
+		config = function()
+			vim.cmd.colorscheme("rose-pine")
+		end,
 	},
 	{
 		"kuri-sun/yoda.nvim",
@@ -80,14 +80,14 @@ return {
 	{
 		"catppuccin/nvim",
 		name = "catppuccin",
-		-- lazy = true,
-		lazy = false,
-		priority = 1000,
-		opts = {
-			integrations = { blink_cmp = true },
-		},
-		config = function()
-			vim.cmd.colorscheme("catppuccin")
-		end,
+		lazy = true,
+		-- lazy = false,
+		-- priority = 1000,
+		-- opts = {
+		-- 	integrations = { blink_cmp = true },
+		-- },
+		-- config = function()
+		-- 	vim.cmd.colorscheme("catppuccin")
+		-- end,
 	},
 }

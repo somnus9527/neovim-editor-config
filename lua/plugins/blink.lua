@@ -1,3 +1,36 @@
+local vue_script_languages = {
+	javascript = true,
+	javascriptreact = true,
+	jsx = true,
+	typescript = true,
+	typescriptreact = true,
+	tsx = true,
+}
+
+local function get_vue_block(ctx)
+	if not ctx or vim.bo[ctx.bufnr].filetype ~= "vue" then
+		return nil
+	end
+
+	local ok, parser = pcall(vim.treesitter.get_parser, ctx.bufnr, "vue")
+	if not ok or not parser then
+		return nil
+	end
+
+	local row = ctx.cursor[1] - 1
+	local col = ctx.cursor[2]
+	local ok_lang, lang_tree = pcall(parser.language_for_range, parser, { row, col, row, col })
+	if not ok_lang or not lang_tree then
+		return nil
+	end
+
+	if vue_script_languages[lang_tree:lang()] then
+		return "script"
+	end
+
+	return "other"
+end
+
 return {
 	"saghen/blink.cmp",
 	version = "*",
@@ -105,8 +138,44 @@ return {
 			min_keyword_length = 1,
 			per_filetype = {
 				codecompanion = { "codecompanion", "skills" }, -- chat buffer 增加 $skill 补全
+				vue = { "lsp", "path", "snippets" },
 			},
 			providers = {
+				lsp = {
+					override = {
+						get_trigger_characters = function(module)
+							local ctx = {
+								bufnr = vim.api.nvim_get_current_buf(),
+								cursor = vim.api.nvim_win_get_cursor(0),
+							}
+
+							if get_vue_block(ctx) ~= "script" then
+								return module:get_trigger_characters()
+							end
+
+							local trigger_characters = {}
+							for _, client in ipairs(vim.lsp.get_clients({ bufnr = ctx.bufnr })) do
+								if client.name == "vtsls" then
+									local completion_provider = client.server_capabilities.completionProvider
+									if completion_provider and completion_provider.triggerCharacters then
+										vim.list_extend(trigger_characters, completion_provider.triggerCharacters)
+									end
+								end
+							end
+
+							return trigger_characters
+						end,
+					},
+					transform_items = function(ctx, items)
+						if get_vue_block(ctx) ~= "script" then
+							return items
+						end
+
+						return vim.tbl_filter(function(item)
+							return item.client_name == "vtsls"
+						end, items)
+					end,
+				},
 				codecompanion = {
 					name = "CodeCompanion",
 					module = "codecompanion.providers.completion.blink",

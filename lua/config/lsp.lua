@@ -153,7 +153,17 @@ local servers = {
 	},
 	bashls = {},
 	css_variables = {},
-	cssmodules_ls = {},
+	cssmodules_ls = {
+		filetypes = {
+			"javascript",
+			"javascriptreact",
+			"typescript",
+			"typescriptreact",
+		},
+		init_options = {
+			camelCase = "dashes",
+		},
+	},
 	html = {},
 	tailwindcss = {},
 	vue_ls = {},
