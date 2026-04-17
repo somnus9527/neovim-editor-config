@@ -15,6 +15,9 @@ return {
 				".eslintrc.yaml",
 				".eslintrc.yml",
 				"eslint.config.js",
+				"eslint.config.cjs",
+				"eslint.config.mjs",
+				"eslint.config.ts",
 			}
 			for _, f in ipairs(config_files) do
 				if vim.fn.filereadable(vim.fn.getcwd() .. "/" .. f) == 1 then
@@ -28,6 +31,12 @@ return {
 		-- if has_eslint_config() then
 		-- 	lint.linters.eslint_d.cmd = vim.fn.getcwd()
 		-- end
+		if has_eslint_config() then
+			lint.linters.eslint.cmd = function()
+				local local_binary = vim.fn.getcwd() .. "/node_modules/.bin/eslint"
+				return vim.fn.executable(local_binary) == 1 and local_binary or "eslint"
+			end
+		end
 
 		lint.linters_by_ft = {
 			javascript = has_eslint_config() and { "eslint" } or {},
