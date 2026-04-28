@@ -18,17 +18,21 @@ NVIM v0.12.1
 
 - Neovim 0.12 变更说明：https://neovim.io/doc/user/news-0.12/
 - Neovim 0.12.1 Release：https://github.com/neovim/neovim/releases/tag/v0.12.1
+- Neovim 原生包与 `vim.pack` 文档：https://neovim.io/doc/user/pack/
 - nvim-treesitter 文档：https://github.com/nvim-treesitter/nvim-treesitter
 - mason-lspconfig 文档：https://github.com/mason-org/mason-lspconfig.nvim
 
 ## 总体结论
 
-建议升级到 `Neovim 0.12.1`，但不要把所有生态迁移一次性做完。推荐分为两个阶段：
+建议升级到 `Neovim 0.12.1`，但不要把所有生态迁移一次性做完。推荐分为三个阶段：
 
 1. 第一阶段：升级 Neovim 到 `0.12.1`，同步插件，保留当前 `nvim-treesitter` 旧配置体系，并增加临时兼容层。
 2. 第二阶段：单独迁移 `nvim-treesitter` 新 main 配置体系，并逐个验证依赖 Treesitter 的插件。
+3. 第三阶段：可选迁移 `lazy.nvim` 到 Neovim 0.12 原生 `vim.pack`，并单独替换懒加载、构建钩子和锁文件流程。
 
 目前没有发现“明确无法支持 Neovim 0.12.1、必须永久替换”的插件。主要风险来自旧 API、Treesitter 主分支重构、以及 `mason-lspconfig.nvim` v2 行为变化。
+
+当前仓库没有实际使用完整的 `LazyVim` 配置发行版，真正使用的是 `folke/lazy.nvim` 插件管理器。因此后续如果说“取消 LazyVim”，实际需要处理的是“是否取消 `lazy.nvim`”。
 
 ## 第一阶段目标
 
@@ -72,6 +76,56 @@ Neovim 0.12 对当前配置和插件生态的主要影响如下。
 - `lua/config/opt.lua` 里 `foldexpr = "nvim_treesitter#foldexpr()"` 属于旧 Treesitter 体系。
 - `lua/plugins/mason.lua` 当前锁定 `mason.nvim` / `mason-lspconfig.nvim` 的 `^1.0.0`，若升级 v2 需要改配置。
 - 自有配置中仍有少量 `vim.loop` 使用；这不是第一阶段阻塞项，后续可逐步改为 `vim.uv`。
+
+## 关于 lazy.nvim、LazyVim 与 vim.pack
+
+### 当前状态判断
+
+当前配置使用的是 `lazy.nvim`，不是完整的 `LazyVim` 发行版：
+
+- `lua/bootstrap.lua` 中通过 `require("lazy").setup()` 加载插件。
+- `lazy-lock.json` 是 `lazy.nvim` 的插件锁文件。
+- 仓库没有使用 `LazyVim/LazyVim`，也没有导入 `lazyvim.plugins`。
+- `LazyVim` 相关内容只出现在少量注释里，不影响运行。
+
+也就是说，当前没有必须“移除 LazyVim”的工作；真正的可选迁移项是从 `lazy.nvim` 迁到 Neovim 0.12 原生 `vim.pack`。
+
+### vim.pack 能替代什么
+
+Neovim 0.12 的 `vim.pack` 可以管理外部插件的安装、更新和删除，并会生成 `nvim-pack-lock.json` 锁文件。它适合替代 `lazy.nvim` 的插件下载、版本锁定和更新流程。
+
+但官方文档仍把 `vim.pack` 标记为 experimental，虽然说明其已经足够日常使用。迁移时应把它当成“原生插件管理器”，不要当成 `lazy.nvim` 的无缝兼容层。
+
+### vim.pack 不能直接替代什么
+
+`vim.pack` 不会直接理解当前 `lua/plugins/*.lua` 里的 `lazy.nvim` 声明式字段，例如：
+
+- `event`
+- `cmd`
+- `keys`
+- `ft`
+- `dependencies`
+- `opts`
+- `config`
+- `init`
+- `build`
+- `priority`
+- `enabled`
+- `opts_extend`
+
+这些能力如果还需要保留，必须改成显式的 Lua 加载逻辑、`autocmd`、`keymap`、`user command`、`packadd`、`PackChanged` 钩子或普通配置模块。
+
+当前仓库有约 58 个 `lua/plugins/*.lua` 插件模块，且大量使用上述字段。因此不建议在第一阶段升级 Neovim 时同步迁移 `vim.pack`，否则排查范围会同时覆盖 Neovim 本体、插件 API、Treesitter、Mason 和插件管理器。
+
+### 当前 lazy.nvim 专属依赖点
+
+迁移前需要先处理当前自有配置里直接依赖 `lazy.nvim` API 的位置：
+
+- `lua/bootstrap.lua`：`lazy.nvim` 的 bootstrap 和 `require("lazy").setup()` 入口。
+- `lua/plugins/neotree.lua`：`require("lazy.util").open(...)`，需要替换为系统打开文件的自有工具方法。
+- `lua/tools/tools.lua`：`require("lazy.core.config").headless()`，需要替换为不依赖 `lazy.nvim` 的 headless 判断。
+
+注释里的 `LazyVim` 片段不需要作为阻塞项处理，可以在迁移时顺手清理。
 
 ## 升级前准备
 
@@ -591,6 +645,119 @@ vim.wo[0][0].foldmethod = "expr"
 
 如果 `jsx-element.nvim` 或 `treesitter-outer` 无法适配新版 Treesitter，建议先停用。它们属于增强体验插件，不应阻塞 Neovim 主版本升级。
 
+## 第三阶段：迁移 lazy.nvim 到 vim.pack
+
+第三阶段是可选项，不建议和 Neovim 本体升级、Treesitter 新 main 迁移同一轮执行。只有在 `Neovim 0.12.1` 已经稳定使用，并且第二阶段 Treesitter 迁移也完成或明确暂缓后，再开始处理插件管理器迁移。
+
+迁移目标：
+
+- 移除 `lua/bootstrap.lua` 中的 `lazy.nvim` bootstrap。
+- 使用 `vim.pack.add()` 维护插件安装清单。
+- 使用 `nvim-pack-lock.json` 替代 `lazy-lock.json`。
+- 把 `lua/plugins/*.lua` 中的 `lazy.nvim` spec 拆成“插件清单”和“加载配置”两层。
+- 用显式 `autocmd`、`keymap`、`user command` 和 `packadd` 保留必要的懒加载能力。
+- 用 `PackChanged` autocmd 处理原 `build` 钩子。
+
+### 建议目录结构
+
+建议先新增一层原生插件管理入口，不要直接在 `init.lua` 中堆叠全部插件：
+
+```text
+lua/pack/
+  index.lua
+  specs.lua
+  loaders.lua
+  hooks.lua
+```
+
+建议职责：
+
+- `lua/pack/specs.lua`：只维护 `vim.pack.add()` 需要的插件来源、名称和版本。
+- `lua/pack/loaders.lua`：维护 `cmd`、`event`、`ft`、`keys` 等懒加载入口。
+- `lua/pack/hooks.lua`：维护 `PackChanged` 安装和更新后的构建动作。
+- `lua/pack/index.lua`：按顺序组装 specs、hooks 和 loaders。
+
+### 迁移步骤
+
+1. 新建 `lua/pack/specs.lua`，先把所有插件仓库地址从 `lua/plugins/*.lua` 提取为 `vim.pack.add()` 清单。
+2. 新建 `lua/pack/index.lua`，只调用 `specs`，先不处理懒加载，确认 `vim.pack` 可以安装插件。
+3. 在 `init.lua` 中临时保留 `lazy.nvim` 入口，通过条件开关切换 `lazy.nvim` 和 `vim.pack`，便于回滚。
+4. 用 `vim.pack.add()` 生成并提交 `nvim-pack-lock.json`。
+5. 把 `lua/plugins/*.lua` 中的 `opts`、`config`、`init` 逐步迁移为普通配置模块。
+6. 把 `event`、`cmd`、`ft`、`keys` 逐步迁移到 `lua/pack/loaders.lua`。
+7. 把 `build` 逐步迁移到 `lua/pack/hooks.lua` 的 `PackChanged` autocmd。
+8. 替换所有直接依赖 `lazy.nvim` API 的自有代码。
+9. 完整验证后，删除 `lua/bootstrap.lua` 和 `lazy-lock.json`。
+
+### 第一轮建议先迁移的插件
+
+第一轮不要直接迁移全部插件。建议先选择启动期或低懒加载复杂度的插件验证模式：
+
+- 主题插件：`catppuccin`、`gruvbox`、`tokyonight.nvim`、`rose-pine`。
+- 基础依赖：`plenary.nvim`、`nvim-web-devicons`、`nui.nvim`。
+- 简单配置插件：`Comment.nvim`、`nvim-surround`、`mini.pairs`、`better-escape.nvim`。
+
+等这些插件确认可安装、可加载、可配置后，再迁移 LSP、补全、Treesitter、文件树、搜索和 AI 相关插件。
+
+### 需要重点改写的 lazy.nvim 字段
+
+| lazy.nvim 字段 | vim.pack 迁移方式 |
+| --- | --- |
+| `dependencies` | 在 `vim.pack.add()` 清单中显式声明依赖插件，必要时调整配置加载顺序 |
+| `opts` | 改成普通 Lua 表，并在对应配置模块中传给 `setup()` |
+| `config` | 改成显式 `require("xxx").setup(opts)` 或自有配置函数 |
+| `init` | 移到插件加载前执行的配置模块 |
+| `event` | 改成 `nvim_create_autocmd()` 后再 `packadd` 和加载配置 |
+| `cmd` | 改成占位 user command，首次执行时加载插件后转发命令 |
+| `keys` | 改成占位 keymap，首次触发时加载插件后执行真实动作 |
+| `ft` | 改成 `FileType` autocmd |
+| `build` | 改成 `PackChanged` autocmd，根据 `ev.data.spec.name` 和 `ev.data.kind` 执行构建 |
+| `priority` | 改成显式加载顺序，主题类插件优先加载 |
+| `enabled` | 改成插件清单或加载器里的条件判断 |
+
+### 必须先替换的自有 lazy.nvim API
+
+`lua/plugins/neotree.lua` 中的系统打开逻辑需要替换：
+
+```lua
+require("lazy.util").open(state.tree:get_node().path, { system = true })
+```
+
+迁移时建议下沉为自有工具函数，例如 `tools.open_system(path)`，内部按 macOS 使用 `open`，其他系统再按需要补充。
+
+`lua/tools/tools.lua` 中的 headless 判断需要替换：
+
+```lua
+require("lazy.core.config").headless()
+```
+
+迁移时建议改成不依赖插件管理器的判断，例如基于 `#vim.api.nvim_list_uis() == 0` 或启动参数做封装，避免工具层继续依赖 `lazy.nvim` 内部模块。
+
+### 第三阶段验证命令
+
+迁移期间建议保留 `lazy.nvim` 分支作为回滚点。每完成一组插件迁移后执行：
+
+```sh
+nvim --version
+nvim --headless "+checkhealth" +qa
+```
+
+在 Neovim 内手动执行：
+
+```vim
+:lua vim.pack.update(nil, { offline = true })
+```
+
+用于查看当前 `vim.pack` 管理的插件状态，不直接联网更新。
+
+完整迁移完成后，交互验证路径应至少覆盖第一阶段的所有检查项，并额外确认：
+
+- 新机器或清理插件目录后，`nvim-pack-lock.json` 可以恢复插件版本。
+- 原本依赖 `cmd` 的插件首次命令触发正常。
+- 原本依赖 `event` / `ft` 的插件在对应事件触发后正常加载。
+- 原本依赖 `keys` 的插件首次按键触发正常。
+- Treesitter parser 更新、LuaSnip 构建、`json-to-types.nvim` 安装脚本等构建动作没有丢失。
+
 ## 最终建议
 
 推荐执行顺序：
@@ -600,5 +767,6 @@ vim.wo[0][0].foldmethod = "expr"
 3. 保留临时兼容层，等所有插件验证通过后再考虑删除。
 4. Mason 第一阶段先不升 v2；如果升 v2，必须设置 `automatic_enable = false`。
 5. 稳定使用几天后，再单独迁移 `nvim-treesitter` 新 main。
+6. `vim.pack` 迁移放到第三阶段单独做，不要和 Neovim 本体升级、Treesitter 新 main 迁移混在同一个提交里。
 
 这样可以把 Neovim 本体升级风险、插件 API 风险、Treesitter 体系迁移风险拆开处理，便于定位和回滚。
