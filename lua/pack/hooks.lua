@@ -12,7 +12,9 @@ local function run_build_command(cmd, path)
 	end
 end
 
--- 定义从 lazy.nvim build 字段迁移过来的安装和更新后构建动作。
+--[[
+定义插件安装和更新后的构建动作。
+]]
 local build_handlers = {
 	["LuaSnip"] = function(path)
 		run_build_command({ "make", "install_jsregexp" }, path)

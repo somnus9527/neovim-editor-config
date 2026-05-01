@@ -7,12 +7,16 @@ local function gh(repo, spec)
 	return spec
 end
 
--- 将 lazy.nvim 风格的版本范围转换为 vim.pack 使用的版本范围对象。
+--[[
+将版本范围字符串转换为 vim.pack 使用的版本范围对象。
+]]
 local function range(version)
 	return vim.version.range(version)
 end
 
--- 返回当前启用插件的 vim.pack 安装清单，已排除 lazy.nvim 和禁用插件。
+--[[
+返回当前启用插件的 vim.pack 安装清单，已排除禁用插件。
+]]
 function M.all()
 	return {
 		gh("nvim-lua/plenary.nvim"),

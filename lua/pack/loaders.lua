@@ -42,7 +42,9 @@ local function setup_once(name, callback)
 	return true
 end
 
--- 注册只执行一次的自动命令，用于迁移 lazy.nvim 的 event 懒加载入口。
+--[[
+注册只执行一次的自动命令，用于维护事件触发的按需加载入口。
+]]
 local function once_autocmd(events, callback)
 	vim.api.nvim_create_autocmd(events, {
 		group = vim.api.nvim_create_augroup("UserPackLoaders", { clear = false }),
@@ -51,7 +53,9 @@ local function once_autocmd(events, callback)
 	})
 end
 
--- 在 VimEnter 后执行回调，模拟 lazy.nvim 的 VeryLazy 启动后加载时机。
+--[[
+在 VimEnter 后执行回调，用于启动完成后的延迟加载任务。
+]]
 local function on_startup(callback)
 	if vim.v.vim_did_enter == 1 then
 		vim.schedule(callback)
@@ -225,7 +229,9 @@ local function setup_noice()
 	end)
 end
 
--- 配置 lualine，并复用原 lazy init 中的启动期 statusline 行为。
+--[[
+配置 lualine，并保留启动期 statusline 行为。
+]]
 local function setup_lualine()
 	return setup_once("lualine.nvim", function()
 		packadd("lualine.nvim")
@@ -826,10 +832,10 @@ local function setup_second_batch_loaders()
 end
 
 --[[
-执行第三批核心编辑能力迁移，覆盖 LSP、补全、Treesitter、文件树、格式化、lint、
+执行核心编辑能力加载，覆盖 LSP、补全、Treesitter、文件树、格式化、lint、
 Markdown 渲染和 CodeCompanion。
-命令与按键入口会先注册占位加载器；文件类型和编辑事件按历史 lazy.nvim 触发时机
-加载对应插件，保持原有按需加载语义。
+命令与按键入口会先注册占位加载器；文件类型和编辑事件按原有触发时机
+加载对应插件，保持按需加载语义。
 
 返回值：本函数只注册加载入口和必要的启动期配置，不返回业务数据。
 ]]

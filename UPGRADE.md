@@ -1340,3 +1340,64 @@ nvim --headless "+checkhealth" +qa
 
 - 做一次最终差异审查，重点核对 `lua/pack/specs.lua`、`lua/pack/loaders.lua`、`lua/pack/configs/` 与已删除历史 spec 的覆盖关系。
 - 如审查无新增问题，第三阶段可以进入收尾：整理 `UPGRADE.md` 状态、确认 `nvim-pack-lock.json` 和备份锁文件保留策略，并准备提交。
+
+### 2026-05-01 第三阶段最终差异审查已完成
+
+当前已完成第三阶段收尾前的最终差异审查。默认运行路径继续使用 Neovim 原生 `vim.pack`，历史 lazy 运行入口、桥接层和插件 spec 均已移除。
+
+已完成事项：
+
+- 已清理运行时代码中的 LazyVim 残留：移除 `lua/config/global.lua` 中已无意义的 `g.lazyvim_check_order`。
+- 已删除 `lua/tools/tools.lua` 中未再使用的 `on_very_lazy()` / `VeryLazy` helper。
+- 已将 `lua/tools/tools.lua` 与 `lua/tools/const.lua` 中本轮涉及的 `vim.loop` 调用改为 `vim.uv`。
+- 已清理 `lua/pack/loaders.lua`、`lua/pack/specs.lua`、`lua/pack/hooks.lua`、`lua/pack/configs/codecompanion.lua` 中过期的 lazy 迁移期注释。
+- 已确认 `lua/pack/specs.lua` 的插件清单数量为 `74`，`nvim-pack-lock.json` 中插件锁定数量也为 `74`。
+- 已确认运行时代码中不再存在 `require("plugins...")`、`plugins.`、`lazy_bridge`、`setup_lazy_plugin`、`apply_lazy_keys`、`require("lazy")`、`require("bootstrap")`、`NVIM_PLUGIN_MANAGER`、`VeryLazy`、`on_very_lazy`、`lazyvim`、`LazyVim` 或 `lazy.nvim` 引用。
+
+已验证事项：
+
+- `luac -p init.lua lua/config/global.lua lua/tools/tools.lua lua/tools/const.lua lua/pack/*.lua lua/pack/configs/*.lua` 通过。
+- `nvim -u NONE -i NONE --headless "+lua ..."` 已确认 `specs=74 lock=74`。
+- `env HOME=/tmp XDG_CONFIG_HOME=/Users/somnuszyy9527/.config XDG_DATA_HOME=/Users/somnuszyy9527/.local/share XDG_STATE_HOME=/tmp/nvim-state XDG_CACHE_HOME=/tmp/nvim-cache NVIM_PACK_SKIP_ADD=1 nvim -u init.lua -i NONE --headless +qa` 返回码为 0。
+- `env HOME=/tmp XDG_CONFIG_HOME=/Users/somnuszyy9527/.config XDG_DATA_HOME=/Users/somnuszyy9527/.local/share XDG_STATE_HOME=/tmp/nvim-state XDG_CACHE_HOME=/tmp/nvim-cache NVIM_PACK_CONFIRM=0 nvim -u init.lua -i NONE --headless +qa` 返回码为 0。
+- `env HOME=/tmp XDG_CONFIG_HOME=/Users/somnuszyy9527/.config XDG_DATA_HOME=/Users/somnuszyy9527/.local/share XDG_STATE_HOME=/tmp/nvim-state XDG_CACHE_HOME=/tmp/nvim-cache NVIM_PACK_CONFIRM=0 nvim -u init.lua -i NONE --headless "+checkhealth" +qa` 返回码为 0。
+
+已知非阻断事项：
+
+- `lazy-lock.nvim-0.11.5.json` 继续作为升级前锁文件备份保留。
+- `lua/plugins/.DS_Store` 仍是本地 macOS 元数据，并由全局 gitignore 忽略，不属于仓库变更。
+- `UPGRADE.md` 前文保留 lazy.nvim、Lazy 命令和 `lua/plugins/*.lua` 的历史迁移记录，属于过程记录，不代表当前运行入口仍存在。
+
+下一步：
+
+- 第三阶段已具备提交条件；提交前可按需再做一次真实交互启动验证，重点检查启动消息、LSP attach、补全、文件树、搜索、格式化、Markdown 渲染和 CodeCompanion。
+
+### 2026-05-01 第三阶段提交前验证已完成
+
+当前已完成第三阶段提交前的最后一轮验证。默认运行路径继续使用 Neovim 原生 `vim.pack`，本轮没有发现新的运行时阻断问题。
+
+已完成事项：
+
+- 已确认 `nvim --version` 为 `NVIM v0.12.1`。
+- 已确认 `tree-sitter --version` 为 `tree-sitter 0.26.8`。
+- 已确认 `lua/pack/specs.lua` 的插件清单数量为 `74`，`nvim-pack-lock.json` 中 `plugins` 锁定数量为 `74`。
+- 已确认运行时代码中不再存在 `require("plugins...")`、`plugins.`、`lazy_bridge`、`setup_lazy_plugin`、`apply_lazy_keys`、`require("lazy")`、`require("bootstrap")`、`NVIM_PLUGIN_MANAGER`、`VeryLazy`、`on_very_lazy`、`lazyvim`、`LazyVim` 或 `lazy.nvim` 引用。
+
+已验证事项：
+
+- `luac -p init.lua lua/config/global.lua lua/tools/tools.lua lua/tools/const.lua lua/pack/index.lua lua/pack/specs.lua lua/pack/hooks.lua lua/pack/loaders.lua lua/pack/configs/codecompanion.lua` 通过。
+- `env HOME=/tmp XDG_CONFIG_HOME=/Users/somnuszyy9527/.config XDG_DATA_HOME=/Users/somnuszyy9527/.local/share XDG_STATE_HOME=/tmp/nvim-state XDG_CACHE_HOME=/tmp/nvim-cache NVIM_PACK_SKIP_ADD=1 nvim -u init.lua -i NONE --headless +qa` 返回码为 0。
+- `env HOME=/tmp XDG_CONFIG_HOME=/Users/somnuszyy9527/.config XDG_DATA_HOME=/Users/somnuszyy9527/.local/share XDG_STATE_HOME=/tmp/nvim-state XDG_CACHE_HOME=/tmp/nvim-cache NVIM_PACK_CONFIRM=0 nvim -u init.lua -i NONE --headless +qa` 返回码为 0。
+- `env HOME=/tmp XDG_CONFIG_HOME=/Users/somnuszyy9527/.config XDG_DATA_HOME=/Users/somnuszyy9527/.local/share XDG_STATE_HOME=/tmp/nvim-state XDG_CACHE_HOME=/tmp/nvim-cache NVIM_PACK_CONFIRM=0 nvim -u init.lua -i NONE --headless "+checkhealth" +qa` 返回码为 0。
+- 已用 headless 冒烟脚本确认 `Neotree`、`FzfLua`、`ConformInfo`、`CodeCompanionChat`、`RenderMarkdown` 命令入口存在，并确认 TSX buffer 中 `it` 与 `]t` JSX textobject 键位可注册。
+- 已在真实 HOME 下沙箱外执行 `NVIM_PACK_CONFIRM=0 nvim -u init.lua -i NONE --headless "+CodeCompanionChat Toggle" +qa`，返回码为 0 且无输出错误。
+
+已知非阻断事项：
+
+- 隔离 `HOME=/tmp` 验证 CodeCompanion chat 时，规则目录和 ACP 会因隔离环境输出告警；真实 HOME 下沙箱外验证已通过。
+- `lazy-lock.nvim-0.11.5.json` 继续作为升级前锁文件备份保留。
+- `UPGRADE.md` 前文保留 lazy.nvim、Lazy 命令和 `lua/plugins/*.lua` 的历史迁移记录，属于过程记录，不代表当前运行入口仍存在。
+
+下一步：
+
+- 第三阶段已具备提交条件；如需提交，建议提交前再做一次真实交互启动，人工确认 `:messages`、LSP attach、补全、文件树、搜索、格式化、Markdown 渲染和 CodeCompanion 交互体验。

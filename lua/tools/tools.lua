@@ -117,14 +117,6 @@ M.set_buf_keymap = function(keymaps)
 	end
 end
 
--- 监听lazyvim提供的VeryLazy事件，执行回调
-M.on_very_lazy = function(fn)
-	vim.api.nvim_create_autocmd("User", {
-		pattern = "VeryLazy",
-		callback = fn,
-	})
-end
-
 -- 按照路径创建嵌套表
 M.ensure_path = function(tbl, path)
 	local cur = tbl
@@ -185,19 +177,24 @@ M.git_log_fzf = function()
 	})
 end
 
--- 获取root dir
+--[[
+获取当前 buffer 的项目根目录。
+优先按常见项目标记查找根目录，无法识别时回退到当前工作目录。
+
+返回值：项目根目录的绝对路径。
+]]
 M.root_dir = function()
 	local lsp_util = require("lspconfig.util")
 	local bufnr = vim.api.nvim_get_current_buf()
 	local fname = vim.api.nvim_buf_get_name(bufnr)
 
 	if fname == "" then
-		return vim.loop.cwd()
+		return vim.uv.cwd()
 	end
 
 	local root_files = { "package.json", ".git", "angular.json", "vue.config.js" }
 	local root = lsp_util.root_pattern(unpack(root_files))(fname)
-	return root or vim.loop.cwd()
+	return root or vim.uv.cwd()
 end
 
 -- 获取相对路径

@@ -723,8 +723,7 @@ end
 
 --[[
 返回执行 CodeCompanion 命令的快捷键回调。
-首次按键会先调用 loader 加载和配置插件，再执行目标命令，避免直接依赖 lazy.nvim
-的 keys 懒加载行为。
+首次按键会先调用 loader 加载和配置插件，再执行目标命令，保持按需加载行为。
 
 入参 load_codecompanion：加载并配置 CodeCompanion 的回调函数。
 入参 command：加载成功后要执行的 Ex 命令。

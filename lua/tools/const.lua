@@ -24,8 +24,10 @@ M.project_markers = {
 	-- flutter = { "pubspec.yaml" },
 }
 
--- 是否windows环境
-M.is_windows = vim.loop.os_uname().version:match("Windows")
+--[[
+判断当前运行环境是否为 Windows，用于派生路径分隔符和配置目录。
+]]
+M.is_windows = vim.uv.os_uname().version:match("Windows")
 
 -- path分隔符
 M.path_separator = M.is_windows and "\\" or "/"
