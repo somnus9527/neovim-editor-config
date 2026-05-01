@@ -25,11 +25,18 @@ vim.api.nvim_create_autocmd("FileType", {
 -- 设置angular treesitter
 vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
 	pattern = { "*.component.html", "*.container.html" },
+	--[[
+	为 Angular 模板文件优先启动 angular parser。
+	如果 angular parser 启动失败，则降级尝试 html parser，避免模板文件完全失去高亮。
+	]]
 	callback = function()
+		--[[
+		延迟到读取完成后启动 Treesitter，确保 filetype 和缓冲区内容已经稳定。
+		]]
 		vim.schedule(function()
-			local ok = pcall(vim.treesitter.start, nil, "angular")
+			local ok = pcall(vim.treesitter.start, 0, "angular")
 			if not ok then
-				vim.treesitter.start(nil, "html")
+				pcall(vim.treesitter.start, 0, "html")
 			end
 		end)
 	end,
@@ -79,89 +86,133 @@ vim.api.nvim_create_autocmd("FileType", {
 	end,
 })
 
+--[[
+读取 Treesitter 节点文本。
+该封装兼容节点不存在或解析失败的情况，避免日志插入功能影响正常编辑。
+
+入参 node：需要读取文本的 Treesitter 节点。
+入参 bufnr：节点所在缓冲区编号。
+返回值：节点文本；读取失败时返回 nil。
+]]
+local function get_treesitter_node_text(node, bufnr)
+	if not node then
+		return nil
+	end
+
+	local ok, text = pcall(vim.treesitter.get_node_text, node, bufnr)
+	if ok then
+		return text
+	end
+
+	return nil
+end
+
+--[[
+读取指定字段的第一个 Treesitter 子节点。
+该函数用于兼容不同语言 grammar 中 name/id 字段命名不一致的情况。
+
+入参 node：需要读取字段的 Treesitter 节点。
+入参 field_name：字段名称。
+返回值：字段中的第一个节点；字段不存在时返回 nil。
+]]
+local function get_first_field_node(node, field_name)
+	--[[
+	保护性读取字段节点，避免不同 grammar 缺字段时影响调用方。
+	]]
+	local ok, field_nodes = pcall(function()
+		return node:field(field_name)
+	end)
+	if ok and field_nodes then
+		return field_nodes[1]
+	end
+
+	return nil
+end
+
+--[[
+根据当前 Treesitter 节点向上推导可读的作用域路径。
+路径优先使用函数调用、类、方法和具名节点字段，作为自动 console.log 的上下文提示。
+
+入参 node：光标所在 Treesitter 节点。
+入参 bufnr：节点所在缓冲区编号。
+返回值：以点号拼接的作用域路径；无法推导时返回空字符串。
+]]
+local function get_console_log_scope_path(node, bufnr)
+	local path = {}
+	while node do
+		local node_type = node:type()
+		if node_type == "call_expression" then
+			local function_node = node:child(0)
+			if function_node and function_node:type() == "identifier" then
+				local func_name = get_treesitter_node_text(function_node, bufnr)
+				if func_name then
+					table.insert(path, 1, func_name)
+				end
+			end
+		else
+			local name_node = get_first_field_node(node, "name") or get_first_field_node(node, "id")
+			local name_text = get_treesitter_node_text(name_node, bufnr)
+			if name_text then
+				table.insert(path, 1, name_text)
+			end
+		end
+		node = node:parent()
+	end
+
+	return table.concat(path, ".")
+end
+
+--[[
+插入带文件路径、作用域和当前词的 console.log。
+该函数依赖 Neovim 原生 Treesitter API 获取光标节点，失败时静默跳过。
+
+返回值：本函数只向当前缓冲区插入日志语句，不返回业务数据。
+]]
+local function insert_console_log_with_scope()
+	local variable = vim.fn.expand("<cword>")
+	local file_path = vim.fn.expand("%:p")
+	local relative_path = vim.fn.fnamemodify(file_path, ":~:.")
+	local icon = "🚀"
+	local tag = "[Neovim AutoGR Log]"
+	local bufnr = vim.api.nvim_get_current_buf()
+
+	local ok, node = pcall(vim.treesitter.get_node, { bufnr = bufnr })
+	if not ok or not node then
+		return
+	end
+
+	local scope_path = get_console_log_scope_path(node, bufnr)
+	if scope_path == "" then
+		scope_path = "Global"
+	end
+
+	local log_statement = string.format(
+		"console.log('%%c %s %s: path = %s, scope = %s, %s = ', 'color: orangered; font-weight: bold;', %s);",
+		icon,
+		tag,
+		relative_path,
+		scope_path,
+		variable,
+		variable
+	)
+
+	vim.api.nvim_put({ log_statement }, "l", true, true)
+end
+
 -- 为 JavaScript、TypeScript 和相关文件添加自动插入日志的能力
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = { "javascript", "javascriptreact", "typescript", "typescriptreact", "vue" },
+	--[[
+	在前端相关文件中注册一次 console.log 插入键位。
+	键位使用闭包直接调用本文件的本地函数，避免暴露新的全局函数。
+	]]
 	callback = function()
-		-- 检查 Tree-sitter 是否已正确加载
-		if not pcall(require, "nvim-treesitter") then
-			return
-		end
-		local ts_utils = require("nvim-treesitter.ts_utils") -- 修正为 ts_utils
-
-		-- 定义全局函数 insert_console_log_with_scope
-		_G.insert_console_log_with_scope = function()
-			local variable = vim.fn.expand("<cword>")
-			local file_path = vim.fn.expand("%:p")
-			local relative_path = vim.fn.fnamemodify(file_path, ":~:.")
-			local icon = "🚀"
-			local tag = "[Neovim AutoGR Log]"
-
-			-- 获取当前的 Tree-sitter 节点
-			local node = ts_utils.get_node_at_cursor()
-			if not node then
-				return
-			end
-
-			-- 优化作用域路径解析
-			local function get_scope_path(node)
-				local path = {}
-				while node do
-					local node_type = node:type()
-					-- 检查是否是函数、方法或类等节点
-					if node_type == "call_expression" then
-						local function_node = node:child(0)
-						if function_node and function_node:type() == "identifier" then
-							local func_name = ts_utils.get_node_text(function_node)[1]
-							table.insert(path, 1, func_name)
-						end
-					else
-						local name_node = node:field("name")[1] or node:field("id")[1] -- 尝试多种字段名称
-						if name_node then
-							local name_text = ts_utils.get_node_text(name_node)[1]
-							if name_text then
-								table.insert(path, 1, name_text) -- 插入路径从最里层到最外层
-							end
-						end
-					end
-					node = node:parent()
-				end
-				return table.concat(path, ".")
-			end
-			local scope_path = get_scope_path(node)
-			if scope_path == "" then
-				scope_path = "Global"
-			end
-
-			-- 生成 console.log 语句
-			local log_statement = string.format(
-				"console.log('%%c %s %s: path = %s, scope = %s, %s = ', 'color: orangered; font-weight: bold;', %s);",
-				icon,
-				tag,
-				relative_path,
-				scope_path,
-				variable,
-				variable
-			)
-
-			-- 插入 log 语句
-			vim.api.nvim_put({ log_statement }, "l", true, true)
-		end
-
 		-- 绑定快捷键，仅在首次加载时
 		if not vim.g.console_log_keymap_set then
-			vim.api.nvim_set_keymap(
-				"n",
-				"<leader>ce",
-				":lua insert_console_log_with_scope()<CR>",
-				{ noremap = true, silent = true }
-			)
-			vim.api.nvim_set_keymap(
-				"v",
-				"<leader>ce",
-				":lua insert_console_log_with_scope()<CR>",
-				{ noremap = true, silent = true }
-			)
+			vim.keymap.set({ "n", "v" }, "<leader>ce", insert_console_log_with_scope, {
+				desc = "插入带作用域的 console.log",
+				silent = true,
+			})
 			vim.g.console_log_keymap_set = true
 		end
 	end,

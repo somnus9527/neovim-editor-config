@@ -44,7 +44,7 @@ opt.smartindent = true
 -- end
 -- 使用 Treesitter 的折叠表达式
 opt.foldmethod = "expr"
-opt.foldexpr = "nvim_treesitter#foldexpr()"
+opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 -- 自动打开文件时不折叠
 opt.foldlevelstart = 99
 -- session应该缓存的内容

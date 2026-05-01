@@ -2,6 +2,57 @@ local const = require("tools.const")
 
 local M = {}
 
+-- 判断当前 Neovim 是否运行在无 UI 的 headless 模式。
+M.is_headless = function()
+	return #vim.api.nvim_list_uis() == 0
+end
+
+-- 按当前系统返回用于打开文件或目录的外部命令。
+local function get_system_open_command(path)
+	local sysname = vim.uv.os_uname().sysname
+
+	if sysname == "Darwin" then
+		return { "open", path }
+	end
+
+	if sysname == "Linux" then
+		return { "xdg-open", path }
+	end
+
+	if sysname:match("Windows") then
+		return { "cmd", "/c", "start", "", path }
+	end
+end
+
+-- 使用系统默认应用打开指定路径，并返回是否成功发起打开动作。
+M.open_system = function(path)
+	if not path or path == "" then
+		vim.notify("系统打开失败：路径为空", vim.log.levels.WARN)
+		return false
+	end
+
+	if vim.ui and vim.ui.open then
+		local ok = pcall(vim.ui.open, path)
+		if ok then
+			return true
+		end
+	end
+
+	local cmd = get_system_open_command(path)
+	if not cmd then
+		vim.notify("系统打开失败：当前系统没有配置打开命令", vim.log.levels.WARN)
+		return false
+	end
+
+	if vim.system then
+		vim.system(cmd, { detach = true })
+	else
+		vim.fn.jobstart(cmd, { detach = true })
+	end
+
+	return true
+end
+
 --- 是否存在 marker（支持字符串或 Lua 模式）
 local function marker_exists(marker)
 	local cwd = vim.fn.getcwd()
@@ -224,7 +275,7 @@ M.get_pkg_path = function(pkg, path, opts)
 	local ret = vim.fs.normalize(root .. "/packages/" .. pkg .. "/" .. path)
 	if opts.warn then
 		vim.schedule(function()
-			if not require("lazy.core.config").headless() and not vim.loop.fs_stat(ret) then
+			if not M.is_headless() and not vim.uv.fs_stat(ret) then
 				M.warn(
 					("Mason package path not found for **%s**:\n- `%s`\nYou may need to force update the package."):format(
 						pkg,

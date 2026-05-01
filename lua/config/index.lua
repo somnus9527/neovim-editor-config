@@ -1,3 +1,4 @@
+require("config.compat")
 require("config.global")
 require("config.opt")
 require("config.keymap")
