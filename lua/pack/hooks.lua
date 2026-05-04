@@ -28,8 +28,23 @@ local build_handlers = {
 	end,
 }
 
+--[[
+判断当前 Neovim 是否支持 vim.pack 的 PackChanged 事件。
+Neovim 0.11.5 尚未暴露该 autocmd，直接注册会中断后续主题和插件加载。
+
+返回值：支持该事件返回 true；不支持时返回 false。
+]]
+local function supports_pack_changed_event()
+	local ok = pcall(vim.api.nvim_get_autocmds, { event = "PackChanged" })
+	return ok
+end
+
 -- 注册 vim.pack 的构建钩子，仅在插件安装或更新后触发。
 function M.setup()
+	if not supports_pack_changed_event() then
+		return
+	end
+
 	vim.api.nvim_create_autocmd("PackChanged", {
 		group = vim.api.nvim_create_augroup("UserPackBuildHooks", { clear = true }),
 		callback = function(ev)

@@ -113,9 +113,31 @@ local function proxy_commands(command_names, setup)
 	end
 end
 
--- 加载默认主题，保持当前配置的 rose-pine 默认外观。
+--[[
+配置 rose-pine 默认主题的透明背景。
+该设置必须在 colorscheme 生效前执行，否则主题会先写入不透明的 Normal 背景。
+
+返回值：配置成功返回 true；插件接口不可用时返回 false。
+]]
+local function setup_rose_pine_transparency()
+	local ok, rose_pine = pcall(require, "rose-pine")
+	if not ok then
+		return false
+	end
+
+	rose_pine.setup({
+		styles = {
+			transparency = true,
+		},
+	})
+
+	return true
+end
+
+-- 加载默认主题，并允许 Ghostty 的终端透明背景透出。
 local function setup_colorscheme()
 	if load_pack_plugin("rose-pine") then
+		setup_rose_pine_transparency()
 		pcall(vim.cmd.colorscheme, "rose-pine")
 	end
 end
