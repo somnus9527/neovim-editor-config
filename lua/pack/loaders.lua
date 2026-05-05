@@ -114,20 +114,25 @@ local function proxy_commands(command_names, setup)
 end
 
 --[[
-配置 rose-pine 默认主题的透明背景。
+配置 Tokyo Night 默认主题的透明背景。
 该设置必须在 colorscheme 生效前执行，否则主题会先写入不透明的 Normal 背景。
 
 返回值：配置成功返回 true；插件接口不可用时返回 false。
 ]]
-local function setup_rose_pine_transparency()
-	local ok, rose_pine = pcall(require, "rose-pine")
+local function setup_tokyonight_transparency()
+	local ok, tokyonight = pcall(require, "tokyonight")
 	if not ok then
 		return false
 	end
 
-	rose_pine.setup({
+	tokyonight.setup({
+		style = "storm",
+		light_style = "day",
+		transparent = true,
+		terminal_colors = true,
 		styles = {
-			transparency = true,
+			sidebars = "transparent",
+			floats = "transparent",
 		},
 	})
 
@@ -136,9 +141,9 @@ end
 
 -- 加载默认主题，并允许 Ghostty 的终端透明背景透出。
 local function setup_colorscheme()
-	if load_pack_plugin("rose-pine") then
-		setup_rose_pine_transparency()
-		pcall(vim.cmd.colorscheme, "rose-pine")
+	if load_pack_plugin("tokyonight.nvim") then
+		setup_tokyonight_transparency()
+		pcall(vim.cmd.colorscheme, "tokyonight-storm")
 	end
 end
 
